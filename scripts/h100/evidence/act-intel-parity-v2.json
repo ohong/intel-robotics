@@ -1,0 +1,67 @@
+{
+  "status": "PARITY_PASSED",
+  "evidence_kind": "synthetic",
+  "host": "NUC16GDKX76",
+  "run_identity": "7132803c901963bf853b607981b40f56b12c760def595661e897e7329bcf9744",
+  "native": {
+    "status": "PASSED",
+    "device": "cpu",
+    "load_seconds": 0.38114979199599475,
+    "declared_action_shape": [
+      100,
+      6
+    ],
+    "actual_action_shape": [
+      100,
+      6
+    ],
+    "legacy_chunk_size_property": 1,
+    "chunk_metadata_status": "LEGACY_PROPERTY_MISMATCH",
+    "first_inference_seconds": 0.11541009000211488,
+    "max_abs_error": 2.6702880859375e-05,
+    "warm_median_ms": 82.27475400053663,
+    "repeats": 10
+  },
+  "openvino": {
+    "status": "PASSED",
+    "device": "CPU",
+    "load_seconds": 0.34867745300289243,
+    "declared_action_shape": [
+      100,
+      6
+    ],
+    "actual_action_shape": [
+      100,
+      6
+    ],
+    "legacy_chunk_size_property": 1,
+    "chunk_metadata_status": "LEGACY_PROPERTY_MISMATCH",
+    "first_inference_seconds": 0.08240791200660169,
+    "max_abs_error": 3.814697265625e-05,
+    "warm_median_ms": 72.59405399963725,
+    "repeats": 10,
+    "execution_devices": [
+      "CPU"
+    ]
+  },
+  "cpu_models": [
+    "Intel(R) Core(TM) Ultra X7 358H"
+  ],
+  "cpu_thread_limit": 2,
+  "torch_interop_threads": 1,
+  "versions": {
+    "torch": "2.11.0+xpu",
+    "openvino": "2026.3.0",
+    "physicalai": "0.1.2.dev70+g8e4021703"
+  },
+  "tolerance": {
+    "atol": 0.0001,
+    "rtol": 0.0001
+  },
+  "robot_execution": "NOT TESTED",
+  "limits": [
+    "One saved observation only; this checks software compatibility, not task quality.",
+    "No camera, controller, robot connection, motion, or autonomous trial occurred."
+  ],
+  "task_training_status": "UNSAFE_NOT_TASK_TRAINED"
+}

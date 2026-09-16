@@ -1,0 +1,56 @@
+{
+  "status": "UNSAFE_NOT_TASK_TRAINED",
+  "evidence_kind": "synthetic",
+  "run_identity": "7132803c901963bf853b607981b40f56b12c760def595661e897e7329bcf9744",
+  "global_step": 1,
+  "fit_seconds": 20.383896930143237,
+  "gradient_check": {
+    "count": 153,
+    "l2_norm": 1628.3390470304817
+  },
+  "selection_metric": "val/loss",
+  "selection_score": 1250072.5,
+  "selected_checkpoint": "/workspace/second-look-h100/runs/software-qualification-v1/checkpoints/selected-step=000001.ckpt",
+  "selected_sha256": "c9d46a038f7400a11325849781b5344b5204bd4be92d58729c78e271c4fc830e",
+  "reload_max_abs_error": 0.0,
+  "final_eval_status": "UNTOUCHED",
+  "robot_execution": "NOT TESTED",
+  "limits": [
+    "Offline action loss is not physical task success.",
+    "ACT does not use task captions to choose the destination.",
+    "Each skill needs a separate frozen dataset and run.",
+    "Wall budget bounds fit cooperatively; export and verification are separate."
+  ],
+  "export_torch": "/workspace/second-look-h100/runs/software-qualification-v1/export-torch",
+  "export_openvino": "/workspace/second-look-h100/runs/software-qualification-v1/export-openvino",
+  "export_seconds": 24.783848837018013,
+  "openvino_parity": "NOT TESTED",
+  "openvino_weight_precision": "FP32",
+  "artifact_files": {
+    "export-torch": {
+      "act.pt": {
+        "bytes": 206751739,
+        "sha256": "ac165e2c98d97a1a5845045c5f982973cf329e2d91089fbd67675167364f205c"
+      },
+      "manifest.json": {
+        "bytes": 1305,
+        "sha256": "4dbeb8b39b83f11f69d6fdc080d548998956fa92a97987937ce9d4271c443226"
+      }
+    },
+    "export-openvino": {
+      "act.bin": {
+        "bytes": 136911400,
+        "sha256": "b63ff889b661f26e8d17e3550c218142f9c6feb4423c8ba3e55403f3c5bd7bd1"
+      },
+      "act.xml": {
+        "bytes": 726620,
+        "sha256": "1e5de02c410f9f4c75418bfe9eb2525ad952c5a98b700d37389f12168c015d0d"
+      },
+      "manifest.json": {
+        "bytes": 1399,
+        "sha256": "f03e34c8283e64025b802f0ce53fc9595a14fe7427cbbb16c4f40f0a3a56671c"
+      }
+    }
+  },
+  "replay_sha256": "0d788bc4c5c480078d2bd385aca28713b45913c2f3cce87a9f0894680c22a3b5"
+}

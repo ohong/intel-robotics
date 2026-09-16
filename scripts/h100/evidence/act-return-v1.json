@@ -1,0 +1,12 @@
+{
+  "source": "/workspace/second-look-h100/checkpoints/act-qualification-v1-intel.tar",
+  "destination": "/home/ird-demo/second-look/h100-readiness/act-qualification-v1-intel.tar",
+  "part": "/home/ird-demo/second-look/h100-readiness/act-qualification-v1-intel.tar.part",
+  "expected_sha256": "446a9ae0743d6b171f0bc16daadfef5cbb8a201d9277c9371bef0ecbdbd9cbfb",
+  "started_at_unix": 1789515826.3377087,
+  "status": "verified",
+  "updated_at_unix": 1789516369.7076278,
+  "initial_bytes": 34728960,
+  "bytes": 344432640,
+  "actual_sha256": "446a9ae0743d6b171f0bc16daadfef5cbb8a201d9277c9371bef0ecbdbd9cbfb"
+}

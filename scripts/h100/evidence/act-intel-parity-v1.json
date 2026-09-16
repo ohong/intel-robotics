@@ -1,0 +1,47 @@
+{
+  "status": "PARITY_PASSED",
+  "evidence_kind": "synthetic",
+  "host": "NUC16GDKX76",
+  "run_identity": "7132803c901963bf853b607981b40f56b12c760def595661e897e7329bcf9744",
+  "native": {
+    "status": "PASSED",
+    "device": "cpu",
+    "load_seconds": 0.3692325610027183,
+    "first_inference_seconds": 0.10361318998911884,
+    "max_abs_error": 2.6702880859375e-05,
+    "warm_median_ms": 80.35705099609913,
+    "repeats": 10
+  },
+  "openvino": {
+    "status": "PASSED",
+    "device": "CPU",
+    "load_seconds": 0.31889064000279177,
+    "first_inference_seconds": 0.07558954900014214,
+    "max_abs_error": 3.814697265625e-05,
+    "warm_median_ms": 69.13524949050043,
+    "repeats": 10,
+    "execution_devices": [
+      "CPU"
+    ]
+  },
+  "cpu_models": [
+    "Intel(R) Core(TM) Ultra X7 358H"
+  ],
+  "cpu_thread_limit": 2,
+  "torch_interop_threads": 1,
+  "versions": {
+    "torch": "2.11.0+xpu",
+    "openvino": "2026.3.0",
+    "physicalai": "0.1.2.dev70+g8e4021703"
+  },
+  "tolerance": {
+    "atol": 0.0001,
+    "rtol": 0.0001
+  },
+  "robot_execution": "NOT TESTED",
+  "limits": [
+    "One saved observation only; this checks software compatibility, not task quality.",
+    "No camera, controller, robot connection, motion, or autonomous trial occurred."
+  ],
+  "task_training_status": "UNSAFE_NOT_TASK_TRAINED"
+}

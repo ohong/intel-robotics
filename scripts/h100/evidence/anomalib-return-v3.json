@@ -1,0 +1,12 @@
+{
+  "source": "/workspace/second-look-h100/vision/patchcore-256-foreground-n9.tar",
+  "destination": "/home/ird-demo/second-look/h100-readiness/patchcore-256-foreground-n9.tar",
+  "part": "/home/ird-demo/second-look/h100-readiness/patchcore-256-foreground-n9.tar.part",
+  "expected_sha256": "7aa83030d8cb3211d40db35812d6e195ff4f7d1cb2823a252a0ed688d3659ea5",
+  "started_at_unix": 1789517426.6155553,
+  "status": "verified",
+  "updated_at_unix": 1789517797.8162148,
+  "initial_bytes": 0,
+  "bytes": 218245120,
+  "actual_sha256": "7aa83030d8cb3211d40db35812d6e195ff4f7d1cb2823a252a0ed688d3659ea5"
+}

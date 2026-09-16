@@ -1,0 +1,33 @@
+{
+  "studio_revision": "c4ff730fb49f84e5102d01088d52cfff1ba62854",
+  "studio_library": "/workspace/second-look-h100/code/physical-ai-studio/library",
+  "manifest": null,
+  "dataset_root": null,
+  "skill": null,
+  "output_dir": null,
+  "seed": 42,
+  "max_steps": 2000,
+  "max_seconds": 1800,
+  "batch_size": 8,
+  "num_workers": 0,
+  "precision": "32-true",
+  "validation_every": 100,
+  "checkpoint_every": 100,
+  "policy": {
+    "pretrained_backbone_weights": null,
+    "compile_model": false,
+    "vision_backbone": "resnet18",
+    "image_size": [
+      384,
+      384
+    ],
+    "chunk_size": 100,
+    "n_action_steps": 100,
+    "optimizer_lr": 0.0001,
+    "optimizer_grad_clip_norm": 1.0
+  },
+  "capture_manifest": null,
+  "capture_runtime": null,
+  "smoke_result": null,
+  "intel_parity_result": null
+}

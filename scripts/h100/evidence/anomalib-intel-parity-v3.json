@@ -1,0 +1,1503 @@
+{
+  "artifact_id": "82fdd2d1db11d43aeb8376ee4b61cf4f85bd28f0102c4ed48d2ec41ac5d8a6c0",
+  "artifact_directory": "/home/ird-demo/second-look/h100-readiness/patchcore-256-foreground-n9",
+  "file_hashes": {
+    "events.jsonl": "d39226794952611dcffe6cf63161cabee157f3807e34506a325327bd104b7847",
+    "model.xml": "33153fbed63fe50fd26d94f32a21c91d16fdde478ac4c59a3d1242845f56e357",
+    "model.pt": "40c320e5f6da1c0650364093ba3fa49068cb5963871b6cac7b08fad183acb568",
+    "run.json": "82f24a54c5cc1b8c0bea70bee791134e23d160e2c2cf71ae0b307d709eb98214",
+    "model.bin": "90c06a73cd10f17438b20ee73374e102d14d564dc7c8c256fff072b3a67ab543",
+    "metadata.json": "c29cfb2aa9e6446e4f78cc8e4b7a9cb7cc745e293e171e400cb326465f8671ec"
+  },
+  "metadata_unchanged": true,
+  "dataset_role": "validation, not final test",
+  "atol": 0.1,
+  "rtol": 0.01,
+  "all_passed": true,
+  "records": [
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-eb15d8d9a5c94b289217e2f1b96b3939.png",
+      "sha256": "87de214631dba9721f976bc3541be1b4e47ae94510622db96bf760bfdfe7288a",
+      "label": "normal",
+      "device": "CPU",
+      "score": 58.687252044677734,
+      "reference_score": 58.687225341796875,
+      "score_error": 2.6702880859375e-05,
+      "map_max_abs_error": 0.000102996826171875,
+      "decision": "UNKNOWN",
+      "reference_decision": "UNKNOWN",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          915,
+          711,
+          1155,
+          976
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 37060,
+          "component_bbox_in_parent": [
+            34,
+            110,
+            236,
+            337
+          ],
+          "padding_pixels": 19,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-eb15d8d9a5c94b289217e2f1b96b3939.png",
+      "sha256": "87de214631dba9721f976bc3541be1b4e47ae94510622db96bf760bfdfe7288a",
+      "label": "normal",
+      "device": "GPU",
+      "score": 58.687217712402344,
+      "reference_score": 58.687225341796875,
+      "score_error": 7.62939453125e-06,
+      "map_max_abs_error": 0.000179290771484375,
+      "decision": "UNKNOWN",
+      "reference_decision": "UNKNOWN",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          915,
+          711,
+          1155,
+          976
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 37060,
+          "component_bbox_in_parent": [
+            34,
+            110,
+            236,
+            337
+          ],
+          "padding_pixels": 19,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-900eb0ad024e4ee1b3770d7ba5152074.png",
+      "sha256": "ca2433309b7d8f5105cd65ec3e091bbd907e131ceac6135c11c830cac775fbee",
+      "label": "normal",
+      "device": "CPU",
+      "score": 59.27389907836914,
+      "reference_score": 59.273868560791016,
+      "score_error": 3.0517578125e-05,
+      "map_max_abs_error": 0.00011444091796875,
+      "decision": "UNKNOWN",
+      "reference_decision": "UNKNOWN",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          958,
+          716,
+          1196,
+          977
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 37206,
+          "component_bbox_in_parent": [
+            76,
+            114,
+            278,
+            339
+          ],
+          "padding_pixels": 18,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-900eb0ad024e4ee1b3770d7ba5152074.png",
+      "sha256": "ca2433309b7d8f5105cd65ec3e091bbd907e131ceac6135c11c830cac775fbee",
+      "label": "normal",
+      "device": "GPU",
+      "score": 59.2736930847168,
+      "reference_score": 59.273868560791016,
+      "score_error": 0.00017547607421875,
+      "map_max_abs_error": 0.00023651123046875,
+      "decision": "UNKNOWN",
+      "reference_decision": "UNKNOWN",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          958,
+          716,
+          1196,
+          977
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 37206,
+          "component_bbox_in_parent": [
+            76,
+            114,
+            278,
+            339
+          ],
+          "padding_pixels": 18,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-c56a960effc24416b96894a8937d2c29.png",
+      "sha256": "f29d2282cb9a65a8fe5a205cdbe5278ef1f445248d09147bd8ebc5fe07aec09e",
+      "label": "normal",
+      "device": "CPU",
+      "score": 50.548282623291016,
+      "reference_score": 50.54835510253906,
+      "score_error": 7.2479248046875e-05,
+      "map_max_abs_error": 0.000102996826171875,
+      "decision": "NORMAL",
+      "reference_decision": "NORMAL",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          998,
+          692,
+          1244,
+          1029
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 43936,
+          "component_bbox_in_parent": [
+            122,
+            96,
+            320,
+            385
+          ],
+          "padding_pixels": 24,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-c56a960effc24416b96894a8937d2c29.png",
+      "sha256": "f29d2282cb9a65a8fe5a205cdbe5278ef1f445248d09147bd8ebc5fe07aec09e",
+      "label": "normal",
+      "device": "GPU",
+      "score": 50.54828643798828,
+      "reference_score": 50.54835510253906,
+      "score_error": 6.866455078125e-05,
+      "map_max_abs_error": 0.000232696533203125,
+      "decision": "NORMAL",
+      "reference_decision": "NORMAL",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          998,
+          692,
+          1244,
+          1029
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 43936,
+          "component_bbox_in_parent": [
+            122,
+            96,
+            320,
+            385
+          ],
+          "padding_pixels": 24,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-f0709d96d1a64a939d5807770b7681a1.png",
+      "sha256": "f39d94b8fadfcd2b9cb88dffa27065b330c2596a1fe6bd2a1d68c5801dc6bb69",
+      "label": "normal",
+      "device": "CPU",
+      "score": 58.94247055053711,
+      "reference_score": 58.942440032958984,
+      "score_error": 3.0517578125e-05,
+      "map_max_abs_error": 9.1552734375e-05,
+      "decision": "UNKNOWN",
+      "reference_decision": "UNKNOWN",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1063,
+          685,
+          1273,
+          1018
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 36059,
+          "component_bbox_in_parent": [
+            186,
+            88,
+            350,
+            375
+          ],
+          "padding_pixels": 23,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-f0709d96d1a64a939d5807770b7681a1.png",
+      "sha256": "f39d94b8fadfcd2b9cb88dffa27065b330c2596a1fe6bd2a1d68c5801dc6bb69",
+      "label": "normal",
+      "device": "GPU",
+      "score": 58.942386627197266,
+      "reference_score": 58.942440032958984,
+      "score_error": 5.340576171875e-05,
+      "map_max_abs_error": 0.000213623046875,
+      "decision": "UNKNOWN",
+      "reference_decision": "UNKNOWN",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1063,
+          685,
+          1273,
+          1018
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 36059,
+          "component_bbox_in_parent": [
+            186,
+            88,
+            350,
+            375
+          ],
+          "padding_pixels": 23,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-f8f24a9ec62849c4b3940495df2152c0.png",
+      "sha256": "8cfba83a20de726100c4250afc8a4baef67b809ff79fcb539f4f980700f82056",
+      "label": "normal",
+      "device": "CPU",
+      "score": 54.65210723876953,
+      "reference_score": 54.65204620361328,
+      "score_error": 6.103515625e-05,
+      "map_max_abs_error": 0.0001220703125,
+      "decision": "NORMAL",
+      "reference_decision": "NORMAL",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1080,
+          714,
+          1340,
+          1060
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 52663,
+          "component_bbox_in_parent": [
+            206,
+            120,
+            414,
+            440
+          ],
+          "padding_pixels": 26,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-f8f24a9ec62849c4b3940495df2152c0.png",
+      "sha256": "8cfba83a20de726100c4250afc8a4baef67b809ff79fcb539f4f980700f82056",
+      "label": "normal",
+      "device": "GPU",
+      "score": 54.65203094482422,
+      "reference_score": 54.65204620361328,
+      "score_error": 1.52587890625e-05,
+      "map_max_abs_error": 0.000301361083984375,
+      "decision": "NORMAL",
+      "reference_decision": "NORMAL",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1080,
+          714,
+          1340,
+          1060
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 52663,
+          "component_bbox_in_parent": [
+            206,
+            120,
+            414,
+            440
+          ],
+          "padding_pixels": 26,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-33907624b25d4fc3a50cfaf57ee5091d.png",
+      "sha256": "073c57864133af88e800a206337ae33cc57574bf355e3d0ed59f989be3859922",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 63.44581985473633,
+      "reference_score": 63.44581985473633,
+      "score_error": 0.0,
+      "map_max_abs_error": 0.0001220703125,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1029,
+          721,
+          1254,
+          946
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 31014,
+          "component_bbox_in_parent": [
+            145,
+            117,
+            338,
+            310
+          ],
+          "padding_pixels": 16,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-33907624b25d4fc3a50cfaf57ee5091d.png",
+      "sha256": "073c57864133af88e800a206337ae33cc57574bf355e3d0ed59f989be3859922",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 63.44581604003906,
+      "reference_score": 63.44581985473633,
+      "score_error": 3.814697265625e-06,
+      "map_max_abs_error": 0.000202178955078125,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1029,
+          721,
+          1254,
+          946
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 31014,
+          "component_bbox_in_parent": [
+            145,
+            117,
+            338,
+            310
+          ],
+          "padding_pixels": 16,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-0b641e7d8c284f69b559037ac7bfeab5.png",
+      "sha256": "3bdaeceed321ea7dc8f3e1c46ef05bb6dff85f573aa5b0f71aff83d72d6f24ed",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 59.823272705078125,
+      "reference_score": 59.82329177856445,
+      "score_error": 1.9073486328125e-05,
+      "map_max_abs_error": 0.00011444091796875,
+      "decision": "UNKNOWN",
+      "reference_decision": "UNKNOWN",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1027,
+          720,
+          1295,
+          965
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 36609,
+          "component_bbox_in_parent": [
+            146,
+            119,
+            376,
+            326
+          ],
+          "padding_pixels": 19,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-0b641e7d8c284f69b559037ac7bfeab5.png",
+      "sha256": "3bdaeceed321ea7dc8f3e1c46ef05bb6dff85f573aa5b0f71aff83d72d6f24ed",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 59.823272705078125,
+      "reference_score": 59.82329177856445,
+      "score_error": 1.9073486328125e-05,
+      "map_max_abs_error": 0.0001983642578125,
+      "decision": "UNKNOWN",
+      "reference_decision": "UNKNOWN",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1027,
+          720,
+          1295,
+          965
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 36609,
+          "component_bbox_in_parent": [
+            146,
+            119,
+            376,
+            326
+          ],
+          "padding_pixels": 19,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-762c733bd5634a90b3d8a7384204d872.png",
+      "sha256": "c66106c0d1a84b1adaa60f7c5ec47867e2e9b91f0d5e30b91ded08a37dd1e629",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 64.50121307373047,
+      "reference_score": 64.50125122070312,
+      "score_error": 3.814697265625e-05,
+      "map_max_abs_error": 8.7738037109375e-05,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1033,
+          723,
+          1275,
+          962
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 34022,
+          "component_bbox_in_parent": [
+            150,
+            120,
+            358,
+            325
+          ],
+          "padding_pixels": 17,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-762c733bd5634a90b3d8a7384204d872.png",
+      "sha256": "c66106c0d1a84b1adaa60f7c5ec47867e2e9b91f0d5e30b91ded08a37dd1e629",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 64.50125885009766,
+      "reference_score": 64.50125122070312,
+      "score_error": 7.62939453125e-06,
+      "map_max_abs_error": 0.000202178955078125,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1033,
+          723,
+          1275,
+          962
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 34022,
+          "component_bbox_in_parent": [
+            150,
+            120,
+            358,
+            325
+          ],
+          "padding_pixels": 17,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-2174b6af124e42f0929315e8bdde0826.png",
+      "sha256": "30b05ae01a4577bbfa2a5b23da8450d9b24dc23d9fc327da1a7ce60c66a806db",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 55.665069580078125,
+      "reference_score": 55.66505432128906,
+      "score_error": 1.52587890625e-05,
+      "map_max_abs_error": 0.00017547607421875,
+      "decision": "NORMAL",
+      "reference_decision": "NORMAL",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1024,
+          680,
+          1262,
+          969
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 39126,
+          "component_bbox_in_parent": [
+            144,
+            80,
+            342,
+            329
+          ],
+          "padding_pixels": 20,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-2174b6af124e42f0929315e8bdde0826.png",
+      "sha256": "30b05ae01a4577bbfa2a5b23da8450d9b24dc23d9fc327da1a7ce60c66a806db",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 55.665077209472656,
+      "reference_score": 55.66505432128906,
+      "score_error": 2.288818359375e-05,
+      "map_max_abs_error": 0.0002956390380859375,
+      "decision": "NORMAL",
+      "reference_decision": "NORMAL",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1024,
+          680,
+          1262,
+          969
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 39126,
+          "component_bbox_in_parent": [
+            144,
+            80,
+            342,
+            329
+          ],
+          "padding_pixels": 20,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-86ac23e992d94722aebcf923af5df36a.png",
+      "sha256": "0663c4fede004ba9b65175dc310f5e0f71f47f5f71d27fb46b4f1cb4eb0a2a0c",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 61.52763366699219,
+      "reference_score": 61.52762222290039,
+      "score_error": 1.1444091796875e-05,
+      "map_max_abs_error": 8.7738037109375e-05,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1032,
+          656,
+          1262,
+          974
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 34661,
+          "component_bbox_in_parent": [
+            154,
+            58,
+            340,
+            332
+          ],
+          "padding_pixels": 22,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-86ac23e992d94722aebcf923af5df36a.png",
+      "sha256": "0663c4fede004ba9b65175dc310f5e0f71f47f5f71d27fb46b4f1cb4eb0a2a0c",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 61.52760314941406,
+      "reference_score": 61.52762222290039,
+      "score_error": 1.9073486328125e-05,
+      "map_max_abs_error": 0.000232696533203125,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1032,
+          656,
+          1262,
+          974
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 34661,
+          "component_bbox_in_parent": [
+            154,
+            58,
+            340,
+            332
+          ],
+          "padding_pixels": 22,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-f6391df606c94ed7b45063462879ab4f.png",
+      "sha256": "76820a845243e5c0e006a5bb90fcb0137dd28efbc25b2b619bc8055611764b06",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 77.01666259765625,
+      "reference_score": 77.01667022705078,
+      "score_error": 7.62939453125e-06,
+      "map_max_abs_error": 9.918212890625e-05,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1011,
+          655,
+          1231,
+          985
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 30286,
+          "component_bbox_in_parent": [
+            134,
+            58,
+            308,
+            342
+          ],
+          "padding_pixels": 23,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-f6391df606c94ed7b45063462879ab4f.png",
+      "sha256": "76820a845243e5c0e006a5bb90fcb0137dd28efbc25b2b619bc8055611764b06",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 77.0167007446289,
+      "reference_score": 77.01667022705078,
+      "score_error": 3.0517578125e-05,
+      "map_max_abs_error": 0.000278472900390625,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1011,
+          655,
+          1231,
+          985
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 30286,
+          "component_bbox_in_parent": [
+            134,
+            58,
+            308,
+            342
+          ],
+          "padding_pixels": 23,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-460f5577241a4d9f9157053bf3729bda.png",
+      "sha256": "d075dbf76c49f61c8cf28d3d396fec11f99e23210ef58f12bffcdf623f18cdc7",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 76.8088607788086,
+      "reference_score": 76.808837890625,
+      "score_error": 2.288818359375e-05,
+      "map_max_abs_error": 9.918212890625e-05,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1136,
+          702,
+          1400,
+          985
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 32531,
+          "component_bbox_in_parent": [
+            256,
+            102,
+            484,
+            345
+          ],
+          "padding_pixels": 20,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-460f5577241a4d9f9157053bf3729bda.png",
+      "sha256": "d075dbf76c49f61c8cf28d3d396fec11f99e23210ef58f12bffcdf623f18cdc7",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 76.80880737304688,
+      "reference_score": 76.808837890625,
+      "score_error": 3.0517578125e-05,
+      "map_max_abs_error": 0.00022125244140625,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1136,
+          702,
+          1400,
+          985
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 32531,
+          "component_bbox_in_parent": [
+            256,
+            102,
+            484,
+            345
+          ],
+          "padding_pixels": 20,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-26fa6c12a69047bd8d597df38e922725.png",
+      "sha256": "7eb793913081ed136a385dbb9e061401148e5655270bb50127b057ddff96afcf",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 65.45748138427734,
+      "reference_score": 65.4574966430664,
+      "score_error": 1.52587890625e-05,
+      "map_max_abs_error": 9.1552734375e-05,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1043,
+          660,
+          1260,
+          910
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 25076,
+          "component_bbox_in_parent": [
+            161,
+            58,
+            342,
+            272
+          ],
+          "padding_pixels": 18,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-26fa6c12a69047bd8d597df38e922725.png",
+      "sha256": "7eb793913081ed136a385dbb9e061401148e5655270bb50127b057ddff96afcf",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 65.45746612548828,
+      "reference_score": 65.4574966430664,
+      "score_error": 3.0517578125e-05,
+      "map_max_abs_error": 0.000202178955078125,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1043,
+          660,
+          1260,
+          910
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 25076,
+          "component_bbox_in_parent": [
+            161,
+            58,
+            342,
+            272
+          ],
+          "padding_pixels": 18,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-5ab5757c8e5846c2885f092cd7fc1d95.png",
+      "sha256": "b697387c69008008764c20349e53b689e8088d4408c9b1143640b7c2ee5c2607",
+      "label": "anomalous",
+      "device": "CPU",
+      "score": 78.40182495117188,
+      "reference_score": 78.40181732177734,
+      "score_error": 7.62939453125e-06,
+      "map_max_abs_error": 8.0108642578125e-05,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1082,
+          712,
+          1298,
+          1030
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 29458,
+          "component_bbox_in_parent": [
+            204,
+            114,
+            376,
+            388
+          ],
+          "padding_pixels": 22,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/cv/lego-capture-20260915/capture-5ab5757c8e5846c2885f092cd7fc1d95.png",
+      "sha256": "b697387c69008008764c20349e53b689e8088d4408c9b1143640b7c2ee5c2607",
+      "label": "anomalous",
+      "device": "GPU",
+      "score": 78.40181732177734,
+      "reference_score": 78.40181732177734,
+      "score_error": 0.0,
+      "map_max_abs_error": 0.00022125244140625,
+      "decision": "ANOMALOUS",
+      "reference_decision": "ANOMALOUS",
+      "geometry": {
+        "image_size": [
+          1920,
+          1080
+        ],
+        "roi_normalized": [
+          0.46875,
+          0.5740740740740741,
+          0.7291666666666666,
+          0.9814814814814815
+        ],
+        "roi_pixels": [
+          1082,
+          712,
+          1298,
+          1030
+        ],
+        "parent_roi_pixels": [
+          900,
+          620,
+          1400,
+          1060
+        ],
+        "foreground_crop": {
+          "component_area": 29458,
+          "component_bbox_in_parent": [
+            204,
+            114,
+            376,
+            388
+          ],
+          "padding_pixels": 22,
+          "mask_applied_to_model_input": false
+        },
+        "map_coordinates": "ROI-local; pixel box uses exclusive right/bottom",
+        "map_size": [
+          256,
+          256
+        ]
+      },
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "sourceURL": "https://huggingface.co/lerobot/smolvla_base/resolve/c83c3163b8ca9b7e67c509fffd9121e66cb96205/model.safetensors",
+  "revision": "c83c3163b8ca9b7e67c509fffd9121e66cb96205",
+  "upstreamMetadata": {
+    "apiEndpoint": "https://huggingface.co/api/models/lerobot/smolvla_base/tree/c83c3163b8ca9b7e67c509fffd9121e66cb96205?recursive=true&expand=true",
+    "field": "path=model.safetensors; lfs.oid",
+    "sha256": "7cd549ac2351fb069c0ddb3c34ad2d09cfc92b56a15dccdfc2e41467aaca01eb",
+    "bytes": 906712520
+  },
+  "localH100": {
+    "path": "/workspace/second-look-h100/models/smolvla-base/smolvla-base.safetensors",
+    "sha256": "7cd549ac2351fb069c0ddb3c34ad2d09cfc92b56a15dccdfc2e41467aaca01eb",
+    "bytes": 906712520
+  },
+  "download": {
+    "seconds": 52.495138,
+    "bytesPerSecond": 17272314,
+    "verified": true
+  }
+}

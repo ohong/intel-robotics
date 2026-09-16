@@ -1,0 +1,15 @@
+{
+  "provenance": null,
+  "task_id": null,
+  "calibration_id": null,
+  "synchronization_evidence": null,
+  "units_evidence": null,
+  "split_evidence": null,
+  "training_only": null,
+  "action_semantics": null,
+  "state_names": null,
+  "state_units": null,
+  "action_names": null,
+  "action_units": null,
+  "camera_sources": null
+}

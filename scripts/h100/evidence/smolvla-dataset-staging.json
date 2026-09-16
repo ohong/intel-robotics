@@ -1,0 +1,21 @@
+{
+  "status": "QUARANTINED_NOT_TRAINING_APPROVED",
+  "training_executed": false,
+  "h100_root": "/workspace/second-look-h100/datasets/pilot-five/dataset",
+  "intel_snapshot": "/home/ird-demo/second-look/recording-snapshots/pilot-five-20260916T004831Z/dataset",
+  "archive_bytes": 99174400,
+  "archive_sha256": "18c2ca97ea823b89d70fda9297f37fa9993edf0cd54f4c070ae311a5cb44a5e0",
+  "snapshot_receipt_sha256": "985b0cc962eefb922a2a32b940986d658027cfc79b5769ab4d3d5cacc82c65f5",
+  "checksum_verified_on_h100": true,
+  "episodes": 5,
+  "frames": 3249,
+  "proposed_developmental_train_episodes": [0, 1, 3],
+  "proposed_developmental_validation_episodes": [2, 4],
+  "final_evaluation_episodes": [],
+  "limits": [
+    "Transfer and structural checks do not establish correct task outcomes.",
+    "Specimen and session independence is unverified.",
+    "Recorded Anomalib ROI may contain a stationary piece unrelated to the demonstrated grasp.",
+    "Actual target association and conditioning coverage are unresolved."
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "status": "DIGITAL/REPLAY VERIFIED",
+  "scope": "Real non-motion H100-to-Intel file transport probes",
+  "date": "2026-09-15",
+  "provenance": "Live SSH, SCP, and rsync operations; no synthetic throughput claims",
+  "security": "Endpoint, identity-file path, connection-file contents, and credentials are omitted. Strict host checking, batch mode, and disabled agent forwarding were retained.",
+  "limitations": [
+    "Most initial probes overlapped an existing SCP transfer and public-model downloads on Intel.",
+    "Rates include SSH connection setup. Source-read time excludes connection setup.",
+    "Small samples and changing network load prevent an isolated bandwidth or handshake estimate.",
+    "No full ACT bundle transfer was completed by this worker. The parent owns the resumed transfer and its final verification."
+  ],
+  "probes": [
+    {
+      "protocol": "existing-scp",
+      "initial_bytes": 8878080,
+      "final_bytes": 12794880,
+      "seconds": 48.10206485,
+      "kib_per_second": 79.52,
+      "method": "Difference between read-only stage-size samples"
+    },
+    {
+      "protocol": "ssh-stream",
+      "bytes": 4194304,
+      "seconds": 67.87,
+      "kib_per_second": 60.35,
+      "sha256_match": true
+    },
+    {
+      "protocol": "ssh-stream-ipqos-comparison",
+      "concurrent": true,
+      "samples": [
+        {"ipqos": "default", "bytes": 262144, "seconds": 13.873, "kib_per_second": 18.45, "sha256_match": true},
+        {"ipqos": "none", "bytes": 262144, "seconds": 14.988, "kib_per_second": 17.08, "sha256_match": true}
+      ],
+      "interpretation": "No observed benefit from IPQoS=none"
+    },
+    {
+      "protocol": "rsync-append-verify",
+      "seed_bytes": 4096,
+      "final_bytes": 8192,
+      "seconds": 14.852,
+      "sha256_match": true,
+      "fixtures_removed": true
+    },
+    {
+      "protocol": "ssh-stream",
+      "source": "memory-generated zero bytes",
+      "compression": "no",
+      "bytes": 1048576,
+      "seconds": 29.716,
+      "kib_per_second": 34.46,
+      "source_read_seconds": 0.000715,
+      "sha256_match": true
+    },
+    {
+      "protocol": "ssh-stream",
+      "source": "owned ACT bundle prefix",
+      "compression": "no",
+      "bytes": 1048576,
+      "seconds": 15.713,
+      "kib_per_second": 65.17,
+      "source_read_seconds": 0.006373,
+      "sha256_match": true
+    },
+    {
+      "protocol": "four-parallel-ssh-ranges",
+      "bytes": 2097152,
+      "seconds": 36.369,
+      "aggregate_kib_per_second": 56.31,
+      "compression": "no",
+      "samples": [
+        {"offset": 0, "bytes": 524288, "seconds": 18.407, "source_read_seconds": 0.003316, "sha256_match": true},
+        {"offset": 524288, "bytes": 524288, "seconds": 17.535, "source_read_seconds": 0.009957, "sha256_match": true},
+        {"offset": 1048576, "bytes": 524288, "seconds": 36.366, "source_read_seconds": 0.005722, "sha256_match": true},
+        {"offset": 1572864, "bytes": 524288, "seconds": 18.209, "source_read_seconds": 0.005871, "sha256_match": true}
+      ],
+      "interpretation": "No observed aggregate speed improvement; no parallel bulk downloader implemented"
+    },
+    {
+      "protocol": "ssh-stream-after-public-downloads-ended",
+      "bytes": 2097152,
+      "seconds": 14.172,
+      "kib_per_second": 144.51,
+      "source_read_seconds": 0.007605,
+      "sha256_match": true,
+      "limitation": "Dispatched before the parent requested no additional baseline. It finished before cancellation; it may have briefly overlapped the parent's resume startup."
+    }
+  ],
+  "partial_preservation": {
+    "verified_owned_scp_pid": 116965,
+    "process_stopped": true,
+    "method": "Verified exact SCP command arguments internally, hardlinked its stage to the stable .part path, sent SIGTERM, waited for process exit, and verified the preserved prefix against H100",
+    "bytes": 34728960,
+    "prefix_sha256": "9d069f02f9e7289f3b95094ef8c29bd58b7ad01199074bc59fb19b20a69c4d7f",
+    "prefix_sha256_match": true,
+    "old_stage_removed_by_parent_cleanup": true,
+    "part": "/home/ird-demo/second-look/h100-readiness/act-qualification-v1-intel.tar.part",
+    "intel_receipt": "/home/ird-demo/second-look/h100-readiness/act-qualification-v1-intel.tar.part.receipt.json",
+    "observed_at_unix": 1789515641.5532079,
+    "whole_expected_sha256": "446a9ae0743d6b171f0bc16daadfef5cbb8a201d9277c9371bef0ecbdbd9cbfb"
+  },
+  "resumable_wrapper_validation": {
+    "script": "scripts/h100/pull_resume.py",
+    "help_passed": true,
+    "python_compilation_passed": true,
+    "fixture_source_bytes": 8192,
+    "fixture_seed_bytes": 4096,
+    "seeded_resume_passed": true,
+    "whole_sha256_verified": true,
+    "existing_destination_refused": true,
+    "incorrect_expected_hash_refused_publication": true,
+    "incorrect_hash_partial_retained": true,
+    "successful_publication_removed_partial_name": true,
+    "fixtures_removed": true,
+    "active_probe_processes": 0
+  }
+}

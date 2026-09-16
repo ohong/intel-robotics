@@ -1,0 +1,2475 @@
+{
+  "run": {
+    "schema_version": 1,
+    "status": "complete",
+    "pid": 9813,
+    "nvidia_smi": "GPU-b8169249-60f9-a8fe-892c-a3c335f9ec7b, NVIDIA H100 80GB HBM3, 570.124.06, 81559 MiB",
+    "runner_sha256": "02fe05f8a081805e1ac9be792ef23287cc609ae95f1870d5e3d6f1c0532f84de",
+    "source_sha256": "63806e6f55164cfc68a7cc1fe8d44b78da2368454e7a679a454e6819f39b4d82",
+    "source_files": {
+      "secondlook/__init__.py": "bbc0192a0c0d0ab89e320e172d985a4f35008abe6210cdcde8064d8506f34717",
+      "secondlook/anomaly.py": "63806e6f55164cfc68a7cc1fe8d44b78da2368454e7a679a454e6819f39b4d82"
+    },
+    "manifest_sha256": "66c476b8525e00ae58a903d54b5a01a86af933fe9b16dd9e2a7853b88462b1ee",
+    "dataset_sha256": "afc9facb33ed0ea06673b0eeb09c2e369ddfd47bcce839989ad56a06c39bccd6",
+    "arguments": {
+      "source_root": "/workspace/second-look-h100/vision/source",
+      "source_sha256": "63806e6f55164cfc68a7cc1fe8d44b78da2368454e7a679a454e6819f39b4d82",
+      "manifest": "/workspace/second-look-h100/vision/dataset/lego-pilot-v1/manifest.json",
+      "output": "/workspace/second-look-h100/vision/runs/patchcore-256-foreground-n9",
+      "image_size": 256,
+      "sampling_ratio": 0.1,
+      "max_images": 15,
+      "max_seconds": 600,
+      "num_neighbors": 9,
+      "gpu": 0,
+      "roi": [
+        0.46875,
+        0.5740740740740741,
+        0.7291666666666666,
+        0.9814814814814815
+      ],
+      "foreground_crop": true,
+      "engineering_smoke": false,
+      "calibrate": true,
+      "uncertainty_fraction": 0.05,
+      "check": false
+    },
+    "seed": 17,
+    "training_kind": "pretrained frozen feature extraction and k-center memory-bank fit; no optimizer",
+    "test_inference_performed": false,
+    "split_limitations": [
+      "Specimen-only pilot: capture sessions may cross splits; results do not establish session-independent generalization"
+    ],
+    "versions": {
+      "anomalib": "2.6.0",
+      "openvino": "2026.3.1",
+      "torch": "2.8.0+cu128",
+      "timm": "1.0.29",
+      "numpy": "2.5.3",
+      "Pillow": "12.3.0"
+    },
+    "cuda_runtime": "12.8",
+    "cuda_device": {
+      "index": 0,
+      "physical_index": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "total_memory_bytes": 85029158912,
+      "compute_capability": [
+        9,
+        0
+      ]
+    },
+    "installed_packages": [
+      {
+        "name": "aiohappyeyeballs",
+        "version": "2.7.1"
+      },
+      {
+        "name": "aiohttp",
+        "version": "3.14.3"
+      },
+      {
+        "name": "aiosignal",
+        "version": "1.4.0"
+      },
+      {
+        "name": "anomalib",
+        "version": "2.6.0"
+      },
+      {
+        "name": "antlr4-python3-runtime",
+        "version": "4.9.3"
+      },
+      {
+        "name": "anyio",
+        "version": "4.15.1"
+      },
+      {
+        "name": "argon2-cffi",
+        "version": "25.1.0"
+      },
+      {
+        "name": "argon2-cffi-bindings",
+        "version": "25.1.0"
+      },
+      {
+        "name": "arrow",
+        "version": "1.3.0"
+      },
+      {
+        "name": "asttokens",
+        "version": "3.0.0"
+      },
+      {
+        "name": "async-lru",
+        "version": "2.0.5"
+      },
+      {
+        "name": "attrs",
+        "version": "26.1.0"
+      },
+      {
+        "name": "babel",
+        "version": "2.17.0"
+      },
+      {
+        "name": "beautifulsoup4",
+        "version": "4.14.2"
+      },
+      {
+        "name": "bleach",
+        "version": "6.2.0"
+      },
+      {
+        "name": "blinker",
+        "version": "1.7.0"
+      },
+      {
+        "name": "certifi",
+        "version": "2026.7.22"
+      },
+      {
+        "name": "cffi",
+        "version": "2.0.0"
+      },
+      {
+        "name": "charset-normalizer",
+        "version": "3.4.3"
+      },
+      {
+        "name": "click",
+        "version": "8.5.0"
+      },
+      {
+        "name": "cloudpickle",
+        "version": "3.1.2"
+      },
+      {
+        "name": "comm",
+        "version": "0.2.3"
+      },
+      {
+        "name": "contourpy",
+        "version": "1.4.0"
+      },
+      {
+        "name": "cryptography",
+        "version": "41.0.7"
+      },
+      {
+        "name": "cycler",
+        "version": "0.12.1"
+      },
+      {
+        "name": "dbus-python",
+        "version": "1.3.2"
+      },
+      {
+        "name": "debugpy",
+        "version": "1.8.17"
+      },
+      {
+        "name": "decorator",
+        "version": "5.2.1"
+      },
+      {
+        "name": "defusedxml",
+        "version": "0.7.1"
+      },
+      {
+        "name": "distlib",
+        "version": "0.4.0"
+      },
+      {
+        "name": "distro",
+        "version": "1.9.0"
+      },
+      {
+        "name": "docstring_parser",
+        "version": "0.18.0"
+      },
+      {
+        "name": "einops",
+        "version": "0.8.2"
+      },
+      {
+        "name": "executing",
+        "version": "2.2.1"
+      },
+      {
+        "name": "fastjsonschema",
+        "version": "2.21.2"
+      },
+      {
+        "name": "filelock",
+        "version": "3.32.6"
+      },
+      {
+        "name": "fonttools",
+        "version": "4.65.0"
+      },
+      {
+        "name": "fqdn",
+        "version": "1.5.1"
+      },
+      {
+        "name": "FrEIA",
+        "version": "0.2"
+      },
+      {
+        "name": "frozenlist",
+        "version": "1.8.0"
+      },
+      {
+        "name": "fsspec",
+        "version": "2026.7.0"
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0"
+      },
+      {
+        "name": "hf-xet",
+        "version": "1.6.0"
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9"
+      },
+      {
+        "name": "httplib2",
+        "version": "0.20.4"
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1"
+      },
+      {
+        "name": "huggingface_hub",
+        "version": "1.31.0"
+      },
+      {
+        "name": "idna",
+        "version": "3.19"
+      },
+      {
+        "name": "imagecodecs",
+        "version": "2026.8.16"
+      },
+      {
+        "name": "ImageIO",
+        "version": "2.37.4"
+      },
+      {
+        "name": "ipykernel",
+        "version": "6.30.1"
+      },
+      {
+        "name": "ipython",
+        "version": "9.6.0"
+      },
+      {
+        "name": "ipython_pygments_lexers",
+        "version": "1.1.1"
+      },
+      {
+        "name": "ipywidgets",
+        "version": "8.1.7"
+      },
+      {
+        "name": "isoduration",
+        "version": "20.11.0"
+      },
+      {
+        "name": "jedi",
+        "version": "0.19.2"
+      },
+      {
+        "name": "Jinja2",
+        "version": "3.1.6"
+      },
+      {
+        "name": "joblib",
+        "version": "1.6.0"
+      },
+      {
+        "name": "json5",
+        "version": "0.12.1"
+      },
+      {
+        "name": "jsonargparse",
+        "version": "4.46.0"
+      },
+      {
+        "name": "jsonpointer",
+        "version": "3.0.0"
+      },
+      {
+        "name": "jsonschema",
+        "version": "4.25.1"
+      },
+      {
+        "name": "jsonschema-specifications",
+        "version": "2025.9.1"
+      },
+      {
+        "name": "jupyter-archive",
+        "version": "3.4.0"
+      },
+      {
+        "name": "jupyter_client",
+        "version": "8.6.3"
+      },
+      {
+        "name": "jupyter_core",
+        "version": "5.8.1"
+      },
+      {
+        "name": "jupyter-events",
+        "version": "0.12.0"
+      },
+      {
+        "name": "jupyter-lsp",
+        "version": "2.3.0"
+      },
+      {
+        "name": "jupyter_server",
+        "version": "2.17.0"
+      },
+      {
+        "name": "jupyter_server_terminals",
+        "version": "0.5.3"
+      },
+      {
+        "name": "jupyterlab",
+        "version": "4.4.9"
+      },
+      {
+        "name": "jupyterlab_pygments",
+        "version": "0.3.0"
+      },
+      {
+        "name": "jupyterlab_server",
+        "version": "2.27.3"
+      },
+      {
+        "name": "jupyterlab_widgets",
+        "version": "3.0.15"
+      },
+      {
+        "name": "kiwisolver",
+        "version": "1.5.1"
+      },
+      {
+        "name": "kornia",
+        "version": "0.8.3"
+      },
+      {
+        "name": "kornia_rs",
+        "version": "0.1.14"
+      },
+      {
+        "name": "lark",
+        "version": "1.3.0"
+      },
+      {
+        "name": "launchpadlib",
+        "version": "1.11.0"
+      },
+      {
+        "name": "lazr.restfulclient",
+        "version": "0.14.6"
+      },
+      {
+        "name": "lazr.uri",
+        "version": "1.0.6"
+      },
+      {
+        "name": "lazy-loader",
+        "version": "0.5"
+      },
+      {
+        "name": "lightning",
+        "version": "2.6.6"
+      },
+      {
+        "name": "lightning-utilities",
+        "version": "0.15.3"
+      },
+      {
+        "name": "markdown-it-py",
+        "version": "4.2.0"
+      },
+      {
+        "name": "MarkupSafe",
+        "version": "3.0.3"
+      },
+      {
+        "name": "matplotlib",
+        "version": "3.11.2"
+      },
+      {
+        "name": "matplotlib-inline",
+        "version": "0.1.7"
+      },
+      {
+        "name": "mdurl",
+        "version": "0.1.2"
+      },
+      {
+        "name": "mistune",
+        "version": "3.1.4"
+      },
+      {
+        "name": "mpmath",
+        "version": "1.3.0"
+      },
+      {
+        "name": "multidict",
+        "version": "6.8.0"
+      },
+      {
+        "name": "narwhals",
+        "version": "2.26.0"
+      },
+      {
+        "name": "nbclient",
+        "version": "0.10.2"
+      },
+      {
+        "name": "nbconvert",
+        "version": "7.16.6"
+      },
+      {
+        "name": "nbformat",
+        "version": "5.10.4"
+      },
+      {
+        "name": "nest-asyncio",
+        "version": "1.6.0"
+      },
+      {
+        "name": "networkx",
+        "version": "3.6.1"
+      },
+      {
+        "name": "notebook",
+        "version": "7.4.2"
+      },
+      {
+        "name": "notebook_shim",
+        "version": "0.2.4"
+      },
+      {
+        "name": "numpy",
+        "version": "2.5.3"
+      },
+      {
+        "name": "nvidia-cublas-cu12",
+        "version": "12.8.4.1"
+      },
+      {
+        "name": "nvidia-cuda-cupti-cu12",
+        "version": "12.8.90"
+      },
+      {
+        "name": "nvidia-cuda-nvrtc-cu12",
+        "version": "12.8.93"
+      },
+      {
+        "name": "nvidia-cuda-runtime-cu12",
+        "version": "12.8.90"
+      },
+      {
+        "name": "nvidia-cudnn-cu12",
+        "version": "9.10.2.21"
+      },
+      {
+        "name": "nvidia-cufft-cu12",
+        "version": "11.3.3.83"
+      },
+      {
+        "name": "nvidia-cufile-cu12",
+        "version": "1.13.1.3"
+      },
+      {
+        "name": "nvidia-curand-cu12",
+        "version": "10.3.9.90"
+      },
+      {
+        "name": "nvidia-cusolver-cu12",
+        "version": "11.7.3.90"
+      },
+      {
+        "name": "nvidia-cusparse-cu12",
+        "version": "12.5.8.93"
+      },
+      {
+        "name": "nvidia-cusparselt-cu12",
+        "version": "0.7.1"
+      },
+      {
+        "name": "nvidia-nccl-cu12",
+        "version": "2.27.3"
+      },
+      {
+        "name": "nvidia-nvjitlink-cu12",
+        "version": "12.8.93"
+      },
+      {
+        "name": "nvidia-nvtx-cu12",
+        "version": "12.8.90"
+      },
+      {
+        "name": "oauthlib",
+        "version": "3.2.2"
+      },
+      {
+        "name": "omegaconf",
+        "version": "2.3.1"
+      },
+      {
+        "name": "opencv-python-headless",
+        "version": "5.0.0.93"
+      },
+      {
+        "name": "openvino",
+        "version": "2026.3.1"
+      },
+      {
+        "name": "openvino-telemetry",
+        "version": "2025.2.0"
+      },
+      {
+        "name": "packaging",
+        "version": "26.3"
+      },
+      {
+        "name": "pandas",
+        "version": "3.0.5"
+      },
+      {
+        "name": "pandocfilters",
+        "version": "1.5.1"
+      },
+      {
+        "name": "parso",
+        "version": "0.8.5"
+      },
+      {
+        "name": "pexpect",
+        "version": "4.9.0"
+      },
+      {
+        "name": "pillow",
+        "version": "12.3.0"
+      },
+      {
+        "name": "pip",
+        "version": "24.0"
+      },
+      {
+        "name": "platformdirs",
+        "version": "4.11.8"
+      },
+      {
+        "name": "prometheus_client",
+        "version": "0.23.1"
+      },
+      {
+        "name": "prompt_toolkit",
+        "version": "3.0.52"
+      },
+      {
+        "name": "propcache",
+        "version": "0.5.3"
+      },
+      {
+        "name": "psutil",
+        "version": "7.1.0"
+      },
+      {
+        "name": "ptyprocess",
+        "version": "0.7.0"
+      },
+      {
+        "name": "pure_eval",
+        "version": "0.2.3"
+      },
+      {
+        "name": "pycparser",
+        "version": "2.23"
+      },
+      {
+        "name": "Pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "PyGObject",
+        "version": "3.48.2"
+      },
+      {
+        "name": "PyJWT",
+        "version": "2.7.0"
+      },
+      {
+        "name": "pyparsing",
+        "version": "3.3.2"
+      },
+      {
+        "name": "python-apt",
+        "version": "2.7.7+ubuntu5"
+      },
+      {
+        "name": "python-dateutil",
+        "version": "2.9.0.post0"
+      },
+      {
+        "name": "python-json-logger",
+        "version": "4.0.0"
+      },
+      {
+        "name": "pytorch-lightning",
+        "version": "2.6.6"
+      },
+      {
+        "name": "PyYAML",
+        "version": "6.0.3"
+      },
+      {
+        "name": "pyzmq",
+        "version": "27.1.0"
+      },
+      {
+        "name": "referencing",
+        "version": "0.36.2"
+      },
+      {
+        "name": "requests",
+        "version": "2.32.5"
+      },
+      {
+        "name": "rfc3339-validator",
+        "version": "0.1.4"
+      },
+      {
+        "name": "rfc3986-validator",
+        "version": "0.1.1"
+      },
+      {
+        "name": "rfc3987-syntax",
+        "version": "1.1.0"
+      },
+      {
+        "name": "rich",
+        "version": "15.0.0"
+      },
+      {
+        "name": "rich-argparse",
+        "version": "1.8.0"
+      },
+      {
+        "name": "rpds-py",
+        "version": "0.27.1"
+      },
+      {
+        "name": "safetensors",
+        "version": "0.8.0"
+      },
+      {
+        "name": "scikit-image",
+        "version": "0.26.0"
+      },
+      {
+        "name": "scikit-learn",
+        "version": "1.9.1"
+      },
+      {
+        "name": "scipy",
+        "version": "1.18.1"
+      },
+      {
+        "name": "Send2Trash",
+        "version": "1.8.3"
+      },
+      {
+        "name": "setuptools",
+        "version": "84.0.0"
+      },
+      {
+        "name": "six",
+        "version": "1.17.0"
+      },
+      {
+        "name": "sniffio",
+        "version": "1.3.1"
+      },
+      {
+        "name": "soupsieve",
+        "version": "2.8"
+      },
+      {
+        "name": "stack-data",
+        "version": "0.6.3"
+      },
+      {
+        "name": "sympy",
+        "version": "1.14.0"
+      },
+      {
+        "name": "terminado",
+        "version": "0.18.1"
+      },
+      {
+        "name": "threadpoolctl",
+        "version": "3.7.0"
+      },
+      {
+        "name": "tifffile",
+        "version": "2026.9.15"
+      },
+      {
+        "name": "timm",
+        "version": "1.0.29"
+      },
+      {
+        "name": "tinycss2",
+        "version": "1.4.0"
+      },
+      {
+        "name": "torch",
+        "version": "2.8.0+cu128"
+      },
+      {
+        "name": "torchaudio",
+        "version": "2.8.0+cu128"
+      },
+      {
+        "name": "torchmetrics",
+        "version": "1.9.0"
+      },
+      {
+        "name": "torchvision",
+        "version": "0.23.0+cu128"
+      },
+      {
+        "name": "tornado",
+        "version": "6.5.2"
+      },
+      {
+        "name": "tqdm",
+        "version": "4.70.1"
+      },
+      {
+        "name": "traitlets",
+        "version": "5.14.3"
+      },
+      {
+        "name": "triton",
+        "version": "3.4.0"
+      },
+      {
+        "name": "types-python-dateutil",
+        "version": "2.9.0.20251008"
+      },
+      {
+        "name": "typeshed_client",
+        "version": "2.13.0"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "uri-template",
+        "version": "1.3.0"
+      },
+      {
+        "name": "urllib3",
+        "version": "2.5.0"
+      },
+      {
+        "name": "virtualenv",
+        "version": "20.34.0"
+      },
+      {
+        "name": "wadllib",
+        "version": "1.3.6"
+      },
+      {
+        "name": "wcwidth",
+        "version": "0.2.14"
+      },
+      {
+        "name": "webcolors",
+        "version": "24.11.1"
+      },
+      {
+        "name": "webencodings",
+        "version": "0.5.1"
+      },
+      {
+        "name": "websocket-client",
+        "version": "1.9.0"
+      },
+      {
+        "name": "widgetsnbextension",
+        "version": "4.0.14"
+      },
+      {
+        "name": "yarl",
+        "version": "1.25.1"
+      }
+    ],
+    "model_implementation": {
+      "path": "/workspace/second-look-h100/vision-env/lib/python3.12/site-packages/anomalib/models/image/patchcore/torch_model.py",
+      "sha256": "a5e5bc1ed22ed86db477000092e8e628b0c02a99cdd6ec6789c0ab8b924aaba9"
+    },
+    "cuda_embedding_shapes": [
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ],
+      [
+        1024,
+        1536
+      ]
+    ],
+    "cuda_fit_wall_seconds": 3.2476171609014273,
+    "cuda_fit_event_ms": 3247.336669921875,
+    "cuda_feature_shapes": [
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ],
+      [
+        [
+          1,
+          512,
+          32,
+          32
+        ],
+        [
+          1,
+          1024,
+          16,
+          16
+        ]
+      ]
+    ],
+    "cuda_memory_bank_shape": [
+      1536,
+      1536
+    ],
+    "cuda_memory_bank_device": "cuda:0",
+    "cuda_peak_allocated_bytes": 291263488,
+    "cuda_peak_reserved_bytes": 352321536,
+    "checkpoint_reload": {
+      "passed": true,
+      "device": "CPU",
+      "image_sha256": "5cc61eff7a5fb34b850cd4876a8e9418cb01fb60484a63de0dd33e28f70ddbac",
+      "score": 32.058929443359375,
+      "cuda_score": 32.058921813964844,
+      "atol": 0.1,
+      "rtol": 0.01,
+      "scope": "one training-image engineering smoke; not held-out evaluation"
+    },
+    "openvino_reload": {
+      "passed": true,
+      "execution_devices": [
+        "CPU"
+      ],
+      "score": 32.05902099609375,
+      "atol": 0.1,
+      "rtol": 0.01,
+      "scope": "one training-image engineering smoke; not held-out evaluation"
+    },
+    "calibration": {
+      "artifact_id": "82fdd2d1db11d43aeb8376ee4b61cf4f85bd28f0102c4ed48d2ec41ac5d8a6c0",
+      "threshold": 59.548561096191406,
+      "uncertainty_margin": 1.3926738739013673,
+      "calibration": {
+        "method": "maximum validation F1; widest observed score gap, then highest threshold break ties",
+        "backend": "openvino",
+        "device": "CPU",
+        "precision": "f32",
+        "uncertainty_policy": "margin = fraction of validation score range; closed interval abstains; not calibrated probability",
+        "uncertainty_fraction": 0.05,
+        "threshold": 59.548561096191406,
+        "uncertainty_margin": 1.3926738739013673,
+        "dataset_sha256": "afc9facb33ed0ea06673b0eeb09c2e369ddfd47bcce839989ad56a06c39bccd6",
+        "test_inference_performed": false,
+        "split_limitations": [
+          "Specimen-only pilot: capture sessions may cross splits; results do not establish session-independent generalization"
+        ],
+        "count": 14,
+        "threshold_confusion": {
+          "count": 14,
+          "tp": 8,
+          "fp": 0,
+          "fn": 1,
+          "tn": 5,
+          "f1": 0.9411764705882353
+        },
+        "decision_counts": {
+          "normal": {
+            "NORMAL": 2,
+            "ANOMALOUS": 0,
+            "UNKNOWN": 3
+          },
+          "anomalous": {
+            "NORMAL": 1,
+            "ANOMALOUS": 7,
+            "UNKNOWN": 1
+          }
+        },
+        "missed_defects": 1,
+        "rejected_good_parts": 0,
+        "uncertain_defects": 1,
+        "uncertain_good_parts": 3,
+        "score_distributions": {
+          "normal": {
+            "count": 5,
+            "min": 50.54833984375,
+            "p05": 51.369083404541016,
+            "median": 58.687225341796875,
+            "p95": 59.207543182373044,
+            "max": 59.2738151550293
+          },
+          "anomalous": {
+            "count": 9,
+            "min": 55.665103912353516,
+            "p05": 57.32838516235351,
+            "median": 64.501220703125,
+            "p95": 77.84775848388672,
+            "max": 78.40181732177734
+          }
+        },
+        "normal_scores_strictly_below_defect_scores": false,
+        "records": [
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-eb15d8d9a5c94b289217e2f1b96b3939.png",
+            "sha256": "87de214631dba9721f976bc3541be1b4e47ae94510622db96bf760bfdfe7288a",
+            "specimen_id": "block-1f6e1fe2f261",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "normal",
+            "score": 58.687225341796875,
+            "decision": "UNKNOWN"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-900eb0ad024e4ee1b3770d7ba5152074.png",
+            "sha256": "ca2433309b7d8f5105cd65ec3e091bbd907e131ceac6135c11c830cac775fbee",
+            "specimen_id": "block-1f6e1fe2f261",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "normal",
+            "score": 59.2738151550293,
+            "decision": "UNKNOWN"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-c56a960effc24416b96894a8937d2c29.png",
+            "sha256": "f29d2282cb9a65a8fe5a205cdbe5278ef1f445248d09147bd8ebc5fe07aec09e",
+            "specimen_id": "block-1f6e1fe2f261",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "normal",
+            "score": 50.54833984375,
+            "decision": "NORMAL"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f0709d96d1a64a939d5807770b7681a1.png",
+            "sha256": "f39d94b8fadfcd2b9cb88dffa27065b330c2596a1fe6bd2a1d68c5801dc6bb69",
+            "specimen_id": "block-1f6e1fe2f261",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "normal",
+            "score": 58.94245529174805,
+            "decision": "UNKNOWN"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f8f24a9ec62849c4b3940495df2152c0.png",
+            "sha256": "8cfba83a20de726100c4250afc8a4baef67b809ff79fcb539f4f980700f82056",
+            "specimen_id": "block-1f6e1fe2f261",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "normal",
+            "score": 54.65205764770508,
+            "decision": "NORMAL"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-33907624b25d4fc3a50cfaf57ee5091d.png",
+            "sha256": "073c57864133af88e800a206337ae33cc57574bf355e3d0ed59f989be3859922",
+            "specimen_id": "block-7aa5ad3d5ad1",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 63.44581985473633,
+            "decision": "ANOMALOUS"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-0b641e7d8c284f69b559037ac7bfeab5.png",
+            "sha256": "3bdaeceed321ea7dc8f3e1c46ef05bb6dff85f573aa5b0f71aff83d72d6f24ed",
+            "specimen_id": "block-7aa5ad3d5ad1",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 59.823307037353516,
+            "decision": "UNKNOWN"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-762c733bd5634a90b3d8a7384204d872.png",
+            "sha256": "c66106c0d1a84b1adaa60f7c5ec47867e2e9b91f0d5e30b91ded08a37dd1e629",
+            "specimen_id": "block-7aa5ad3d5ad1",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 64.501220703125,
+            "decision": "ANOMALOUS"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-2174b6af124e42f0929315e8bdde0826.png",
+            "sha256": "30b05ae01a4577bbfa2a5b23da8450d9b24dc23d9fc327da1a7ce60c66a806db",
+            "specimen_id": "block-7aa5ad3d5ad1",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 55.665103912353516,
+            "decision": "NORMAL"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-86ac23e992d94722aebcf923af5df36a.png",
+            "sha256": "0663c4fede004ba9b65175dc310f5e0f71f47f5f71d27fb46b4f1cb4eb0a2a0c",
+            "specimen_id": "block-35a44a3ab925",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 61.527626037597656,
+            "decision": "ANOMALOUS"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f6391df606c94ed7b45063462879ab4f.png",
+            "sha256": "76820a845243e5c0e006a5bb90fcb0137dd28efbc25b2b619bc8055611764b06",
+            "specimen_id": "block-35a44a3ab925",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 77.01667022705078,
+            "decision": "ANOMALOUS"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-460f5577241a4d9f9157053bf3729bda.png",
+            "sha256": "d075dbf76c49f61c8cf28d3d396fec11f99e23210ef58f12bffcdf623f18cdc7",
+            "specimen_id": "block-35a44a3ab925",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 76.80885314941406,
+            "decision": "ANOMALOUS"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-26fa6c12a69047bd8d597df38e922725.png",
+            "sha256": "7eb793913081ed136a385dbb9e061401148e5655270bb50127b057ddff96afcf",
+            "specimen_id": "block-35a44a3ab925",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 65.4574966430664,
+            "decision": "ANOMALOUS"
+          },
+          {
+            "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-5ab5757c8e5846c2885f092cd7fc1d95.png",
+            "sha256": "b697387c69008008764c20349e53b689e8088d4408c9b1143640b7c2ee5c2607",
+            "specimen_id": "block-35a44a3ab925",
+            "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+            "label": "anomalous",
+            "score": 78.40181732177734,
+            "decision": "ANOMALOUS"
+          }
+        ],
+        "unit": "images; repeated views of a specimen are not independent trials",
+        "statistical_limit": "Descriptive counts only; small specimen counts do not establish deployment error rates",
+        "specimen_counts_by_label": {
+          "normal": 1,
+          "anomalous": 2
+        },
+        "specimen_count": 3,
+        "session_count": 1,
+        "calibration_id": "17ec1a9b934f725a5bce7971d37ad0c22679c6ac705e7b957bb568f5a52f2c16"
+      },
+      "evaluation": null
+    },
+    "artifact_id": "82fdd2d1db11d43aeb8376ee4b61cf4f85bd28f0102c4ed48d2ec41ac5d8a6c0",
+    "total_seconds": 116.2211868390441
+  },
+  "metadata": {
+    "schema_version": 1,
+    "model": "Anomalib PatchCore",
+    "config": {
+      "backbone": "wide_resnet50_2",
+      "layers": [
+        "layer2",
+        "layer3"
+      ],
+      "num_neighbors": 9,
+      "image_size": 256,
+      "sampling_ratio": 0.1,
+      "roi": [
+        0.46875,
+        0.5740740740740741,
+        0.7291666666666666,
+        0.9814814814814815
+      ],
+      "foreground_crop": {
+        "saturation_min": 0.25,
+        "value_min": 50,
+        "min_area_fraction": 0.01,
+        "min_bbox_side": 20,
+        "padding_fraction": 0.08,
+        "ambiguity_area_ratio": 0.25
+      },
+      "preprocessing": "RGB; fixed normalized ROI (floor left/top, ceil right/bottom); optional colored foreground bbox retaining original pixels; PIL bilinear square resize; float32 /255; ImageNet mean/std",
+      "seed": 17,
+      "torch_threads": 4
+    },
+    "versions": {
+      "anomalib": "2.6.0",
+      "openvino": "2026.3.1",
+      "torch": "2.8.0+cu128",
+      "timm": "1.0.29",
+      "numpy": "2.5.3",
+      "Pillow": "12.3.0"
+    },
+    "dataset": {
+      "schema_version": 1,
+      "manifest_sha256": "66c476b8525e00ae58a903d54b5a01a86af933fe9b16dd9e2a7853b88462b1ee",
+      "dataset_sha256": "afc9facb33ed0ea06673b0eeb09c2e369ddfd47bcce839989ad56a06c39bccd6",
+      "images": [
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:81079:82290660006817",
+          "specimen_id": "block-7f681cefe7b8",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-aab96eec5448477795b5e4f13c6b0e4c.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82290.660006817,
+          "capture_timestamp_ns": 82290660006817,
+          "sequence": 81079,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.4241420920006931,
+          "saved_at_utc": "2026-09-15T23:41:45.750532+00:00",
+          "sha256": "5cc61eff7a5fb34b850cd4876a8e9418cb01fb60484a63de0dd33e28f70ddbac"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:81315:82298579380495",
+          "specimen_id": "block-7f681cefe7b8",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-ef6efd602619442eb6e0fa7ff479f716.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82298.579380495,
+          "capture_timestamp_ns": 82298579380495,
+          "sequence": 81315,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.46229539600608405,
+          "saved_at_utc": "2026-09-15T23:41:53.708354+00:00",
+          "sha256": "fa7e0dd6607b45143fe3dae5a80bdf7bd8235061f9e04c24d4fb39d090739d8b"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:81471:82303813878359",
+          "specimen_id": "block-7f681cefe7b8",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f195025c8bdb4a30a7123ba736c22ab7.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82303.813878359,
+          "capture_timestamp_ns": 82303813878359,
+          "sequence": 81471,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.41777873600949533,
+          "saved_at_utc": "2026-09-15T23:41:58.872840+00:00",
+          "sha256": "056e304fe14c5329f39f4f2ea033bd1797ad8bf719dd4c7cb6a692176e906315"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:81630:82309160458808",
+          "specimen_id": "block-7f681cefe7b8",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-a21bbec5f8414289b56cd17a2ad3ec49.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82309.160458808,
+          "capture_timestamp_ns": 82309160458808,
+          "sequence": 81630,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.7986425710114418,
+          "saved_at_utc": "2026-09-15T23:42:04.628106+00:00",
+          "sha256": "e6c2b8a5bd87813f736cd15ebb0f68beb258589df2d2210db50570893cd750c0"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:81884:82317693436940",
+          "specimen_id": "block-7f681cefe7b8",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-a7e877d0404f479fa68a9e415000d1a1.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82317.69343694,
+          "capture_timestamp_ns": 82317693436940,
+          "sequence": 81884,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.5453096970013576,
+          "saved_at_utc": "2026-09-15T23:42:12.898028+00:00",
+          "sha256": "85243da25c3bec841293aa84701fdbc71039d8316f9a599892255874c3c8f9e8"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:82200:82328309442503",
+          "specimen_id": "block-f4c7a62986bd",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-7713e155f4c545c09b66b62367d4b81b.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82328.309442503,
+          "capture_timestamp_ns": 82328309442503,
+          "sequence": 82200,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.6454976060049376,
+          "saved_at_utc": "2026-09-15T23:42:23.595110+00:00",
+          "sha256": "b2c322f8760e839c84a625e0e0bcb818da511cf5cf694a69494c8e520602159e"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:82337:82332913650669",
+          "specimen_id": "block-f4c7a62986bd",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-effc2a36fd7b40ef9296db8fd7311566.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82332.913650669,
+          "capture_timestamp_ns": 82332913650669,
+          "sequence": 82337,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.3155658610048704,
+          "saved_at_utc": "2026-09-15T23:42:27.863702+00:00",
+          "sha256": "5a7881f9060c69062178f941b1754fac8e09aeec0c0643899bdc089e36bc5384"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:82459:82337016271246",
+          "specimen_id": "block-f4c7a62986bd",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-177a8a915cbe41b0b9971d1bfce6fde1.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82337.016271246,
+          "capture_timestamp_ns": 82337016271246,
+          "sequence": 82459,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.8389198649965692,
+          "saved_at_utc": "2026-09-15T23:42:32.516462+00:00",
+          "sha256": "ec2494005971bf705bc19095d560c54071e3e394f5fbd6ac322a1fe045a82612"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:82585:82341243468635",
+          "specimen_id": "block-f4c7a62986bd",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-1b57256418914b25b25f77a635c65dd0.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82341.243468635,
+          "capture_timestamp_ns": 82341243468635,
+          "sequence": 82585,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.5815417900012108,
+          "saved_at_utc": "2026-09-15T23:42:37.477295+00:00",
+          "sha256": "be7a41e2e8638ceb94a2cf2b478d2402916a9357167df648d72e0dec6a2c6c99"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:82845:82349977128000",
+          "specimen_id": "block-f4c7a62986bd",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-c171b8d585374eb18c0fd59710648869.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82349.977128,
+          "capture_timestamp_ns": 82349977128000,
+          "sequence": 82845,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.37015512499783654,
+          "saved_at_utc": "2026-09-15T23:42:44.998682+00:00",
+          "sha256": "b6ec6791de9ecab0af766705e2a58031f97ffd80100f7146057c3d44b71b1040"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:83205:82362072233669",
+          "specimen_id": "block-bcb90e469408",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-a82ad46bd3aa4ad39cbbc8e1ebb388c4.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82362.072233669,
+          "capture_timestamp_ns": 82362072233669,
+          "sequence": 83205,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.46541644500393886,
+          "saved_at_utc": "2026-09-15T23:42:57.193617+00:00",
+          "sha256": "8f54419013e23dd549fcd3f53343a2e564ec9809d2573c926cc1d259e1d21539"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:83344:82366741091714",
+          "specimen_id": "block-bcb90e469408",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-4d2ddc4455164946af6a570d8d2f1671.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82366.741091714,
+          "capture_timestamp_ns": 82366741091714,
+          "sequence": 83344,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.7991627970041009,
+          "saved_at_utc": "2026-09-15T23:43:02.186230+00:00",
+          "sha256": "bf1230b8020283d0560727369782d296df47e82924f267a0531a047474fddf28"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:83469:82370941452828",
+          "specimen_id": "block-bcb90e469408",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-bc56c6cdc8d342caa044109f59939339.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82370.941452828,
+          "capture_timestamp_ns": 82370941452828,
+          "sequence": 83469,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.4941380759992171,
+          "saved_at_utc": "2026-09-15T23:43:06.080232+00:00",
+          "sha256": "32b7fd82c545fbb3c7a8c73df9adc6298c5205a4d493340bbd1def96d893e6f7"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:83573:82374434043382",
+          "specimen_id": "block-bcb90e469408",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-79c9539c232b44f8914de5337229f2bc.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82374.434043382,
+          "capture_timestamp_ns": 82374434043382,
+          "sequence": 83573,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.2531017239962239,
+          "saved_at_utc": "2026-09-15T23:43:09.341153+00:00",
+          "sha256": "74bc6d76d10b56fbb1adb03c20875aa77545db0d3efa00481cbe43e1dc4c6505"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:83694:82378493610594",
+          "specimen_id": "block-bcb90e469408",
+          "label": "normal",
+          "role": "train",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-5e9361000d20449d96a2a9492fad9577.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82378.493610594,
+          "capture_timestamp_ns": 82378493610594,
+          "sequence": 83694,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.6159506340045482,
+          "saved_at_utc": "2026-09-15T23:43:13.757371+00:00",
+          "sha256": "b5333a477d8c3f30e53db2d8bd657f0277a3ef4e8744b5d983da9ece90d04774"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:85708:82446157577369",
+          "specimen_id": "block-1f6e1fe2f261",
+          "label": "normal",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-eb15d8d9a5c94b289217e2f1b96b3939.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82446.157577369,
+          "capture_timestamp_ns": 82446157577369,
+          "sequence": 85708,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.3824411350069568,
+          "saved_at_utc": "2026-09-15T23:44:22.162415+00:00",
+          "sha256": "87de214631dba9721f976bc3541be1b4e47ae94510622db96bf760bfdfe7288a"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:85903:82452708662587",
+          "specimen_id": "block-1f6e1fe2f261",
+          "label": "normal",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-900eb0ad024e4ee1b3770d7ba5152074.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82452.708662587,
+          "capture_timestamp_ns": 82452708662587,
+          "sequence": 85903,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.5824179880000884,
+          "saved_at_utc": "2026-09-15T23:44:28.924039+00:00",
+          "sha256": "ca2433309b7d8f5105cd65ec3e091bbd907e131ceac6135c11c830cac775fbee"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:86115:82459832851461",
+          "specimen_id": "block-1f6e1fe2f261",
+          "label": "normal",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-c56a960effc24416b96894a8937d2c29.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82459.832851461,
+          "capture_timestamp_ns": 82459832851461,
+          "sequence": 86115,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.9758326640003361,
+          "saved_at_utc": "2026-09-15T23:44:35.449828+00:00",
+          "sha256": "f29d2282cb9a65a8fe5a205cdbe5278ef1f445248d09147bd8ebc5fe07aec09e"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:86264:82464836703408",
+          "specimen_id": "block-1f6e1fe2f261",
+          "label": "normal",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f0709d96d1a64a939d5807770b7681a1.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82464.836703408,
+          "capture_timestamp_ns": 82464836703408,
+          "sequence": 86264,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.6693740839982638,
+          "saved_at_utc": "2026-09-15T23:44:41.132076+00:00",
+          "sha256": "f39d94b8fadfcd2b9cb88dffa27065b330c2596a1fe6bd2a1d68c5801dc6bb69"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:86396:82469271080220",
+          "specimen_id": "block-1f6e1fe2f261",
+          "label": "normal",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f8f24a9ec62849c4b3940495df2152c0.png",
+          "ground_truth": {
+            "source": "Operator selected Good in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82469.27108022,
+          "capture_timestamp_ns": 82469271080220,
+          "sequence": 86396,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 2.4824921029940015,
+          "saved_at_utc": "2026-09-15T23:44:46.419976+00:00",
+          "sha256": "8cfba83a20de726100c4250afc8a4baef67b809ff79fcb539f4f980700f82056"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:87067:82491811744356",
+          "specimen_id": "block-7aa5ad3d5ad1",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-33907624b25d4fc3a50cfaf57ee5091d.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82491.811744356,
+          "capture_timestamp_ns": 82491811744356,
+          "sequence": 87067,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.7924186239979463,
+          "saved_at_utc": "2026-09-15T23:45:08.259281+00:00",
+          "sha256": "073c57864133af88e800a206337ae33cc57574bf355e3d0ed59f989be3859922"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:87227:82497179474384",
+          "specimen_id": "block-7aa5ad3d5ad1",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-0b641e7d8c284f69b559037ac7bfeab5.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82497.179474384,
+          "capture_timestamp_ns": 82497179474384,
+          "sequence": 87227,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.4832090929994592,
+          "saved_at_utc": "2026-09-15T23:45:13.291613+00:00",
+          "sha256": "3bdaeceed321ea7dc8f3e1c46ef05bb6dff85f573aa5b0f71aff83d72d6f24ed"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:87353:82501420743723",
+          "specimen_id": "block-7aa5ad3d5ad1",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-762c733bd5634a90b3d8a7384204d872.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82501.420743723,
+          "capture_timestamp_ns": 82501420743723,
+          "sequence": 87353,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.6393285499943886,
+          "saved_at_utc": "2026-09-15T23:45:17.708283+00:00",
+          "sha256": "c66106c0d1a84b1adaa60f7c5ec47867e2e9b91f0d5e30b91ded08a37dd1e629"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:87860:82518453634326",
+          "specimen_id": "block-7aa5ad3d5ad1",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-2174b6af124e42f0929315e8bdde0826.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82518.453634326,
+          "capture_timestamp_ns": 82518453634326,
+          "sequence": 87860,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.1156609919999028,
+          "saved_at_utc": "2026-09-15T23:45:34.226783+00:00",
+          "sha256": "30b05ae01a4577bbfa2a5b23da8450d9b24dc23d9fc327da1a7ce60c66a806db"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:88136:82527725787235",
+          "specimen_id": "block-35a44a3ab925",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-86ac23e992d94722aebcf923af5df36a.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82527.725787235,
+          "capture_timestamp_ns": 82527725787235,
+          "sequence": 88136,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.873119826996117,
+          "saved_at_utc": "2026-09-15T23:45:44.243142+00:00",
+          "sha256": "0663c4fede004ba9b65175dc310f5e0f71f47f5f71d27fb46b4f1cb4eb0a2a0c"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:88340:82534577981301",
+          "specimen_id": "block-35a44a3ab925",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f6391df606c94ed7b45063462879ab4f.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82534.577981301,
+          "capture_timestamp_ns": 82534577981301,
+          "sequence": 88340,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 0.8699793879932258,
+          "saved_at_utc": "2026-09-15T23:45:50.107134+00:00",
+          "sha256": "76820a845243e5c0e006a5bb90fcb0137dd28efbc25b2b619bc8055611764b06"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:88525:82540793501227",
+          "specimen_id": "block-35a44a3ab925",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-460f5577241a4d9f9157053bf3729bda.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82540.793501227,
+          "capture_timestamp_ns": 82540793501227,
+          "sequence": 88525,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.7023491569998441,
+          "saved_at_utc": "2026-09-15T23:45:57.151490+00:00",
+          "sha256": "d075dbf76c49f61c8cf28d3d396fec11f99e23210ef58f12bffcdf623f18cdc7"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:88670:82545657095210",
+          "specimen_id": "block-35a44a3ab925",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-26fa6c12a69047bd8d597df38e922725.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82545.65709521,
+          "capture_timestamp_ns": 82545657095210,
+          "sequence": 88670,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.8315563869982725,
+          "saved_at_utc": "2026-09-15T23:46:02.128391+00:00",
+          "sha256": "7eb793913081ed136a385dbb9e061401148e5655270bb50127b057ddff96afcf"
+        },
+        {
+          "schema": "secondlook.operator_collection.capture.v1",
+          "collection_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "collection_session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "frame_id": "a5cfd33b5cff493d94471e4b7af9f301:88794:82549831839244",
+          "specimen_id": "block-35a44a3ab925",
+          "label": "anomalous",
+          "role": "validation",
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-5ab5757c8e5846c2885f092cd7fc1d95.png",
+          "ground_truth": {
+            "source": "Operator selected Defective in capture UI",
+            "authoritative": true
+          },
+          "evidence_kind": "real",
+          "camera_service": "physicalai/camera/UVCCamera/4/frame",
+          "capture_host": "NUC16GDKX76",
+          "capture_python": "/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python",
+          "timestamp_source": "publisher_monotonic",
+          "capture_timestamp": 82549.831839244,
+          "capture_timestamp_ns": 82549831839244,
+          "sequence": 88794,
+          "publisher_color": "RGB",
+          "stored_color": "RGB",
+          "width": 1920,
+          "height": 1080,
+          "shutter_frame_age_seconds": 1.8672389569983352,
+          "saved_at_utc": "2026-09-15T23:46:06.339243+00:00",
+          "sha256": "b697387c69008008764c20349e53b689e8088d4408c9b1143640b7c2ee5c2607"
+        }
+      ],
+      "split_policy": "specimen_only_pilot",
+      "split_policy_reason": "User collected four distinct good and two distinct defective blocks in one true acquisition session. Reserve the fourth good plus both defective specimens for calibration; unseen blocks will form a future frozen test. Session independence is unavailable, not manufactured.",
+      "shared_sessions": [
+        "a5cfd33b5cff493d94471e4b7af9f301"
+      ],
+      "split_limitations": [
+        "Specimen-only pilot: capture sessions may cross splits; results do not establish session-independent generalization"
+      ]
+    },
+    "evidence_kind": "task_model_calibrated",
+    "threshold": 59.548561096191406,
+    "calibration": {
+      "method": "maximum validation F1; widest observed score gap, then highest threshold break ties",
+      "backend": "openvino",
+      "device": "CPU",
+      "precision": "f32",
+      "uncertainty_policy": "margin = fraction of validation score range; closed interval abstains; not calibrated probability",
+      "uncertainty_fraction": 0.05,
+      "threshold": 59.548561096191406,
+      "uncertainty_margin": 1.3926738739013673,
+      "dataset_sha256": "afc9facb33ed0ea06673b0eeb09c2e369ddfd47bcce839989ad56a06c39bccd6",
+      "test_inference_performed": false,
+      "split_limitations": [
+        "Specimen-only pilot: capture sessions may cross splits; results do not establish session-independent generalization"
+      ],
+      "count": 14,
+      "threshold_confusion": {
+        "count": 14,
+        "tp": 8,
+        "fp": 0,
+        "fn": 1,
+        "tn": 5,
+        "f1": 0.9411764705882353
+      },
+      "decision_counts": {
+        "normal": {
+          "NORMAL": 2,
+          "ANOMALOUS": 0,
+          "UNKNOWN": 3
+        },
+        "anomalous": {
+          "NORMAL": 1,
+          "ANOMALOUS": 7,
+          "UNKNOWN": 1
+        }
+      },
+      "missed_defects": 1,
+      "rejected_good_parts": 0,
+      "uncertain_defects": 1,
+      "uncertain_good_parts": 3,
+      "score_distributions": {
+        "normal": {
+          "count": 5,
+          "min": 50.54833984375,
+          "p05": 51.369083404541016,
+          "median": 58.687225341796875,
+          "p95": 59.207543182373044,
+          "max": 59.2738151550293
+        },
+        "anomalous": {
+          "count": 9,
+          "min": 55.665103912353516,
+          "p05": 57.32838516235351,
+          "median": 64.501220703125,
+          "p95": 77.84775848388672,
+          "max": 78.40181732177734
+        }
+      },
+      "normal_scores_strictly_below_defect_scores": false,
+      "records": [
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-eb15d8d9a5c94b289217e2f1b96b3939.png",
+          "sha256": "87de214631dba9721f976bc3541be1b4e47ae94510622db96bf760bfdfe7288a",
+          "specimen_id": "block-1f6e1fe2f261",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "normal",
+          "score": 58.687225341796875,
+          "decision": "UNKNOWN"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-900eb0ad024e4ee1b3770d7ba5152074.png",
+          "sha256": "ca2433309b7d8f5105cd65ec3e091bbd907e131ceac6135c11c830cac775fbee",
+          "specimen_id": "block-1f6e1fe2f261",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "normal",
+          "score": 59.2738151550293,
+          "decision": "UNKNOWN"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-c56a960effc24416b96894a8937d2c29.png",
+          "sha256": "f29d2282cb9a65a8fe5a205cdbe5278ef1f445248d09147bd8ebc5fe07aec09e",
+          "specimen_id": "block-1f6e1fe2f261",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "normal",
+          "score": 50.54833984375,
+          "decision": "NORMAL"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f0709d96d1a64a939d5807770b7681a1.png",
+          "sha256": "f39d94b8fadfcd2b9cb88dffa27065b330c2596a1fe6bd2a1d68c5801dc6bb69",
+          "specimen_id": "block-1f6e1fe2f261",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "normal",
+          "score": 58.94245529174805,
+          "decision": "UNKNOWN"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f8f24a9ec62849c4b3940495df2152c0.png",
+          "sha256": "8cfba83a20de726100c4250afc8a4baef67b809ff79fcb539f4f980700f82056",
+          "specimen_id": "block-1f6e1fe2f261",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "normal",
+          "score": 54.65205764770508,
+          "decision": "NORMAL"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-33907624b25d4fc3a50cfaf57ee5091d.png",
+          "sha256": "073c57864133af88e800a206337ae33cc57574bf355e3d0ed59f989be3859922",
+          "specimen_id": "block-7aa5ad3d5ad1",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 63.44581985473633,
+          "decision": "ANOMALOUS"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-0b641e7d8c284f69b559037ac7bfeab5.png",
+          "sha256": "3bdaeceed321ea7dc8f3e1c46ef05bb6dff85f573aa5b0f71aff83d72d6f24ed",
+          "specimen_id": "block-7aa5ad3d5ad1",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 59.823307037353516,
+          "decision": "UNKNOWN"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-762c733bd5634a90b3d8a7384204d872.png",
+          "sha256": "c66106c0d1a84b1adaa60f7c5ec47867e2e9b91f0d5e30b91ded08a37dd1e629",
+          "specimen_id": "block-7aa5ad3d5ad1",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 64.501220703125,
+          "decision": "ANOMALOUS"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-2174b6af124e42f0929315e8bdde0826.png",
+          "sha256": "30b05ae01a4577bbfa2a5b23da8450d9b24dc23d9fc327da1a7ce60c66a806db",
+          "specimen_id": "block-7aa5ad3d5ad1",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 55.665103912353516,
+          "decision": "NORMAL"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-86ac23e992d94722aebcf923af5df36a.png",
+          "sha256": "0663c4fede004ba9b65175dc310f5e0f71f47f5f71d27fb46b4f1cb4eb0a2a0c",
+          "specimen_id": "block-35a44a3ab925",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 61.527626037597656,
+          "decision": "ANOMALOUS"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-f6391df606c94ed7b45063462879ab4f.png",
+          "sha256": "76820a845243e5c0e006a5bb90fcb0137dd28efbc25b2b619bc8055611764b06",
+          "specimen_id": "block-35a44a3ab925",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 77.01667022705078,
+          "decision": "ANOMALOUS"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-460f5577241a4d9f9157053bf3729bda.png",
+          "sha256": "d075dbf76c49f61c8cf28d3d396fec11f99e23210ef58f12bffcdf623f18cdc7",
+          "specimen_id": "block-35a44a3ab925",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 76.80885314941406,
+          "decision": "ANOMALOUS"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-26fa6c12a69047bd8d597df38e922725.png",
+          "sha256": "7eb793913081ed136a385dbb9e061401148e5655270bb50127b057ddff96afcf",
+          "specimen_id": "block-35a44a3ab925",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 65.4574966430664,
+          "decision": "ANOMALOUS"
+        },
+        {
+          "path": "/workspace/second-look-h100/vision/dataset/lego-capture-20260915/capture-5ab5757c8e5846c2885f092cd7fc1d95.png",
+          "sha256": "b697387c69008008764c20349e53b689e8088d4408c9b1143640b7c2ee5c2607",
+          "specimen_id": "block-35a44a3ab925",
+          "session_id": "a5cfd33b5cff493d94471e4b7af9f301",
+          "label": "anomalous",
+          "score": 78.40181732177734,
+          "decision": "ANOMALOUS"
+        }
+      ],
+      "unit": "images; repeated views of a specimen are not independent trials",
+      "statistical_limit": "Descriptive counts only; small specimen counts do not establish deployment error rates",
+      "specimen_counts_by_label": {
+        "normal": 1,
+        "anomalous": 2
+      },
+      "specimen_count": 3,
+      "session_count": 1,
+      "calibration_id": "17ec1a9b934f725a5bce7971d37ad0c22679c6ac705e7b957bb568f5a52f2c16"
+    },
+    "evaluation": null,
+    "train_images": 15,
+    "memory_bank_shape": [
+      1536,
+      1536
+    ],
+    "fit_and_export_seconds": 7.923715408891439,
+    "precision": "FP32 export; device compilation precision reported by benchmark",
+    "files": {
+      "model.pt": "40c320e5f6da1c0650364093ba3fa49068cb5963871b6cac7b08fad183acb568",
+      "model.xml": "33153fbed63fe50fd26d94f32a21c91d16fdde478ac4c59a3d1242845f56e357",
+      "model.bin": "90c06a73cd10f17438b20ee73374e102d14d564dc7c8c256fff072b3a67ab543"
+    },
+    "model_id": "2ad77e7244dc09a2ab3c0f68cba7ce86acf232686b1d05341bfe0cd9b5fd2348",
+    "artifact_id": "82fdd2d1db11d43aeb8376ee4b61cf4f85bd28f0102c4ed48d2ec41ac5d8a6c0",
+    "uncertainty_margin": 1.3926738739013673
+  }
+}
