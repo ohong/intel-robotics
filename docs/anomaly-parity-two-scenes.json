@@ -1,0 +1,79 @@
+{
+  "artifact_id": "1e89b319c3f0f6bd60b0ca176d2527febc10d7d873ed8d5f36315adf599e487e",
+  "evidence_kind": "engineering_smoke",
+  "input_split": "training references, not heldout",
+  "atol": 0.1,
+  "rtol": 0.01,
+  "images": [
+    {
+      "path": "/home/ird-demo/second-look/artifacts/discovery/camera-4.jpg",
+      "sha256": "94fae0ae1774c543f90cb6b70cbc9bdd8d23d1202e0b4c62db9bfefa72a17883",
+      "torch_score": 59.94752502441406,
+      "results": [
+        {
+          "backend": "openvino_cpu",
+          "execution_devices": [
+            "CPU"
+          ],
+          "precision": "<Type: 'float32'>",
+          "score": 59.947509765625,
+          "score_abs_error": 1.52587890625e-05,
+          "map_max_abs_error": 0.022863388061523438,
+          "score_parity_pass": true,
+          "map_parity_pass": true,
+          "disposition": "UNKNOWN",
+          "threshold": null
+        },
+        {
+          "backend": "openvino_gpu_f32",
+          "execution_devices": [
+            "GPU.0"
+          ],
+          "precision": "<Type: 'float32'>",
+          "score": 59.94742965698242,
+          "score_abs_error": 9.5367431640625e-05,
+          "map_max_abs_error": 0.02048969268798828,
+          "score_parity_pass": true,
+          "map_parity_pass": true,
+          "disposition": "UNKNOWN",
+          "threshold": null
+        }
+      ]
+    },
+    {
+      "path": "/home/ird-demo/second-look/artifacts/discovery/camera-10.jpg",
+      "sha256": "3f8db74d62e7709673bdff7b0282ceca4e2d6b2aeb2a1519b79af97f56d758bc",
+      "torch_score": 63.71620178222656,
+      "results": [
+        {
+          "backend": "openvino_cpu",
+          "execution_devices": [
+            "CPU"
+          ],
+          "precision": "<Type: 'float32'>",
+          "score": 63.71620178222656,
+          "score_abs_error": 0.0,
+          "map_max_abs_error": 0.030691146850585938,
+          "score_parity_pass": true,
+          "map_parity_pass": true,
+          "disposition": "UNKNOWN",
+          "threshold": null
+        },
+        {
+          "backend": "openvino_gpu_f32",
+          "execution_devices": [
+            "GPU.0"
+          ],
+          "precision": "<Type: 'float32'>",
+          "score": 63.71623229980469,
+          "score_abs_error": 3.0517578125e-05,
+          "map_max_abs_error": 0.04569721221923828,
+          "score_parity_pass": true,
+          "map_parity_pass": true,
+          "disposition": "UNKNOWN",
+          "threshold": null
+        }
+      ]
+    }
+  ]
+}

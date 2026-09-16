@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Second Look · Capture</title><link rel="stylesheet" href="/style.css"><script defer src="/app.js"></script></head>
+<body><header><div><span class="eyebrow">SECOND LOOK / CAMERA 1 LOW</span><h1>Block capture</h1></div><div id="counter">0 <span>/ 50</span></div></header>
+<main><section class="camera"><div class="feed"><img id="preview" alt="Live close-up camera preview"><span id="mode">CONNECTING</span></div><p class="guidance">One block fully visible. Keep same block ID for new angles. New block only when physical block changes.</p></section>
+<aside><label for="specimen">Physical block</label><div class="block-row"><select id="specimen"><option value="">Select a block</option></select><button id="new-block" type="button">+ New block</button></div>
+<fieldset><legend>Operator label</legend><label class="choice"><input type="radio" name="label" value="normal"> <strong>Good</strong><span>No defect</span></label><label class="choice"><input type="radio" name="label" value="anomalous"> <strong>Defective</strong><span>Visible defect</span></label><label class="choice"><input type="radio" name="label" value="unknown"> <strong>Unsure</strong><span>Needs review</span></label></fieldset>
+<button id="shutter" disabled>Save photo <kbd>Space</kbd></button><p id="status" role="status" aria-live="polite">Waiting for the camera…</p><p id="sync">Saved on Intel; Mac copy syncs automatically.</p><p class="note">Original RGB PNG. Labels come from your selection. Training split is assigned later by block.</p></aside>
+<section class="captures"><h2>Latest captures</h2><div id="gallery"></div></section></main></body></html>

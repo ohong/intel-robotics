@@ -1,0 +1,324 @@
+{
+  "runs": [
+    {
+      "artifact_id": "1e89b319c3f0f6bd60b0ca176d2527febc10d7d873ed8d5f36315adf599e487e",
+      "image_sha256": "94fae0ae1774c543f90cb6b70cbc9bdd8d23d1202e0b4c62db9bfefa72a17883",
+      "versions": {
+        "anomalib": "2.6.0",
+        "openvino": "2026.3.0",
+        "torch": "2.10.0+xpu",
+        "timm": "1.0.29",
+        "numpy": "2.2.6",
+        "Pillow": "12.3.0"
+      },
+      "evidence_kind": "engineering_smoke",
+      "iterations": 10,
+      "warmup": 3,
+      "parity_atol": 0.1,
+      "parity_rtol": 0.01,
+      "timing_scope": "batch 1 synchronous model call only; same preprocessed input",
+      "results": [
+        {
+          "backend": "torch",
+          "requested_device": "CPU",
+          "status": "measured",
+          "execution_devices": [
+            "CPU"
+          ],
+          "inference_precision": "float32",
+          "load_compile_ms": 3497.198417011532,
+          "median_ms": 20.04405749903526,
+          "p95_ms": 27.47542225260986,
+          "samples_ms": [
+            28.144237003289163,
+            26.6579820017796,
+            19.962650010711513,
+            20.05265699699521,
+            20.193424003082328,
+            19.905360997654498,
+            19.95783200254664,
+            20.083160998183303,
+            19.981620003818534,
+            20.035458001075312
+          ],
+          "score": 59.94752502441406,
+          "score_abs_error": 0.0,
+          "map_max_abs_error": 0.0,
+          "parity_pass": true
+        },
+        {
+          "backend": "openvino",
+          "requested_device": "CPU",
+          "status": "measured",
+          "execution_devices": [
+            "CPU"
+          ],
+          "inference_precision": "<Type: 'float32'>",
+          "load_compile_ms": 100.88601599272806,
+          "median_ms": 13.193009493988939,
+          "p95_ms": 13.334285544260638,
+          "samples_ms": [
+            13.185820993385278,
+            13.377170995227061,
+            13.281869993079454,
+            13.178419001633301,
+            13.151631006621756,
+            13.233717007096857,
+            13.222615991253406,
+            13.2001979945926,
+            13.151164996088482,
+            13.162303002900444
+          ],
+          "score": 59.947509765625,
+          "score_abs_error": 1.52587890625e-05,
+          "map_max_abs_error": 0.022863388061523438,
+          "parity_pass": true
+        }
+      ]
+    },
+    {
+      "artifact_id": "1e89b319c3f0f6bd60b0ca176d2527febc10d7d873ed8d5f36315adf599e487e",
+      "image_sha256": "94fae0ae1774c543f90cb6b70cbc9bdd8d23d1202e0b4c62db9bfefa72a17883",
+      "versions": {
+        "anomalib": "2.6.0",
+        "openvino": "2026.3.0",
+        "torch": "2.10.0+xpu",
+        "timm": "1.0.29",
+        "numpy": "2.2.6",
+        "Pillow": "12.3.0"
+      },
+      "evidence_kind": "engineering_smoke",
+      "iterations": 10,
+      "warmup": 3,
+      "parity_atol": 0.1,
+      "parity_rtol": 0.01,
+      "timing_scope": "batch 1 synchronous model call only; same preprocessed input",
+      "results": [
+        {
+          "backend": "torch",
+          "requested_device": "CPU",
+          "status": "measured",
+          "execution_devices": [
+            "CPU"
+          ],
+          "inference_precision": "float32",
+          "load_compile_ms": 3473.5598099941853,
+          "median_ms": 20.02181100397138,
+          "p95_ms": 27.610310796444534,
+          "samples_ms": [
+            28.664145997026935,
+            26.322289995732717,
+            20.095846004551277,
+            20.001703000161797,
+            19.9313089979114,
+            20.064821001142263,
+            20.02186501340475,
+            20.02175699453801,
+            19.95237400115002,
+            19.966688996646553
+          ],
+          "score": 59.94752502441406,
+          "score_abs_error": 0.0,
+          "map_max_abs_error": 0.0,
+          "parity_pass": true
+        },
+        {
+          "backend": "openvino",
+          "requested_device": "GPU",
+          "status": "measured",
+          "execution_devices": [
+            "GPU.0"
+          ],
+          "inference_precision": "<Type: 'float16'>",
+          "load_compile_ms": 786.1935300024925,
+          "median_ms": 1.7821099972934462,
+          "p95_ms": 1.9537556523573583,
+          "samples_ms": [
+            2.055240998743102,
+            1.8297180067747831,
+            1.7824009992182255,
+            1.7920450045494363,
+            1.790467998944223,
+            1.781818995368667,
+            1.7774939915398136,
+            1.7621589940972626,
+            1.7588109913049266,
+            1.7702470067888498
+          ],
+          "score": 59.9375,
+          "score_abs_error": 0.0100250244140625,
+          "map_max_abs_error": 1.0391960144042969,
+          "parity_pass": false
+        }
+      ]
+    },
+    {
+      "artifact_id": "1e89b319c3f0f6bd60b0ca176d2527febc10d7d873ed8d5f36315adf599e487e",
+      "image_sha256": "94fae0ae1774c543f90cb6b70cbc9bdd8d23d1202e0b4c62db9bfefa72a17883",
+      "versions": {
+        "anomalib": "2.6.0",
+        "openvino": "2026.3.0",
+        "torch": "2.10.0+xpu",
+        "timm": "1.0.29",
+        "numpy": "2.2.6",
+        "Pillow": "12.3.0"
+      },
+      "evidence_kind": "engineering_smoke",
+      "iterations": 10,
+      "warmup": 3,
+      "parity_atol": 0.1,
+      "parity_rtol": 0.01,
+      "timing_scope": "batch 1 synchronous model call only; same preprocessed input",
+      "results": [
+        {
+          "backend": "torch",
+          "requested_device": "CPU",
+          "status": "measured",
+          "execution_devices": [
+            "CPU"
+          ],
+          "inference_precision": "float32",
+          "load_compile_ms": 3457.297708009719,
+          "median_ms": 20.31536899448838,
+          "p95_ms": 28.684014399186708,
+          "samples_ms": [
+            28.9850589906564,
+            28.316071009612642,
+            20.305653000832535,
+            20.206125002005138,
+            21.444594996864907,
+            20.38799699221272,
+            20.325084988144226,
+            20.224922001943924,
+            20.177893005893566,
+            20.18740501080174
+          ],
+          "score": 59.94752502441406,
+          "score_abs_error": 0.0,
+          "map_max_abs_error": 0.0,
+          "parity_pass": true
+        },
+        {
+          "backend": "openvino",
+          "requested_device": "NPU",
+          "status": "measured",
+          "execution_devices": [
+            "NPU"
+          ],
+          "inference_precision": "<Type: 'float16'>",
+          "load_compile_ms": 1583.1145450065378,
+          "median_ms": 4.095614502148237,
+          "p95_ms": 4.337705695070326,
+          "samples_ms": [
+            4.137446987442672,
+            4.058471997268498,
+            4.104441002709791,
+            4.391882990603335,
+            4.271489000529982,
+            4.129976994590834,
+            4.03948500752449,
+            4.029150004498661,
+            4.0851399971870705,
+            4.086788001586683
+          ],
+          "score": 59.9375,
+          "score_abs_error": 0.0100250244140625,
+          "map_max_abs_error": 0.13898849487304688,
+          "parity_pass": true,
+          "report_correction": "Execution-device API returned string NPU; fixed list-of-characters serialization. Measurements unchanged."
+        }
+      ]
+    },
+    {
+      "artifact_id": "1e89b319c3f0f6bd60b0ca176d2527febc10d7d873ed8d5f36315adf599e487e",
+      "image_sha256": "94fae0ae1774c543f90cb6b70cbc9bdd8d23d1202e0b4c62db9bfefa72a17883",
+      "versions": {
+        "anomalib": "2.6.0",
+        "openvino": "2026.3.0",
+        "torch": "2.10.0+xpu",
+        "timm": "1.0.29",
+        "numpy": "2.2.6",
+        "Pillow": "12.3.0"
+      },
+      "evidence_kind": "engineering_smoke",
+      "iterations": 10,
+      "warmup": 3,
+      "parity_atol": 0.1,
+      "parity_rtol": 0.01,
+      "timing_scope": "batch 1 synchronous model call only; same preprocessed input",
+      "results": [
+        {
+          "backend": "torch",
+          "requested_device": "CPU",
+          "status": "measured",
+          "execution_devices": [
+            "CPU"
+          ],
+          "inference_precision": "float32",
+          "runtime_config": {
+            "torch_num_threads": 4
+          },
+          "load_compile_ms": 3459.7977600060403,
+          "median_ms": 20.698116000858136,
+          "p95_ms": 29.30193225329276,
+          "samples_ms": [
+            29.503413010388613,
+            29.055677994620055,
+            20.683473005192354,
+            20.970010999008082,
+            20.587745995726436,
+            20.41344900499098,
+            20.712758996523917,
+            20.568181003909558,
+            20.29753000533674,
+            20.778126010554843
+          ],
+          "score": 59.94752502441406,
+          "score_abs_error": 0.0,
+          "map_max_abs_error": 0.0,
+          "parity_pass": true
+        },
+        {
+          "backend": "openvino",
+          "requested_device": "GPU",
+          "status": "measured",
+          "execution_devices": [
+            "GPU.0"
+          ],
+          "inference_precision": "<Type: 'float32'>",
+          "runtime_config": {
+            "performance_hint": "LATENCY",
+            "requested_precision": "f32",
+            "NUM_STREAMS": "1"
+          },
+          "load_compile_ms": 1333.3631300047273,
+          "median_ms": 7.363704004092142,
+          "p95_ms": 7.4981947014748584,
+          "samples_ms": [
+            7.440626999596134,
+            7.308632993954234,
+            7.3201549967052415,
+            7.190616001025774,
+            7.29265199333895,
+            7.281279991730116,
+            7.524679007474333,
+            7.412909995764494,
+            7.465824994142167,
+            7.4072530114790425
+          ],
+          "score": 59.94742965698242,
+          "score_abs_error": 9.5367431640625e-05,
+          "map_max_abs_error": 0.02048969268798828,
+          "parity_pass": true
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Two unlabeled real scene references; no official task or accuracy claim.",
+    "Benchmark input is one training reference capture.",
+    "Three warmups and ten timed iterations per backend; model-only latency.",
+    "Torch used four CPU threads; OpenVINO used device default LATENCY compilation settings.",
+    "GPU default FP16 map parity failed; explicit GPU FP32 retry passed."
+  ]
+}

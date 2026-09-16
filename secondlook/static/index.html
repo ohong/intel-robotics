@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Second Look · Local inspection</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><div><p class="eyebrow">INTEL PHYSICAL AI · LOCAL INSPECTION</p><h1>Second Look</h1></div><div id="mode" class="pill">CONNECTING</div></header>
+<main>
+<div class="notice"><strong>Software controller disarmed.</strong> This application sends no robot commands. Motor torque may remain enabled; software disarm does not establish a physical safe state.</div>
+<section class="views">
+<article><div class="heading"><h2>Camera observation</h2><span id="camera-state">UNAVAILABLE</span></div><div class="frame"><img id="camera" alt="Latest live camera observation" hidden><p id="camera-empty">Waiting for a fresh camera frame</p></div><p class="meta" id="camera-meta">No observation</p></article>
+<article><div class="heading"><h2>Anomaly localization</h2><span id="detector-state">BLOCKED</span></div><div class="frame"><img id="detector" alt="Anomaly overlay on the detector's original observation" hidden><p id="detector-empty">No trained artifact connected</p></div><p class="meta" id="detector-meta">Raw anomaly scores are not probabilities.</p><p class="meta" id="model-validation">Model validation summary unavailable.</p></article>
+</section>
+<section class="facts">
+<article><h2>Task instruction</h2><p id="instruction">Exact Challenge-Day task has not been supplied.</p></article>
+<article><h2>Policy / action intent</h2><p id="policy">BLOCKED</p><p class="meta">Task policy inference has not run.</p></article>
+<article><h2>Evidence</h2><p id="evidence">No physical trials recorded.</p><p class="meta" id="timing"></p></article>
+</section>
+<footer><span id="connection" role="status" aria-live="polite">Connecting to local runtime…</span><span id="revision"></span></footer>
+</main><script src="/app.js"></script>
+</body></html>

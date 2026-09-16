@@ -1,0 +1,172 @@
+--- /dev/null
++++ b/src/features/cameras/hardware-presence.test.ts
+@@ -0,0 +1,106 @@
++import { CameraFingerprint, fingerprintKey } from './fingerprint';
++import { matchesCameraHardware } from './hardware-presence';
++
++const savedFingerprint: CameraFingerprint = {
++    index: 4,
++    serial: '344223022426',
++    bus: 'usb-0000:00:14.0-1.1',
++    sensor: '',
++};
++const discoveredFingerprint: CameraFingerprint = { ...savedFingerprint, index: 0 };
++const camera = (fingerprint: CameraFingerprint | null | undefined, driver = 'usb_camera') => ({ driver, fingerprint });
++
++describe('matchesCameraHardware', () => {
++    it('matches exact fingerprints regardless of property order', () => {
++        const reversed = Object.fromEntries(Object.entries(savedFingerprint).reverse());
++        expect(matchesCameraHardware(camera(savedFingerprint), camera(reversed))).toBe(true);
++    });
++
++    it('matches USB stream nodes on the same identified device without changing stream keys', () => {
++        const saved = Object.freeze({ ...savedFingerprint });
++        const discovered = Object.freeze({ ...discoveredFingerprint });
++        const savedKey = fingerprintKey(saved);
++        const discoveredKey = fingerprintKey(discovered);
++
++        expect(matchesCameraHardware(camera(saved), camera(discovered))).toBe(true);
++        expect(matchesCameraHardware(camera(discovered), camera(saved))).toBe(true);
++        expect(fingerprintKey(saved)).toBe(savedKey);
++        expect(fingerprintKey(discovered)).toBe(discoveredKey);
++        expect(savedKey).not.toBe(discoveredKey);
++        expect(saved.index).toBe(4);
++    });
++
++    it.each([
++        ['serial', 'another-device'],
++        ['bus', 'usb-0000:00:14.0-1.2'],
++        ['sensor', 'infrared'],
++    ])('rejects a different %s', (field, value) => {
++        expect(
++            matchesCameraHardware(camera(savedFingerprint), camera({ ...discoveredFingerprint, [field]: value }))
++        ).toBe(false);
++    });
++
++    it('rejects different drivers even with exact fingerprints', () => {
++        expect(matchesCameraHardware(camera(savedFingerprint), camera(savedFingerprint, 'realsense'))).toBe(false);
++    });
++
++    it('keeps exact matching for other drivers', () => {
++        expect(
++            matchesCameraHardware(
++                camera({ url: 'rtsp://camera' }, 'ip_camera'),
++                camera({ url: 'rtsp://camera' }, 'ip_camera')
++            )
++        ).toBe(true);
++        expect(
++            matchesCameraHardware(camera(savedFingerprint, 'realsense'), camera(discoveredFingerprint, 'realsense'))
++        ).toBe(false);
++    });
++
++    it.each([null, undefined])('rejects absent fingerprints: %s', (fingerprint) => {
++        expect(matchesCameraHardware(camera(fingerprint), camera(fingerprint))).toBe(false);
++        expect(matchesCameraHardware(camera(savedFingerprint), camera(fingerprint))).toBe(false);
++        expect(matchesCameraHardware(camera(fingerprint), camera(savedFingerprint))).toBe(false);
++    });
++
++    it.each(['serial', 'bus'])('requires a nonempty %s for USB aliases', (field) => {
++        for (const value of ['', '   ', undefined, null, 123]) {
++            expect(
++                matchesCameraHardware(
++                    camera({ ...savedFingerprint, [field]: value }),
++                    camera({ ...discoveredFingerprint, [field]: value })
++                )
++            ).toBe(false);
++        }
++        const saved = Object.fromEntries(Object.entries(savedFingerprint).filter(([key]) => key !== field));
++        const discovered = Object.fromEntries(Object.entries(discoveredFingerprint).filter(([key]) => key !== field));
++        expect(matchesCameraHardware(camera(saved), camera(discovered))).toBe(false);
++    });
++
++    it('rejects index-only aliases while preserving exact index-only matching', () => {
++        expect(matchesCameraHardware(camera({ index: 4 }), camera({ index: 0 }))).toBe(false);
++        expect(matchesCameraHardware(camera({ index: 4 }), camera({ index: 4 }))).toBe(true);
++    });
++
++    it('requires an explicit matching sensor for USB aliases', () => {
++        for (const sensor of [undefined, null, 123]) {
++            expect(
++                matchesCameraHardware(
++                    camera({ ...savedFingerprint, sensor }),
++                    camera({ ...discoveredFingerprint, sensor })
++                )
++            ).toBe(false);
++        }
++    });
++
++    it('rejects other changed or additional fields', () => {
++        expect(
++            matchesCameraHardware(
++                camera({ ...savedFingerprint, model: 'D435' }),
++                camera({ ...discoveredFingerprint, model: 'D455' })
++            )
++        ).toBe(false);
++        expect(
++            matchesCameraHardware(camera(savedFingerprint), camera({ ...discoveredFingerprint, model: 'D435' }))
++        ).toBe(false);
++    });
++});
+--- /dev/null
++++ b/src/features/cameras/hardware-presence.ts
+@@ -0,0 +1,36 @@
++import { CameraFingerprint, fingerprintKey } from './fingerprint';
++
++type CameraIdentity = {
++    driver: string;
++    fingerprint?: CameraFingerprint | null;
++};
++
++export const matchesCameraHardware = (camera: CameraIdentity, hardware: CameraIdentity): boolean => {
++    if (camera.driver !== hardware.driver) return false;
++
++    const saved = camera.fingerprint;
++    const discovered = hardware.fingerprint;
++    if (!saved || !discovered) return false;
++    if (fingerprintKey(saved) === fingerprintKey(discovered)) return true;
++    if (camera.driver !== 'usb_camera') return false;
++
++    if (
++        typeof saved.serial !== 'string' ||
++        saved.serial.trim().length === 0 ||
++        saved.serial !== discovered.serial ||
++        typeof saved.bus !== 'string' ||
++        saved.bus.trim().length === 0 ||
++        saved.bus !== discovered.bus ||
++        typeof saved.sensor !== 'string' ||
++        saved.sensor !== discovered.sensor
++    ) {
++        return false;
++    }
++
++    // A USB device can expose several stream nodes. Only presence may ignore the node index;
++    // stream selection still needs the saved fingerprint, including its original index.
++    const withoutIndex = (fingerprint: CameraFingerprint): CameraFingerprint =>
++        Object.fromEntries(Object.entries(fingerprint).filter(([key]) => key !== 'index'));
++
++    return fingerprintKey(withoutIndex(saved)) === fingerprintKey(withoutIndex(discovered));
++};
+--- a/src/routes/cameras/layout.tsx
++++ b/src/routes/cameras/layout.tsx
+@@ -27,7 +27,8 @@
+ import { $api } from '../../api/client';
+ import { getApiErrorMessage, isRecordingLockedError, isResourceInUseError } from '../../api/errors';
+ import { SchemaProjectCamera } from '../../api/types';
+-import { fingerprintKey, formatFingerprint } from '../../features/cameras/fingerprint';
++import { formatFingerprint } from '../../features/cameras/fingerprint';
++import { matchesCameraHardware } from '../../features/cameras/hardware-presence';
+ import { useProjectId } from '../../features/projects/use-project';
+ import { ConnectionStatus } from '../../features/robots/robots-list';
+ import { paths } from '../../router';
+@@ -242,10 +243,7 @@
+ 
+             <Flex direction='column' gap='size-100'>
+                 {projectCameras.map((camera) => {
+-                    const cameraFingerprint = fingerprintKey(camera.fingerprint);
+-                    const hardwareCamera = cameraFingerprint
+-                        ? hardwareCameras.find((hardware) => fingerprintKey(hardware.fingerprint) === cameraFingerprint)
+-                        : undefined;
++                    const hardwareCamera = hardwareCameras.find((hardware) => matchesCameraHardware(camera, hardware));
+                     const to = paths.project.cameras.show({ project_id, camera_id: camera.id ?? 'undefined' });
+ 
+                     return (

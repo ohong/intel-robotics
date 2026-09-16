@@ -1,0 +1,1 @@
+Sort LEGO blocks that have defects into one pile and non-defective LEGO blocks into a separate pile.

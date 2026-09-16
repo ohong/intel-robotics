@@ -1,41 +1,147 @@
-# Remote environment — observed facts and verification
+# Intel Robot PC remote environment
 
-**Agent-maintained.** Preserve newer verified content when merging this template. A user-reported success is not an agent-run test. Never store passwords, private keys, tokens, or credential-file contents here.
+Verified 2026-09-15 from the Mac agent execution environment.
+SSH development access works. Desktop connection itself is not tested.
 
-## Initial evidence
+## Connection values
 
-| Field | Value | Evidence |
+| Item | Value |
+|---|---|
+| Desktop display name | Intel Robot PC |
+| SSH alias | intel-robot |
+| Address / port | 10.36.254.246 / 22 |
+| Verified user | ird-demo |
+| Verified hostname | NUC16GDKX76 |
+| Remote project directory | /home/ird-demo/second-look |
+| Mac SSH executable | /usr/bin/ssh, OpenSSH 10.3p1 |
+| Mac private identity path | /Users/ohong/.ssh/id_ed25519_intel_robot |
+| Public-key fingerprint | SHA256:EBNqt/AS9mZw/N+XHkDkZaQDzAMogqee7BJFqhJF/uE |
+| Trusted ED25519 host fingerprint | SHA256:jaF8Nw6LEme5OsWYwIovxp8U9p0luNjNq+QO98lCkeY |
+
+## Changes
+
+- Preserved the OrbStack Include and added one concrete Host intel-robot block.
+- Config backup: `/Users/ohong/.ssh/config.backup-intel-robot-20260915-144137`.
+- Config uses the dedicated identity, IdentitiesOnly yes, ServerAliveInterval 30,
+  ServerAliveCountMax 3, ConnectTimeout 10, ForwardAgent no, AddKeysToAgent yes,
+  UseKeychain yes, and StrictHostKeyChecking yes.
+- Local Terminal bootstrap enrolled the dedicated public key. Its identity is loaded
+  in the Mac SSH agent. Private key and config have mode 600; remote .ssh is 700 and
+  authorized_keys is 600. No password or token is stored in this document.
+- Created `/home/ird-demo/second-look` as the fallback project folder.
+- Added `/home/ird-demo/.local/bin/codex` symlink to existing
+  `/usr/lib/chatgpt/resources/codex`. Existing .profile already includes ~/.local/bin.
+  No download, shell-profile edit, system-tool replacement, or Conda change was needed.
+
+## Codex readiness
+
+Remote user's actual login shell is `/bin/bash`.
+Verified through `"$SHELL" -lc` over a fresh SSH connection:
+
+- Command path: `/home/ird-demo/.local/bin/codex`.
+- Version: `codex-cli 0.154.0-alpha.6.2`.
+- Authentication status: `Logged in using ChatGPT`.
+
+The existing login was left untouched. Account ownership and a live model request
+were not verified. No Mac authentication was copied and no new login was created.
+
+[Official OpenAI documentation](https://learn.chatgpt.com/docs/remote-connections)
+requires a concrete SSH alias, a remote login-shell Codex executable, and remote
+Codex authentication. In the desktop app, open **Settings → Connections**, enable
+**intel-robot**, use **Intel Robot PC** as its display name, and select
+**/home/ird-demo/second-look**. The tools exposed no SSH-host configuration control;
+Computer Use cannot operate Codex. No remote saved project appeared in the final
+project listing, so desktop connection completion remains unverified.
+
+## Python environments
+
+| Environment | Interpreter | Result |
 |---|---|---|
-| Linux user | `ird-demo` | User terminal output. |
-| Linux hostname | `NUC16GDKX76` | User reports successful SSH from Mac returning this hostname. |
-| Last successful address/port | `10.36.254.246:22` | User-provided Wi-Fi/server output and follow-up. |
-| Password SSH | USER-REPORTED SUCCESS | Not newly tested by this pack. |
-| `intel-robot` alias / key auth | UNVERIFIED | Must test fresh from agent shell. |
-| Conda environment names | `hack_lerobot`, `hack_physical_ai` | Organizer setup sheet, not inspected paths. |
-| Calibration names | `hack_follower`, `hack_leader` | Organizer setup sheet, not motion verification. |
-| H100 connection | `~/gpu_connect.txt` on PC | Sheet; access untested. |
+| hack_lerobot | /home/ird-demo/miniforge3/envs/hack_lerobot/bin/python | Noninteractive invocation passed; Python 3.12.14 |
+| intel_dev_env | /home/ird-demo/miniforge3/envs/intel_dev_env/bin/python | Noninteractive invocation passed; Python 3.11.16 |
+| hack_physical_ai | Not found | Absent from Conda registry, miniforge envs, and bounded /home and /opt directory search |
 
-## Discover and record
+Do not assume intel_dev_env replaces hack_physical_ai. No environments were installed
+or changed. Hardware packages and robot-control code were not invoked.
 
-- Current agent host and OS; authoritative source root; remote deployment root; active/deployed revision.
-- Actual SSH alias configuration, local identity **path**, public-key fingerprint, and trusted server fingerprint provenance.
-- Remote Codex executable/version/login-shell PATH and authentication status, only as relevant.
-- Conda executable and per-component interpreter paths; package versions and source revisions.
-- Task material, calibration, camera/serial configuration, model/dataset manifests and observed device support.
-- Owned service process IDs, start/stop commands, working UI/API endpoints and loopback tunnels.
-- GPU work directory and verified transfer method; no credentials.
+## Tested commands and results
 
-## Verification ledger
+Fresh unattended key-only connection (no reused control socket):
 
-| Time | Check | Exact nonsecret command / evidence path | Result / limitation |
-|---|---|---|---|
-| Not run | Fresh agent public-key SSH | | UNVERIFIED |
-| Not run | File-transfer round trip | | UNVERIFIED |
-| Not run | Correct-interpreter import/smoke checks | | UNVERIFIED |
-| Not run | Actual model export/inference on Intel | | UNVERIFIED |
-| Not run | Live UI/API inspection | | UNVERIFIED |
-| Not run | Physical trial | | NOT AUTHORIZED OR TESTED BY THIS PACK |
+```sh
+ssh -o BatchMode=yes -o ControlPath=none \
+  -o PreferredAuthentications=publickey -o PasswordAuthentication=no \
+  -o KbdInteractiveAuthentication=no intel-robot 'whoami; hostname'
+```
 
-## Teardown notes
+Passed with exactly `ird-demo` and `NUC16GDKX76`.
+`ssh -G intel-robot` verified effective connection settings.
 
-Document removal of only the team's newly enrolled key and temporary personal Codex login after the event. Do not perform teardown now or remove the organizer's credentials/calibration.
+```sh
+ssh intel-robot
+ssh -o BatchMode=yes intel-robot '"$SHELL" -lc "command -v codex; codex --version; codex login status"'
+ssh -o BatchMode=yes intel-robot '/home/ird-demo/miniforge3/envs/hack_lerobot/bin/python -c "import sys; print(sys.executable); print(sys.version)"'
+```
+
+Both hosts have `/usr/bin/rsync`. A unique temporary file was uploaded into a unique
+`.ssh-check.*` directory under second-look, downloaded, and compared
+byte-for-byte. SHA256: `8afb625f6f7f21290f592f9e1b60147f032b94306e2f990456279a9b3202d4db`.
+All test files and temporary directories were removed. This proves project read/write
+access and a bidirectional transfer round trip, not automatic synchronization.
+
+Transfer command forms used (substitute explicit source/destination files):
+
+```sh
+rsync -a -e 'ssh -o BatchMode=yes -o ControlPath=none' LOCAL_FILE intel-robot:/home/ird-demo/second-look/REMOTE_FILE
+rsync -a -e 'ssh -o BatchMode=yes -o ControlPath=none' intel-robot:/home/ird-demo/second-look/REMOTE_FILE LOCAL_FILE
+```
+
+`ss -ltnp` showed SSH, DNS and local printing listeners only. No project web UI was
+running. No tunnel was needed or tested, and no service or robot process was started.
+
+## DHCP address changes
+
+1. Confirm the new address on the PC.
+2. Back up SSH config and change only this alias's HostName.
+3. Preserve known_hosts records. Verify the new address's host fingerprint against
+   the trusted value above before adding trust. Investigate any mismatch.
+4. Run `ssh -G intel-robot` and repeat the fresh key-only identity check.
+
+Never bypass host checks or reuse the stale address from earlier attempts.
+
+## Event teardown — documented only
+
+1. Read the Mac dedicated .pub file and verify the fingerprint above.
+2. Back up the remote authorized_keys file with mode 600.
+3. Remove only entries matching that public key's type and base64 value, preserving
+   every other entry and any options/comments. Check the result before replacing
+   authorized_keys; keep its mode 600.
+4. This setup created no Codex authentication. Do not log out the pre-existing
+   account. If a later task creates temporary personal authentication, record its
+   account and CODEX_HOME, then use `codex logout` only for that specific login.
+5. Remove only the symlink `/home/ird-demo/.local/bin/codex` if still pointing to
+   `/usr/lib/chatgpt/resources/codex` and no longer needed.
+6. Remove the dedicated agent identity with `ssh-add -d ~/.ssh/id_ed25519_intel_robot`.
+   Remove only its corresponding Keychain item if saved, then the dedicated key pair
+   and Host intel-robot block if no longer needed. Preserve unrelated SSH entries.
+
+Keep project files unless separately authorized to delete them. No robot movement,
+calibration, firmware, drivers, SSH service, firewall, sudoers, GPU, or Runpod
+credentials were changed. The Mac repository was not migrated or synchronized.
+
+## Local development snapshot — 2026-09-15
+
+Authoritative source: `/Users/ohong/dev/intel-robotics` (Mac). Remote deployment root:
+`/home/ird-demo/second-look`. Current collection used direct unattended SSH, not a
+desktop remote task. See [snapshot index](../pc-context/README.md),
+[runtime inventory](../pc-context/inventory/runtime.json), and
+[Studio configuration](../pc-context/inventory/studio-data.json).
+
+Studio Python: `/home/ird-demo/physical-ai-studio/application/backend/.venv/bin/python`
+(Python 3.13). Its LeRobot 0.6.0 differs from hack_lerobot 0.6.1 and intel_dev_env 0.4.4.
+The separate PhysicalAI runtime is `0.1.2.dev70+g8e4021703`, commit
+`8e4021703ef43387a835c6647b993cecc069ca85`. See exact versions in inventory.
+
+Saved Studio robot configuration assigns follower `/dev/ttyACM1` and leader
+`/dev/ttyACM0`; physical mapping and calibration validity remain untested.
+No robot training or motion occurred during source collection.

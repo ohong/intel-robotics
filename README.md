@@ -1,14 +1,24 @@
 # Second Look — Intel Physical AI Challenge
 
-**Start here.** This is a repo-ready context and kickoff pack, not an implemented robot application. It consolidates the project conversation through September 15, 2026. No hardware tests were performed in producing these files.
+**Deployed inspection pilot:** [Second Look](http://127.0.0.1:8088) uses Studio's low camera 1, a LEGO PatchCore detector fitted on H100, and OpenVINO GPU FP32 on the Intel PC. Second Look attaches to Studio shared frames. At 17:59:59 PDT, the camera was LIVE but the detector was INVALID; no inference ran. The last real overlay inspection was 17:43 PDT.
 
-The goal is one autonomous Codex build effort that produces a working SO-101 inspection-and-response system, optimized on the supplied Intel PC. Codex owns digital engineering; the operator supplies physical actions and otherwise inaccessible observations or access approvals.
+Source `2aa5149c57507428b28341312c1c9fd3aaaeecf2` produced release `a9ed13af508b6165`. All 121 Intel tests passed with no skips. The active source worktree is `/Users/ohong/dev/intel-robotics-integration`; the original checkout and its artifacts remain preserved.
 
-## Start the build
+**Quality and completion:** validation contains 14 repeated views from three specimens in one session. The deployed decision rule misses one defective view and returns UNKNOWN for four views. There is no unseen final test. The live policy remains BLOCKED, the controller remains DISARMED, and physical trials remain zero. This is an inspection pilot; the autonomous challenge remains incomplete.
 
-Merge this pack's contents into the actual project root without overwriting existing application code, verified runtime records, or unrelated instructions. Use the kickoff in [prompts/KICKOFF.md](prompts/KICKOFF.md). Choose GPT-6 Astra and the highest available reasoning setting in your Codex session.
+See [build evidence](docs/BUILD_EVIDENCE.md), [exact pilot launch](docs/RUNBOOK.md), [demonstration](docs/DEMO.md), and [execution state](AGENT_STATE.md). The [H100 record](docs/H100_READINESS.md) includes fit and conversion receipts. Earlier smoke-model performance numbers apply only to their recorded models.
 
-Prefer a **local Mac project with SSH execution on the Intel PC** for the user's requested Mac-owned source workflow. A Codex remote project instead runs its shell and uses files on the remote host. Detect and record the actual topology; do not create two competing source trees. See [FIRST_RUN_AGENT_GUIDE.md](FIRST_RUN_AGENT_GUIDE.md).
+Five closed episodes pass structural/video and native ACT loader checks. Detector-conditioned sorting training is **BLOCKED**: all 635 predictions are ANOMALOUS, and none is linked to the picked object. H100 is limited to an original-caption SmolVLA software/export probe, tagged `REAL_DATA_PIPELINE_PROBE_NOT_DEPLOYABLE`. No task-ready policy or autonomous result is claimed.
+
+The detector checkpoint archive is complete and verified. See [RUNBOOK.md](docs/RUNBOOK.md) for its receipt; the five episodes and VLA weights are excluded.
+
+## Continue the build
+
+Resume from [AGENT_STATE.md](AGENT_STATE.md) and [prompts/KICKOFF.md](prompts/KICKOFF.md). The original six-hour start and cutoff are unknown; the clock has not restarted. Public judging is September 16.
+
+The Demonstrations task owns robot control and the pending physical request. Following the camera 3 disconnection and stop request, it verified recording already STOPPED at 17:56:16 PDT, with no serial owners. Physical pose and torque remain unknown. Second Look sends no robot commands. Do not reconnect, move objects, or start a robot session before the approved safe pause and bounded authorization.
+
+Codex owns the remaining digital work. The operator supplies physical setup, authoritative defect criteria, unseen specimens, demonstrations, and supervision. See the prepared session in [DEMO.md](docs/DEMO.md).
 
 ## Canonical files
 
@@ -30,7 +40,7 @@ Prefer a **local Mac project with SSH execution on the Intel PC** for the user's
 
 Do not load earlier `CODEX_GOD_PROMPT.md`, `CODEX_REMOTE_SETUP_PROMPT.md`, `MAC_REMOTE_WORKFLOW.md`, older `KICKOFF.md`, and old six-hour runbooks alongside this pack. These versions consolidate them. Preserve history outside active instruction discovery; archive old prompts rather than deleting user work. If this pack lands in an established repo, retain newer observed facts and merge its guidance rather than replacing facts with templates.
 
-The old general first-run guide treated SSH as unknown. The user has since successfully connected to `ird-demo@10.36.254.246:22` and observed `NUC16GDKX76`, using password authentication. Key-based access and remote Codex readiness remain unverified until tested. No account password is included here.
+Fresh public-key SSH to `intel-robot` (`ird-demo@10.36.254.246:22`, `NUC16GDKX76`) passed during this build. See the access record for the verified configuration. No account password is included here.
 
 ## What the agent creates during implementation
 
