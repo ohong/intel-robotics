@@ -12,6 +12,8 @@ Five closed episodes pass structural/video and native ACT loader checks. Detecto
 
 The detector checkpoint archive is complete and verified. See [RUNBOOK.md](docs/RUNBOOK.md) for its receipt; the five episodes and VLA weights are excluded.
 
+Recordings, detector annotations, and QC evidence are published separately at [huggingface.co/datasets/ohong/intel-robotics-dataset](https://huggingface.co/datasets/ohong/intel-robotics-dataset) (public). Pull with `hf download ohong/intel-robotics-dataset --repo-type dataset --local-dir artifacts/`.
+
 ## Continue the build
 
 Resume from [AGENT_STATE.md](AGENT_STATE.md) and [prompts/KICKOFF.md](prompts/KICKOFF.md). The original six-hour start and cutoff are unknown; the clock has not restarted. Public judging is September 16.
