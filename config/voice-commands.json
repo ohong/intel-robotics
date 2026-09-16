@@ -1,0 +1,10 @@
+[
+  {
+    "instruction": "Sort LEGO blocks that have defects into one pile and non-defective LEGO blocks into a separate pile.",
+    "phrases": ["sort the blocks by defects", "sort this block into the right bin", "sort the block into the right pile", "sort the lego blocks"]
+  },
+  {
+    "instruction": "Pick up a block and move it to the inspection area.",
+    "phrases": ["pick up a block and move it to the inspection area", "move the block to the inspection area", "put a block in the inspection area"]
+  }
+]
