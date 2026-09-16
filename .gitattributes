@@ -1,5 +1,0 @@
-artifacts/deliverables/second-look-pilot-a9ed13af508b6165.tar.gz filter=lfs diff=lfs merge=lfs -text
-artifacts/deliverables/second-look-inspection-59ed3e663ea96b02.tar.gz filter=lfs diff=lfs merge=lfs -text
-artifacts/models/h100-patchcore-v3/model.pt filter=lfs diff=lfs merge=lfs -text
-artifacts/models/h100-patchcore-v3/model.bin filter=lfs diff=lfs merge=lfs -text
-pc-context/local/models/wide_resnet50_2.racm_in1k/model.safetensors filter=lfs diff=lfs merge=lfs -text

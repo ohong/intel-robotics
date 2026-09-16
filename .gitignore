@@ -1,3 +1,18 @@
-# Live capture process outputs; committed snapshots preserve audit evidence.
-/artifacts/cv/capture-mirror.log
-/artifacts/cv/lego-capture-20260915/sync-status.json
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS
+.DS_Store
+
+# Run outputs, captures, model weights, recorded datasets.
+# These are large and regenerated/curated separately (published to Hugging Face).
+/artifacts/
+/pc-context/
+
+# Scaffold download, not source
+/Physical AI Repo Starter.zip
+
+# Claude Code worktrees
+.claude/worktrees/
