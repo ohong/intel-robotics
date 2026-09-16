@@ -19,11 +19,42 @@ node_modules/
 
 # Run outputs, captures, model weights, recorded datasets.
 # These are large and regenerated/curated separately (published to Hugging Face).
+# Keep them out of Git so pull/push does not upload checkpoints or recordings.
 /artifacts/
 /pc-context/
 /data/
 /models/
+/captures/
+/weights/
+/checkpoints/
+/datasets/
+/recording-snapshots/
+/outputs/
+/runs/
+/wandb/
+/lightning_logs/
+/.cache/
 *.log
+
+# Weight, video, dataset, and archive files even if they land outside those dirs.
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+*.bin
+*.engine
+*.npz
+*.npy
+*.parquet
+*.arrow
+*.mp4
+*.mov
+*.webm
+*.tar
+*.tar.gz
+*.tgz
+*.zip
 
 # Scaffold download, not source
 /Physical AI Repo Starter.zip
