@@ -13,6 +13,7 @@ import threading
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from secondlook.runtime import CameraSource, InspectionRuntime
+from secondlook.voice import FalClient, load_commands
 from secondlook.web import make_server
 
 
@@ -37,6 +38,7 @@ def main() -> None:
     parser.add_argument("--policy-blocker", default=(
         "No task-ready VLA/Physical AI Studio policy connected; base checkpoint lacks "
         "compatible state normalization and verified robot action conventions"))
+    parser.add_argument("--voice-commands", type=Path, default=Path("config/voice-commands.json"))
     parser.add_argument("--revision", default="unknown")
     parser.add_argument("--evidence", type=Path, default=Path("artifacts/runtime/observations.jsonl"))
     parser.add_argument("--lock-file", type=Path, default=Path("/tmp/secondlook-runtime.lock"))
@@ -72,6 +74,7 @@ def main() -> None:
         revision=args.revision, detection_max_age=args.detection_max_age,
         policy_blocker=args.policy_blocker,
         inference_interval=args.inference_interval,
+        voice=FalClient.from_env(), voice_commands=load_commands(args.voice_commands),
     )
     server = make_server(runtime, port=args.port)
 

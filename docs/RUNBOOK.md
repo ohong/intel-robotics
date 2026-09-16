@@ -101,3 +101,13 @@ Do not open a Studio robot environment while restoring a camera feed. Robot conn
 The older `second-look-inspection-59ed3e663ea96b02.tar.gz` reproduces the previous smoke baseline. It does not reproduce this LEGO pilot. `pull` copies allowed runtime evidence without overwriting existing local files. Raw data and model artifacts require their recorded explicit transfer paths.
 
 No launch, parser check, test suite, conversion comparison, or software guard proves autonomous success. Remaining physical prerequisites and the prepared session are in [DEMO.md](DEMO.md).
+
+## Voice
+
+Voice sets the task instruction only. It does not arm, move, or stop the robot; use the approved stop procedure.
+
+- Intel PC: put `FAL_KEY=<key>` in `/home/ird-demo/.config/secondlook/fal.env`, run `chmod 600` on it, then relaunch with `scripts/remote.py`. The service loads it through `EnvironmentFile`.
+- Mac: `export FAL_KEY=<key>` before `uv run scripts/run_app.py`.
+- Without a key the app runs and reports voice `UNAVAILABLE`.
+- Allowed spoken tasks live in `config/voice-commands.json`. Unmatched speech leaves the instruction unchanged.
+- Models: `SECONDLOOK_STT_MODEL` (default `fal-ai/wizper`), `SECONDLOOK_TTS_MODEL` (default `fal-ai/kokoro/american-english`), `SECONDLOOK_TTS_VOICE` (default `am_michael`).
