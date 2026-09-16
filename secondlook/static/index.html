@@ -17,6 +17,14 @@
 <article><h2>Policy / action intent</h2><p id="policy">BLOCKED</p><p class="meta">Task policy inference has not run.</p></article>
 <article><h2>Evidence</h2><p id="evidence">No physical trials recorded.</p><p class="meta" id="timing"></p></article>
 </section>
+<section class="voice"><article>
+<div class="heading"><h2>Voice</h2><span id="voice-state">UNAVAILABLE</span></div>
+<div class="voice-controls"><button id="talk" type="button" disabled>Hold to talk</button>
+<label><input id="speak-toggle" type="checkbox"> Speak narration</label></div>
+<p id="voice-result" role="status" aria-live="polite">Hold the button (or Space) and say a task.</p>
+<p class="meta">Voice only sets the task instruction. It is not a stop control and does not arm or move the robot.</p>
+<ol id="narration" aria-label="Narration log"></ol>
+</article></section>
 <footer><span id="connection" role="status" aria-live="polite">Connecting to local runtime…</span><span id="revision"></span></footer>
 </main><script src="/app.js"></script>
 </body></html>

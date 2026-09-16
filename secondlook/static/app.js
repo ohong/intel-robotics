@@ -54,6 +54,7 @@ async function update() {
     if(s.evidence.error) el('evidence').textContent += ` Write error: ${s.evidence.error}`;
     el('timing').textContent = `Model stage: ${numeric(s.detector.model_latency_ms)} ms · preprocessing + model: ${numeric(s.detector.latency_ms)} ms · observation to result: ${numeric(s.detector.observation_to_result_ms)} ms · result age: ${numeric(s.detector.age_ms)} ms`;
     el('revision').textContent = `Revision ${s.revision}`;
+    renderVoice(s);
     await Promise.all([
       s.camera.status === 'LIVE' ? refreshImage('camera', '/api/frame/latest.jpg').catch(() => clearImage('camera', 'No fresh camera frame'))
         : clearImage('camera', s.camera.error || 'No fresh camera frame'),
@@ -77,3 +78,86 @@ async function update() {
   setTimeout(update, 500);
 }
 update();
+
+// Voice: speech sets an allowlisted task instruction; narration is read aloud one line at a time.
+const voice = {recorder: null, chunks: [], lastSeq: null, queue: [], playing: false, audio: new Audio()};
+function renderVoice(s) {
+  const ready = s.voice?.status === 'READY';
+  el('voice-state').textContent = s.voice?.status || 'UNAVAILABLE';
+  el('talk').disabled = !ready;
+  if (!ready) el('voice-result').textContent = s.voice?.reason || 'Voice unavailable.';
+  const lines = s.narration || [];
+  const newest = lines.length ? lines[lines.length - 1].seq : 0;
+  if (voice.lastSeq === null) voice.lastSeq = newest;  // Do not replay the backlog on page load.
+  el('narration').replaceChildren(...lines.slice(-12).reverse().map(line => {
+    const item = document.createElement('li');
+    item.textContent = `${new Date(line.at_utc).toLocaleTimeString()} · ${line.text}`;
+    return item;
+  }));
+  for (const line of lines) {
+    if (line.seq > voice.lastSeq && el('speak-toggle').checked && ready) voice.queue.push(line.text);
+  }
+  voice.lastSeq = Math.max(voice.lastSeq, newest);
+  playNext();
+}
+async function playNext() {
+  if (voice.playing || !voice.queue.length) return;
+  voice.playing = true;
+  const text = voice.queue.shift();
+  try {
+    const response = await fetch('/api/voice/speak', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text})});
+    if (!response.ok) throw new Error((await response.json()).error);
+    const url = URL.createObjectURL(await response.blob());
+    voice.audio.src = url;
+    await voice.audio.play();
+    await new Promise(resolve => { voice.audio.onended = voice.audio.onerror = resolve; });
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    el('voice-result').textContent = `Narration audio failed: ${error.message}`;
+  }
+  voice.playing = false;
+  playNext();
+}
+async function startTalking() {
+  if (el('talk').disabled || voice.recorder) return;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    const mimeType = ['audio/webm', 'audio/mp4'].find(type => MediaRecorder.isTypeSupported(type));
+    voice.recorder = new MediaRecorder(stream, mimeType ? {mimeType} : undefined);
+    voice.chunks = [];
+    voice.recorder.ondataavailable = event => voice.chunks.push(event.data);
+    voice.recorder.onstop = () => { stream.getTracks().forEach(track => track.stop()); sendCommand(); };
+    voice.recorder.start();
+    el('talk').classList.add('recording');
+    el('talk').textContent = 'Listening… release to send';
+  } catch (error) {
+    voice.recorder = null;
+    el('voice-result').textContent = `Microphone unavailable: ${error.message}`;
+  }
+}
+function stopTalking() {
+  if (!voice.recorder) return;
+  voice.recorder.stop();
+  el('talk').classList.remove('recording');
+  el('talk').textContent = 'Hold to talk';
+}
+async function sendCommand() {
+  const type = voice.recorder.mimeType.split(';')[0] || 'audio/webm';
+  voice.recorder = null;
+  const blob = new Blob(voice.chunks, {type});
+  el('voice-result').textContent = 'Transcribing…';
+  try {
+    const response = await fetch('/api/voice/command', {method: 'POST', headers: {'Content-Type': type}, body: blob});
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error);
+    el('voice-result').textContent = result.matched
+      ? `Heard “${result.transcript}” → task set (match ${result.match_score}).`
+      : `Heard “${result.transcript}” → not a known task; instruction unchanged.`;
+  } catch (error) {
+    el('voice-result').textContent = `Voice command failed: ${error.message}`;
+  }
+}
+el('talk').addEventListener('pointerdown', startTalking);
+['pointerup', 'pointerleave', 'pointercancel'].forEach(name => el('talk').addEventListener(name, stopTalking));
+document.addEventListener('keydown', event => { if (event.code === 'Space' && !event.repeat && event.target === document.body) { event.preventDefault(); startTalking(); } });
+document.addEventListener('keyup', event => { if (event.code === 'Space') stopTalking(); });
