@@ -1,15 +1,29 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
 .venv/
+.pytest_cache/
+
+# Node
+node_modules/
 
 # OS
 .DS_Store
+
+# Credentials — never commit, regardless of repository visibility.
+.env
+.env.*
+!.env.example
 
 # Run outputs, captures, model weights, recorded datasets.
 # These are large and regenerated/curated separately (published to Hugging Face).
 /artifacts/
 /pc-context/
+/data/
+/models/
+*.log
 
 # Scaffold download, not source
 /Physical AI Repo Starter.zip
