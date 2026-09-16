@@ -1,0 +1,3 @@
+# Live capture process outputs; committed snapshots preserve audit evidence.
+/artifacts/cv/capture-mirror.log
+/artifacts/cv/lego-capture-20260915/sync-status.json
