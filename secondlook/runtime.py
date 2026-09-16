@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .cv_observation import observe_frame
+from .voice import Narrator, VoiceError, match_command
 
 
 def utc_now() -> str:
@@ -248,7 +249,9 @@ class InspectionRuntime:
                  revision: str = "unknown", detection_max_age: float = 3.0,
                  detector_error: str | None = None,
                  policy_blocker: str = "No task-ready VLA/Physical AI Studio policy connected",
-                 evidence_kind: str = "real", inference_interval: float = 0.5):
+                 evidence_kind: str = "real", inference_interval: float = 0.5,
+                 voice: Any = None, voice_commands: list[dict] | None = None,
+                 narrator: Narrator | None = None):
         if not math.isfinite(detection_max_age) or detection_max_age <= 0:
             raise ValueError("Detection freshness bound must be positive and finite")
         self.camera, self.detector = camera, detector
@@ -276,6 +279,49 @@ class InspectionRuntime:
             (None if detector else "No trained anomaly artifact configured"))
         self._evidence_error: str | None = None
         self.started_at = utc_now()
+        self.voice, self.voice_commands = voice, voice_commands or []
+        self._narrator = narrator or Narrator()
+        self._narration: deque[dict] = deque(maxlen=50)
+        self._narration_seq = 0
+        self._voice_lock = threading.Lock()
+
+    def voice_command(self, audio: bytes, mime: str) -> dict:
+        """Transcribe speech and set the matching allowlisted instruction. Never moves the robot."""
+        if self.voice is None:
+            raise VoiceError("Voice unavailable: FAL_KEY is not configured")
+        transcript = self.voice.transcribe(audio, mime)
+        match = match_command(transcript, self.voice_commands)
+        if match:
+            self.task_instruction = match["instruction"]
+        else:
+            self._add_narration([f"I heard: {transcript}. That is not a known task, so nothing changed."])
+        record = {
+            "event": "voice_command", "evidence_kind": self.evidence_kind,
+            "observation_id": str(uuid.uuid4()),
+            "provenance": {"revision": self.revision, "stt_model": self.voice.stt_model},
+            "transcript": transcript, "matched": match, "task_instruction": self.task_instruction or None,
+            "controller_result": "DISARMED",
+            "outcome": "INSTRUCTION_SET" if match else "REJECTED_UNKNOWN_TASK",
+        }
+        try:
+            self.evidence.append(record)
+        except Exception as error:
+            self._evidence_error = str(error)
+        return {"transcript": transcript, "matched": match is not None,
+                "match_score": match["score"] if match else None,
+                "task_instruction": self.task_instruction or None}
+
+    def speak(self, text: str) -> tuple[bytes, str]:
+        if self.voice is None:
+            raise VoiceError("Voice unavailable: FAL_KEY is not configured")
+        return self.voice.speak(text)
+
+    def _add_narration(self, lines: list[str]) -> list[dict]:
+        with self._voice_lock:
+            for text in lines:
+                self._narration_seq += 1
+                self._narration.append({"seq": self._narration_seq, "text": text, "at_utc": utc_now()})
+            return list(self._narration)
 
     def start(self) -> None:
         self.camera.start()
@@ -392,7 +438,7 @@ class InspectionRuntime:
             result["observation_available"] = camera["status"] == "LIVE"
         else:
             result = {"status": "BLOCKED", "reason": error}
-        return {
+        status = {
             "application": "Second Look", "mode": "LIVE" if self.evidence_kind == "real" else self.evidence_kind.upper(), "started_at_utc": self.started_at,
             "revision": self.revision, "camera": camera, "detector": result,
             "model_validation": model_validation_summary(getattr(self.detector, "metadata", None)),
@@ -407,6 +453,14 @@ class InspectionRuntime:
                          "error": self._evidence_error, "physical_trials": 0,
                          "physical_outcome": "NOT TESTED"},
         }
+        with self._voice_lock:
+            lines = self._narrator.update(status)
+        status["narration"] = self._add_narration(lines)
+        status["voice"] = ({"status": "READY", "stt_model": self.voice.stt_model,
+                            "tts_model": self.voice.tts_model, "commands": len(self.voice_commands),
+                            "scope": "Sets the task instruction only; not a stop or motion control"}
+                           if self.voice else {"status": "UNAVAILABLE", "reason": "FAL_KEY is not configured"})
+        return status
 
     def frame_jpeg(self) -> tuple[bytes, str] | None:
         import cv2

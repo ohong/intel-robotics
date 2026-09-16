@@ -1,4 +1,8 @@
-"""Read-only operator HTTP interface. There are deliberately no motion routes."""
+"""Operator HTTP interface. There are deliberately no motion routes.
+
+The only POST routes are voice: speech sets an allowlisted task instruction,
+and narration text becomes audio. Neither arms or moves the robot.
+"""
 from __future__ import annotations
 
 import json
@@ -7,6 +11,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from .runtime import InspectionRuntime
+from .voice import AUDIO_TYPES, MAX_AUDIO_BYTES, MAX_SPEECH_CHARS, VoiceError
 
 
 def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
@@ -57,5 +62,38 @@ def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
                 self.send(200, (static / name).read_bytes(), mime)
             else:
                 self.send(404, b'{"error":"Not found"}', "application/json")
+
+        def json_error(self, code: int, message: str):
+            self.send(code, json.dumps({"error": message}).encode(), "application/json")
+
+        def do_POST(self):
+            path = urlparse(self.path).path
+            if path not in ("/api/voice/command", "/api/voice/speak"):
+                return self.json_error(404, "Not found")
+            try:
+                length = int(self.headers.get("Content-Length", ""))
+            except ValueError:
+                return self.json_error(411, "Content-Length required")
+            limit = MAX_AUDIO_BYTES if path == "/api/voice/command" else 4096
+            if not 0 < length <= limit:
+                return self.json_error(413, "Request body empty or too large")
+            body = self.rfile.read(length)
+            mime = self.headers.get("Content-Type", "").split(";")[0].strip().lower()
+            try:
+                if path == "/api/voice/command":
+                    if mime not in AUDIO_TYPES:
+                        return self.json_error(415, "Unsupported audio type")
+                    result = runtime.voice_command(body, mime)
+                    return self.send(200, json.dumps(result).encode(), "application/json")
+                try:
+                    text = json.loads(body).get("text")
+                except (ValueError, AttributeError):
+                    text = None
+                if not isinstance(text, str) or not text.strip() or len(text) > MAX_SPEECH_CHARS:
+                    return self.json_error(400, "text must be 1-500 characters")
+                audio, audio_mime = runtime.speak(text)
+                self.send(200, audio, audio_mime)
+            except VoiceError as error:
+                self.json_error(502 if runtime.voice else 503, str(error))
 
     return ThreadingHTTPServer((host, port), Handler)
