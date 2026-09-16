@@ -1,0 +1,6 @@
+{
+  "armed": false,
+  "scope": "Second Look software command path only; not physical torque state",
+  "reason": "Deployed app has no robot command backend",
+  "recorded_at_utc": "2026-09-15T22:38:43.080517+00:00"
+}
