@@ -1,4 +1,6 @@
-// Mission control shell: polls /api/status and renders the top bar. Read-only.
+// Mission control: top bar from /api/status, twin driven by LIVE or REPLAY joints. Read-only.
+import { createTwin } from './twin.js';
+import { startReplay } from './replay.js';
 const el = id => document.getElementById(id);
 let startedAt = null;
 
@@ -46,3 +48,20 @@ async function poll() {
 poll();
 setInterval(poll, 1000);
 setInterval(tickClock, 250);
+
+(async () => {
+  let twin;
+  try {
+    twin = await createTwin(document.getElementById('twin'));
+  } catch (error) {
+    document.getElementById('twin').innerHTML = '<p class="empty"></p>';
+    document.querySelector('#twin .empty').textContent = `Digital twin unavailable: ${error.message}`;
+    return;
+  }
+  try {
+    const replay = await startReplay(twin);
+    if (!replay) document.getElementById('act-caption').textContent = 'No live arm feed and no replay dataset configured';
+  } catch (error) {
+    document.getElementById('act-caption').textContent = `Replay unavailable: ${error.message}`;
+  }
+})();

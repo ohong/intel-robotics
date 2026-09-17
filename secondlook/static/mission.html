@@ -32,8 +32,20 @@
     <div class="panel-body empty">Perception panel arrives in the next build step.</div>
   </section>
   <section class="panel act" aria-labelledby="act-title">
-    <div class="panel-head"><h2 id="act-title">ACT</h2><span class="badge" id="act-badge">NO FEED</span></div>
-    <div class="panel-body" id="twin"><p class="empty">Digital twin loading…</p></div>
+    <div class="panel-head"><h2 id="act-title">ACT</h2><span class="act-caption" id="act-caption">No arm feed</span><span class="badge" id="act-badge">NO FEED</span></div>
+    <div class="panel-body act-body">
+      <div id="twin"><p class="empty">Digital twin loading…</p></div>
+      <div class="cams" id="cams" hidden></div>
+      <div class="joints" id="joints" hidden aria-label="Joint positions"></div>
+      <div class="legend" id="legend" hidden><span class="solid">measured state</span><span class="ghosted">recorded action target</span></div>
+      <div class="transport" id="transport" hidden>
+        <button type="button" id="play" aria-label="Play">▶</button>
+        <select id="episode" aria-label="Recorded episode"></select>
+        <input type="range" id="scrub" min="0" max="0" value="0" aria-label="Replay position">
+        <span id="replay-time">0.0 / 0.0 s</span>
+        <select id="speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+      </div>
+    </div>
   </section>
   <section class="panel think" aria-labelledby="think-title">
     <div class="panel-head"><h2 id="think-title">THINK</h2><span class="badge" id="think-badge">LIVE</span></div>
