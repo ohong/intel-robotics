@@ -7,12 +7,14 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from .replay import ReplayDataset
 from .runtime import InspectionRuntime
+from .studio_robot import StudioRobotSource
 from .voice import AUDIO_TYPES, MAX_AUDIO_BYTES, MAX_SPEECH_CHARS, VoiceError
 
 
@@ -40,7 +42,8 @@ def byte_range(header: str | None, size: int) -> tuple[int, int] | None:
 
 
 def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
-                port: int = 8088, replay: ReplayDataset | None = None) -> ThreadingHTTPServer:
+                port: int = 8088, replay: ReplayDataset | None = None,
+                robot: StudioRobotSource | None = None) -> ThreadingHTTPServer:
     if host not in ("127.0.0.1", "localhost", "::1"):
         raise ValueError("Operator app must bind to loopback; use an SSH tunnel")
     static = Path(__file__).parent / "static"
@@ -89,6 +92,12 @@ def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
                 self.send(200, json.dumps({"records": records}, allow_nan=False).encode(), "application/json")
             elif path.startswith("/api/replay/"):
                 self.replay_get(path)
+            elif path in ("/api/robot/latest", "/api/robot/stream"):
+                if robot is None:
+                    return self.json_error(404, "No Studio robot session configured")
+                if path == "/api/robot/latest":
+                    return self.send(200, json.dumps(robot.latest(), allow_nan=False).encode(), "application/json")
+                self.robot_stream()
             elif path == "/mission":
                 self.send(200, (static / "mission.html").read_bytes(), STATIC_TYPES[".html"])
             elif path.startswith("/static/"):
@@ -125,6 +134,29 @@ def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
             except KeyError:
                 pass
             self.json_error(404, "Not found")
+
+        def robot_stream(self):
+            # Server-sent events: each packet at most 30 Hz, and a status event at least once a second
+            # so the page can mark the pose stale when telemetry stops.
+            self.send_response(200)
+            self.send_header("Content-Type", "text/event-stream")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.end_headers()
+            last_sequence, last_sent = None, 0.
+            try:
+                while True:
+                    with robot.changed:
+                        robot.changed.wait(1.)
+                    time.sleep(max(0., 1 / 30 - (time.monotonic() - last_sent)))
+                    state = robot.latest()
+                    if state.get("sequence") == last_sequence and time.monotonic() - last_sent < 1:
+                        continue
+                    last_sequence, last_sent = state.get("sequence"), time.monotonic()
+                    self.wfile.write(f"data: {json.dumps(state, allow_nan=False)}\n\n".encode())
+                    self.wfile.flush()
+            except (BrokenPipeError, ConnectionResetError, OSError):
+                pass
 
         def send_file(self, file: Path, mime: str):
             size = file.stat().st_size

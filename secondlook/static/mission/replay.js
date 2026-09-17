@@ -3,23 +3,14 @@
 const el = id => document.getElementById(id);
 const VIDEO_DRIFT_S = .25;
 
-export async function startReplay(twin, {onFrame} = {}) {
+export async function startReplay(twin, updateJoints, {onFrame} = {}) {
   const response = await fetch('/api/replay/episodes', {cache: 'no-store'});
   if (response.status === 404) return null;  // server started without --replay-dataset
   if (!response.ok) throw new Error(`replay HTTP ${response.status}`);
   const summary = await response.json();
 
-  const state = {episode: null, time: 0, playing: false, speed: 1, lastTick: null};
+  const state = {episode: null, time: 0, playing: false, speed: 1, lastTick: null, suspended: false};
   const videos = [];
-  const joints = summary.joint_names.map(name => {
-    const row = document.createElement('div');
-    row.className = 'joint';
-    row.innerHTML = `<span>${name}</span><div class="track"><i></i><b></b></div><output>—</output>`;
-    el('joints').append(row);
-    return {name, limits: twin.limitsDeg(name) || [-180, 180], fill: row.querySelector('i'),
-            marker: row.querySelector('b'), value: row.querySelector('output')};
-  });
-
   for (const episode of summary.episodes) {
     el('episode').add(new Option(`Episode ${episode.index} · ${episode.task}`, episode.index));
   }
@@ -34,24 +25,13 @@ export async function startReplay(twin, {onFrame} = {}) {
     videos[index] = video;
   });
 
-  const percent = (joint, degrees) => {
-    const [low, high] = joint.limits;
-    return Math.min(100, Math.max(0, (degrees - low) / (high - low) * 100));
-  };
-
   function render() {
     const episode = state.episode;
     const frame = Math.min(episode.length - 1, Math.floor(state.time * summary.fps));
     const measured = episode.state[frame], target = episode.action[frame];
     twin.setPose(summary.joint_names, measured);
     twin.setGhost(summary.joint_names, target);
-    joints.forEach((joint, index) => {
-      const zero = percent(joint, 0), now = percent(joint, measured[index]);
-      joint.fill.style.left = `${Math.min(zero, now)}%`;
-      joint.fill.style.width = `${Math.abs(now - zero)}%`;
-      joint.marker.style.left = `${percent(joint, target[index])}%`;
-      joint.value.textContent = `${measured[index].toFixed(1)}°`;
-    });
+    updateJoints(measured, target);
     el('scrub').value = frame;
     el('replay-time').textContent = `${state.time.toFixed(1)} / ${episode.duration_s.toFixed(1)} s · f${frame}`;
     onFrame?.({source: 'REPLAY', episode: episode.index, task: episode.task, frame, fps: summary.fps,
@@ -65,7 +45,7 @@ export async function startReplay(twin, {onFrame} = {}) {
       const wanted = clip.from_timestamp + state.time;
       if (force || Math.abs(video.currentTime - wanted) > VIDEO_DRIFT_S) video.currentTime = wanted;
       video.playbackRate = state.speed;
-      if (state.playing && video.paused) video.play().catch(() => {});
+      if (state.playing && !state.suspended && video.paused) video.play().catch(() => {});
       if (!state.playing && !video.paused) video.pause();
     });
   }
@@ -76,10 +56,11 @@ export async function startReplay(twin, {onFrame} = {}) {
     state.episode = await reply.json();
     state.time = 0;
     el('scrub').max = state.episode.length - 1;
-    el('act-caption').textContent = `${summary.dataset} · episode ${index} · “${state.episode.task}”`;
     state.episode.videos.forEach((clip, i) => {
       if (videos[i] && !videos[i].src.endsWith(clip.url)) videos[i].src = clip.url;
     });
+    if (state.suspended) return;
+    show();
     syncVideos(true);
     render();
   }
@@ -93,7 +74,7 @@ export async function startReplay(twin, {onFrame} = {}) {
   }
 
   function tick(now) {
-    if (state.playing && state.episode) {
+    if (state.playing && state.episode && !state.suspended) {
       if (state.lastTick !== null) state.time += (now - state.lastTick) / 1000 * state.speed;
       state.lastTick = now;
       if (state.time >= state.episode.duration_s) {
@@ -119,11 +100,29 @@ export async function startReplay(twin, {onFrame} = {}) {
     syncVideos(true);
   });
 
-  for (const id of ['cams', 'joints', 'legend', 'transport']) el(id).hidden = false;
-  el('act-badge').textContent = 'REPLAY';
-  el('act-badge').className = 'badge replay';
+  function show() {
+    for (const id of ['cams', 'transport']) el(id).hidden = false;
+    el('act-badge').textContent = 'REPLAY';
+    el('act-badge').className = 'badge replay';
+    el('legend-target').textContent = 'recorded action target';
+    if (state.episode) el('act-caption').textContent = `${summary.dataset} · episode ${state.episode.index} · “${state.episode.task}”`;
+  }
+
+  // LIVE telemetry takes the twin; replay pauses underneath and resumes where it stopped.
+  function suspend(suspended) {
+    if (suspended === state.suspended) return;
+    state.suspended = suspended;
+    for (const id of ['cams', 'transport']) el(id).hidden = suspended;
+    videos.forEach(video => video.pause());
+    if (suspended) return;
+    show();
+    state.lastTick = null;
+    render();
+    syncVideos(true);
+  }
+
   await load(summary.episodes[0].index);
   requestAnimationFrame(tick);
   setPlaying(true);
-  return summary;
+  return {summary, suspend};
 }

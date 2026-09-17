@@ -39,6 +39,8 @@ def main() -> None:
         "No task-ready VLA/Physical AI Studio policy connected; base checkpoint lacks "
         "compatible state normalization and verified robot action conventions"))
     parser.add_argument("--voice-commands", type=Path, default=Path("config/voice-commands.json"))
+    parser.add_argument("--studio-robot-session",
+                        help="Observe joint telemetry of Studio runtime session rt-<follower id>, read-only")
     parser.add_argument("--replay-dataset", type=Path,
                         help="Recorded LeRobot v3 dataset shown as REPLAY in mission control")
     parser.add_argument("--revision", default="unknown")
@@ -82,7 +84,11 @@ def main() -> None:
     if args.replay_dataset:
         from secondlook.replay import ReplayDataset
         replay = ReplayDataset(args.replay_dataset)
-    server = make_server(runtime, port=args.port, replay=replay)
+    robot = None
+    if args.studio_robot_session:
+        from secondlook.studio_robot import StudioRobotSource
+        robot = StudioRobotSource(args.studio_robot_session, args.studio_python)
+    server = make_server(runtime, port=args.port, replay=replay, robot=robot)
 
     def shutdown(*_args):
         threading.Thread(target=server.shutdown, daemon=True).start()
@@ -90,11 +96,15 @@ def main() -> None:
     signal.signal(signal.SIGINT, shutdown)
     signal.signal(signal.SIGTERM, shutdown)
     runtime.start()
+    if robot:
+        robot.start()
     print(f"Second Look: http://127.0.0.1:{args.port} — software DISARMED; robot connection unavailable", flush=True)
     try:
         server.serve_forever(poll_interval=.25)
     finally:
         runtime.close()
+        if robot:
+            robot.close()
         server.server_close()
         lock.close()
 

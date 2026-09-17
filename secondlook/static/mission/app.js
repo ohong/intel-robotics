@@ -1,6 +1,8 @@
 // Mission control: top bar from /api/status, twin driven by LIVE or REPLAY joints. Read-only.
 import { createTwin } from './twin.js';
 import { startReplay } from './replay.js';
+import { startRobot } from './robot.js';
+import { createJointBars } from './joints.js';
 import { renderSee, clearSee } from './see.js';
 import { renderPipeline, streamThought } from './pipeline.js';
 import { startTimeline } from './timeline.js';
@@ -68,11 +70,38 @@ startAccel();
     document.querySelector('#twin .empty').textContent = `Digital twin unavailable: ${error.message}`;
     return;
   }
+  const JOINTS = ['shoulder_pan', 'shoulder_lift', 'elbow_flex', 'wrist_flex', 'wrist_roll', 'gripper'];
+  const updateJoints = createJointBars(twin, document.getElementById('joints'), JOINTS);
+  let replay = null;
   try {
-    const replay = await startReplay(twin);
-    if (!replay) document.getElementById('act-caption').textContent = 'No live arm feed and no replay dataset configured';
-    else streamThought(`Twin replaying ${replay.episodes.length} recorded episodes from ${replay.dataset}.`, {source: 'replay'});
+    replay = await startReplay(twin, updateJoints);
+    if (replay) streamThought(`Twin replaying ${replay.summary.episodes.length} recorded episodes from ${replay.summary.dataset}.`, {source: 'replay'});
   } catch (error) {
     document.getElementById('act-caption').textContent = `Replay unavailable: ${error.message}`;
   }
+  let wasLive = false;
+  const onLive = (live, message) => {
+    if (live !== wasLive) {
+      streamThought(live ? 'Studio joint telemetry is live; the twin now follows the real arm.'
+        : `Studio joint telemetry stopped: ${message || 'no fresh packet'}.`, {source: 'robot', tone: live ? '' : 'warn'});
+      wasLive = live;
+    }
+    replay?.suspend(live);
+    if (replay) return;
+    // No replay to fall back to: dim the last pose and say it is not current.
+    document.getElementById('twin').classList.toggle('stale', !live);
+    if (!live) {
+      el('act-badge').textContent = 'NO FEED';
+      el('act-badge').className = 'badge';
+      el('act-caption').textContent = message || 'No fresh Studio joint telemetry';
+    }
+  };
+  let robot = false;
+  try {
+    robot = await startRobot(twin, updateJoints, {onLive});
+  } catch (error) {
+    streamThought(`Robot telemetry unavailable: ${error.message}`, {source: 'robot', tone: 'warn'});
+  }
+  for (const id of ['joints', 'legend']) el(id).hidden = !(replay || robot);
+  if (!replay && !robot) el('act-caption').textContent = 'No live arm feed and no replay dataset configured';
 })();
