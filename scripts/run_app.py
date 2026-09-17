@@ -39,6 +39,8 @@ def main() -> None:
         "No task-ready VLA/Physical AI Studio policy connected; base checkpoint lacks "
         "compatible state normalization and verified robot action conventions"))
     parser.add_argument("--voice-commands", type=Path, default=Path("config/voice-commands.json"))
+    parser.add_argument("--replay-dataset", type=Path,
+                        help="Recorded LeRobot v3 dataset shown as REPLAY in mission control")
     parser.add_argument("--revision", default="unknown")
     parser.add_argument("--evidence", type=Path, default=Path("artifacts/runtime/observations.jsonl"))
     parser.add_argument("--lock-file", type=Path, default=Path("/tmp/secondlook-runtime.lock"))
@@ -76,7 +78,11 @@ def main() -> None:
         inference_interval=args.inference_interval,
         voice=FalClient.from_env(), voice_commands=load_commands(args.voice_commands),
     )
-    server = make_server(runtime, port=args.port)
+    replay = None
+    if args.replay_dataset:
+        from secondlook.replay import ReplayDataset
+        replay = ReplayDataset(args.replay_dataset)
+    server = make_server(runtime, port=args.port, replay=replay)
 
     def shutdown(*_args):
         threading.Thread(target=server.shutdown, daemon=True).start()
