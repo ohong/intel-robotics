@@ -24,7 +24,7 @@ DEFAULT_PORT = 8088
 STUDIO_CAMERA_SERVICE = "physicalai/camera/RealSenseCamera/243622060187/frame"
 DEFAULT_ANOMALY_ARTIFACT = f"{REMOTE_ROOT}/artifacts/models/scene-smoke"
 TASK_INSTRUCTION = "config/task-instruction.txt"
-ALLOWLIST = ("secondlook", "scripts/run_app.py", "scripts/studio_camera_worker.py", "scripts/anomaly_cli.py", "scripts/cv_capture.py", "scripts/cv_capture_server.py", "scripts/cv_capture_mirror.py", "scripts/cv_manifest.py", "scripts/policy_worker.py", "scripts/recording/native_policy_guard.py", "scripts/recording/native_policy_provenance.py", "scripts/remote.py", "scripts/run_checks.py", "tests", "config", "pyproject.toml")
+ALLOWLIST = ("secondlook", "scripts/run_app.py", "scripts/studio_camera_worker.py", "scripts/studio_robot_worker.py", "scripts/anomaly_cli.py", "scripts/cv_capture.py", "scripts/cv_capture_server.py", "scripts/cv_capture_mirror.py", "scripts/cv_manifest.py", "scripts/policy_worker.py", "scripts/recording/native_policy_guard.py", "scripts/recording/native_policy_provenance.py", "scripts/remote.py", "scripts/run_checks.py", "tests", "config", "pyproject.toml")
 EXCLUDED_DIRS = {".git", ".venv", "venv", "node_modules", "__pycache__", ".pytest_cache", "artifacts", "captures", "weights", "models", "checkpoints", "data"}
 EXCLUDED_SUFFIXES = {".pyc", ".pem", ".key", ".p12", ".pfx", ".pt", ".pth", ".onnx", ".safetensors", ".bin", ".ckpt", ".npz", ".npy", ".mp4", ".mov", ".webm", ".jpg", ".jpeg", ".png", ".gif"}
 SECRET = (re.compile(b"-----" + b"BEGIN .*" + b"PRIVATE KEY" + b"-----"), re.compile(rb"\b(?:ghp_|github_pat_|sk-proj-)[A-Za-z0-9_]{20,}"))
@@ -107,7 +107,7 @@ if unit_info["available"]:
  try: resolved=pathlib.Path(work).resolve(strict=False)
  except Exception: resolved=pathlib.Path("/")
  work_ok=resolved==root/"current" or root/"releases" in resolved.parents
- for key, flag in (("revision","--revision"),("camera_service","--studio-camera-service"),("studio_python","--studio-python"),("instruction_file","--instruction-file"),("port","--port"),("anomaly_artifact","--anomaly-artifact")):
+ for key, flag in (("revision","--revision"),("camera_service","--studio-camera-service"),("studio_python","--studio-python"),("instruction_file","--instruction-file"),("port","--port"),("anomaly_artifact","--anomaly-artifact"),("robot_session","--studio-robot-session"),("replay_dataset","--replay-dataset")):
   try: unit_info[key]=argv[argv.index(flag)+1]
   except (ValueError,IndexError): unit_info[key]=None
  unit_info["owned"]=bool(unit_info.get("LoadState")=="loaded" and path_match and path_match.group(1)==interpreter and argv and argv[0]==interpreter and "scripts/run_app.py" in argv and work_ok)
@@ -231,7 +231,8 @@ def anomaly_artifact_path(value: str) -> str:
 
 
 def service(action: str, port: int, studio_service: str = STUDIO_CAMERA_SERVICE,
-            anomaly_artifact: str = DEFAULT_ANOMALY_ARTIFACT) -> int:
+            anomaly_artifact: str = DEFAULT_ANOMALY_ARTIFACT, robot_session: str | None = None,
+            replay_dataset: str | None = None) -> int:
     try:
         anomaly_artifact = anomaly_artifact_path(anomaly_artifact)
     except argparse.ArgumentTypeError as exc:
@@ -251,13 +252,17 @@ def service(action: str, port: int, studio_service: str = STUDIO_CAMERA_SERVICE,
             if unit.get("instruction_file")!=TASK_INSTRUCTION: mismatches.append(f"instruction file {unit.get('instruction_file')} != {TASK_INSTRUCTION}")
             if unit.get("port")!=str(port): mismatches.append(f"port {unit.get('port')} != {port}")
             if unit.get("anomaly_artifact")!=anomaly_artifact: mismatches.append(f"anomaly artifact {unit.get('anomaly_artifact')} != {anomaly_artifact}")
+            if unit.get("robot_session")!=robot_session: mismatches.append(f"Studio robot session {unit.get('robot_session')} != {robot_session}")
+            if unit.get("replay_dataset")!=replay_dataset: mismatches.append(f"replay dataset {unit.get('replay_dataset')} != {replay_dataset}")
             if mismatches: raise ToolError("active service arguments do not match current start request: " + "; ".join(mismatches))
             print(f"{UNIT} is already running"); return 0
         if unit.get("LoadState") not in ("not-found", None):
             if not unit.get("owned"): raise ToolError("refusing to manage a systemd unit that fails Second Look ownership checks")
             ssh(f"systemctl --user stop {shlex.quote(UNIT)}",timeout=30)
             if status().get("unit",{}).get("LoadState")!="not-found": raise ToolError(f"{UNIT} remains loaded after stop; refusing replacement")
-        command=("systemd-run","--user",f"--unit={UNIT}","--collect",f"--property=WorkingDirectory={REMOTE_ROOT}/current","--property=EnvironmentFile=-/home/ird-demo/.config/secondlook/fal.env","--",INTEL_PYTHON,"scripts/run_app.py","--studio-camera-service",studio_service,"--studio-python",STUDIO_PYTHON,"--instruction-file",TASK_INSTRUCTION,"--port",str(port),"--anomaly-artifact",anomaly_artifact,"--backend","openvino","--device","GPU","--precision","f32","--revision",release,"--inference-interval",".5","--evidence",f"{REMOTE_ROOT}/artifacts/runtime/observations.jsonl","--lock-file",f"{REMOTE_ROOT}/runtime/app.lock")
+        command=("systemd-run","--user",f"--unit={UNIT}","--collect",f"--property=WorkingDirectory={REMOTE_ROOT}/current","--property=EnvironmentFile=-/home/ird-demo/.config/secondlook/fal.env","--property=EnvironmentFile=-/home/ird-demo/.config/secondlook/openai.env","--",INTEL_PYTHON,"scripts/run_app.py","--studio-camera-service",studio_service,"--studio-python",STUDIO_PYTHON,"--instruction-file",TASK_INSTRUCTION,"--port",str(port),"--anomaly-artifact",anomaly_artifact,"--backend","openvino","--device","GPU","--precision","f32","--revision",release,"--inference-interval",".5","--evidence",f"{REMOTE_ROOT}/artifacts/runtime/observations.jsonl","--lock-file",f"{REMOTE_ROOT}/runtime/app.lock")
+        if robot_session: command+=("--studio-robot-session",robot_session)
+        if replay_dataset: command+=("--replay-dataset",replay_dataset)
         ssh(" ".join(shlex.quote(x) for x in command),timeout=30)
         print(f"{UNIT} launch requested for release {release}"); return 0
     if not unit.get("owned"): raise ToolError("refusing to manage a systemd unit that fails Second Look ownership checks")
@@ -284,7 +289,7 @@ def parser() -> argparse.ArgumentParser:
     x=sub.add_parser("deploy");x.add_argument("--stage-only",action="store_true");x.add_argument("--dry-run",action="store_true");x.set_defaults(fn=deploy)
     x=sub.add_parser("status");x.set_defaults(fn=lambda a: output(status()) or 0)
     x=sub.add_parser("check");x.set_defaults(fn=lambda a: check())
-    x=sub.add_parser("start");x.add_argument("--port",type=port,default=DEFAULT_PORT);x.add_argument("--studio-camera-service",default=STUDIO_CAMERA_SERVICE);x.add_argument("--anomaly-artifact",type=anomaly_artifact_path,default=DEFAULT_ANOMALY_ARTIFACT);x.set_defaults(fn=lambda a: service("start",a.port,a.studio_camera_service,a.anomaly_artifact))
+    x=sub.add_parser("start");x.add_argument("--port",type=port,default=DEFAULT_PORT);x.add_argument("--studio-camera-service",default=STUDIO_CAMERA_SERVICE);x.add_argument("--anomaly-artifact",type=anomaly_artifact_path,default=DEFAULT_ANOMALY_ARTIFACT);x.add_argument("--studio-robot-session",help="read-only joint telemetry for mission control, rt-<follower id>");x.add_argument("--replay-dataset",help="remote LeRobot v3 dataset path shown as REPLAY");x.set_defaults(fn=lambda a: service("start",a.port,a.studio_camera_service,a.anomaly_artifact,a.studio_robot_session,a.replay_dataset))
     x=sub.add_parser("stop");x.add_argument("--port",type=port,default=DEFAULT_PORT);x.add_argument("--studio-camera-service",default=STUDIO_CAMERA_SERVICE);x.set_defaults(fn=lambda a: service("stop",a.port,a.studio_camera_service))
     x=sub.add_parser("pull");x.add_argument("--path",default="artifacts/runtime");x.add_argument("--destination",default="artifacts/runtime");x.add_argument("--dry-run",action="store_true");x.set_defaults(fn=pull)
     x=sub.add_parser("tunnel");x.add_argument("--local-port",type=port,default=DEFAULT_PORT);x.add_argument("--remote-port",type=port,default=DEFAULT_PORT);x.add_argument("--print-only",action="store_true");x.set_defaults(fn=lambda a:tunnel(a))

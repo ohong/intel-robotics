@@ -111,3 +111,22 @@ Voice sets the task instruction only. It does not arm, move, or stop the robot; 
 - Without a key the app runs and reports voice `UNAVAILABLE`.
 - Allowed spoken tasks live in `config/voice-commands.json`. Unmatched speech leaves the instruction unchanged.
 - Models: `SECONDLOOK_STT_MODEL` (default `fal-ai/wizper`), `SECONDLOOK_TTS_MODEL` (default `fal-ai/kokoro/american-english`), `SECONDLOOK_TTS_VOICE` (default `am_michael`).
+
+## Mission control
+
+Mission control is the page at `/mission` (for example `http://127.0.0.1:8088/mission` through the tunnel). It shows the camera and anomaly detector, the decision pipeline, the evidence timeline, a 3D twin of the SO101 arm, and GPT-Live voice. Each panel shows its source as LIVE, REPLAY, SYNTHETIC or UNAVAILABLE. The controller stays DISARMED.
+
+- Replay: add `--replay-dataset <LeRobot v3 dataset>` to `run_app.py`, or `scripts/remote.py start --replay-dataset <path on the PC>`. The twin and camera videos play recorded episodes under a REPLAY badge.
+- Live joints: add `--studio-robot-session rt-<follower id>`, where the follower id is the robot id in Studio for the follower arm. The observer runs in Studio's Python environment and subscribes only to the session `tick` and `lifecycle` keys. It never subscribes to `state`, because Studio counts `state` subscribers as attached clients and would keep the session out of hold. It opens no serial port and sends no command. With no fresh telemetry, the twin shows NO FEED.
+
+### GPT-Live voice
+
+GPT-Live voice answers questions from read-only tools: `get_status`, `get_recent_evidence`, `get_arm_pose` and `set_task_instruction`. The last tool only selects an allowlisted task text from `config/voice-commands.json`. No tool can arm, move or stop the robot, and the model tells people to use the physical stop procedure.
+
+- Intel PC: put `OPENAI_API_KEY=<key>` in `/home/ird-demo/.config/secondlook/openai.env`, run `chmod 600` on it, then relaunch with `scripts/remote.py`. The service loads it through `EnvironmentFile`.
+- Mac: start `uv run scripts/run_app.py ...` from a shell that exports `OPENAI_API_KEY`.
+- The key stays on the server. The browser sends its WebRTC SDP offer to `POST /api/live/session`, which accepts only same-origin requests.
+- Without a key the orb shows "Voice unavailable".
+- Models: `SECONDLOOK_LIVE_MODEL` (default `gpt-live-1`), `SECONDLOOK_LIVE_DELEGATE_MODEL` (default `gpt-5.6-terra`).
+- Billing: a session starts only on a tap on the orb, and it hangs up after 90 s without speech. Tap again to hang up.
+- Check before a demo: ask "what do you see", "set the task to sort the lego blocks" and "move the arm left". The last one must be refused, and `/api/status` must still show the controller DISARMED.
