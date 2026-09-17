@@ -1,6 +1,8 @@
 // Mission control: top bar from /api/status, twin driven by LIVE or REPLAY joints. Read-only.
 import { createTwin } from './twin.js';
 import { startReplay } from './replay.js';
+import { renderSee, clearSee } from './see.js';
+import { renderPipeline, streamThought } from './pipeline.js';
 const el = id => document.getElementById(id);
 let startedAt = null;
 
@@ -37,10 +39,14 @@ async function poll() {
   try {
     const response = await fetch('/api/status', {cache: 'no-store', signal: AbortSignal.timeout(1800)});
     if (!response.ok) throw new Error(`status HTTP ${response.status}`);
-    renderStatus(await response.json());
+    const status = await response.json();
+    renderStatus(status);
+    renderSee(status);
+    renderPipeline(status);
     el('connection').textContent = `Local runtime connected · ${new Date().toLocaleTimeString()}`;
   } catch (error) {
     el('connection').textContent = `Local runtime unreachable: ${error.message}`;
+    clearSee(`Local runtime unreachable: ${error.message}`);
     for (const id of ['chip-camera', 'chip-detector', 'chip-policy', 'chip-controller', 'chip-evidence']) chip(id, '—', '');
   }
 }
@@ -61,6 +67,7 @@ setInterval(tickClock, 250);
   try {
     const replay = await startReplay(twin);
     if (!replay) document.getElementById('act-caption').textContent = 'No live arm feed and no replay dataset configured';
+    else streamThought(`Twin replaying ${replay.episodes.length} recorded episodes from ${replay.dataset}.`, {source: 'replay'});
   } catch (error) {
     document.getElementById('act-caption').textContent = `Replay unavailable: ${error.message}`;
   }

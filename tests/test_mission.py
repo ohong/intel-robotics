@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import re
 import tempfile
 import threading
 import unittest
@@ -199,6 +200,13 @@ class MissionStaticTests(unittest.TestCase):
         module = urlopen(self.base + "/static/vendor/three/three.module.min.js", timeout=5)
         self.assertEqual(module.headers["Content-Type"], "text/javascript")
         self.assertIn(b"three.core.min.js", module.read())
+
+    def test_every_element_id_used_by_mission_modules_exists_in_page(self):
+        static = Path(__file__).resolve().parents[1] / "secondlook" / "static"
+        page_ids = set(re.findall(r'\bid="([^"]+)"', (static / "mission.html").read_text()))
+        for module in sorted((static / "mission").glob("*.js")):
+            used = set(re.findall(r"(?:\bel|getElementById)\('([^']+)'\)", module.read_text()))
+            self.assertFalse(used - page_ids, f"{module.name} references missing ids")
 
     def test_static_route_rejects_traversal_and_unknown_types(self):
         for path in ("/static/../web.py", "/static/%2e%2e/web.py", "/static/vendor/README.md",

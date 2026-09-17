@@ -28,8 +28,41 @@
 </header>
 <main class="deck">
   <section class="panel see" aria-labelledby="see-title">
-    <div class="panel-head"><h2 id="see-title">SEE</h2><span class="badge" id="see-badge">NO FEED</span></div>
-    <div class="panel-body empty">Perception panel arrives in the next build step.</div>
+    <div class="panel-head"><h2 id="see-title">SEE</h2><button type="button" class="toggle" id="see-toggle" aria-pressed="true">Heatmap on</button><span class="badge" id="see-badge">NO FEED</span></div>
+    <div class="panel-body see-body">
+      <div class="see-view show-overlay is-empty" id="see-view">
+        <img id="see-frame" alt="Latest camera frame">
+        <img id="see-overlay" alt="PatchCore anomaly map over the same frame">
+        <p class="see-empty" id="see-empty">Connecting…</p>
+      </div>
+      <div class="gauge-row">
+        <svg class="gauge" viewBox="0 0 200 112" aria-label="Anomaly score against threshold">
+          <path class="gauge-track" d="M 20 100 A 80 80 0 0 1 180 100"/>
+          <path class="gauge-value" id="gauge-value" d="M 20 100 A 80 80 0 0 1 180 100"/>
+          <line class="gauge-tick" id="gauge-threshold" hidden/>
+          <text x="100" y="86" class="gauge-score" id="gauge-score">—</text>
+          <text x="100" y="106" class="gauge-label" id="gauge-threshold-label">threshold —</text>
+        </svg>
+        <div class="see-verdict">
+          <span class="disposition" id="see-disposition">—</span>
+          <p class="see-reason" id="see-reason"></p>
+        </div>
+      </div>
+      <dl class="see-metrics" id="see-metrics" hidden>
+        <div><dt>model</dt><dd id="m-model">—</dd></div>
+        <div><dt>processing</dt><dd id="m-processing">—</dd></div>
+        <div><dt>frame→result</dt><dd id="m-e2e">—</dd></div>
+        <div><dt>result age</dt><dd id="m-age">—</dd></div>
+      </dl>
+      <figure class="spark">
+        <svg id="sparkline" viewBox="0 0 300 64" preserveAspectRatio="none" aria-label="Anomaly score, last 60 seconds">
+          <line id="spark-threshold" x1="0" x2="300" hidden/>
+          <polyline id="spark-line"/>
+          <g id="spark-dots"></g>
+        </svg>
+        <figcaption id="spark-caption">No scored observations in the last 60 s</figcaption>
+      </figure>
+    </div>
   </section>
   <section class="panel act" aria-labelledby="act-title">
     <div class="panel-head"><h2 id="act-title">ACT</h2><span class="act-caption" id="act-caption">No arm feed</span><span class="badge" id="act-badge">NO FEED</span></div>
@@ -48,8 +81,19 @@
     </div>
   </section>
   <section class="panel think" aria-labelledby="think-title">
-    <div class="panel-head"><h2 id="think-title">THINK</h2><span class="badge" id="think-badge">LIVE</span></div>
-    <div class="panel-body empty">Decision pipeline arrives in a later build step.</div>
+    <div class="panel-head"><h2 id="think-title">THINK</h2><span class="badge">RUNTIME STATE</span></div>
+    <div class="panel-body think-body">
+      <ol class="pipeline" id="pipeline" aria-label="Decision pipeline">
+        <li class="node" id="node-camera" data-tone="idle"><span class="node-dot"></span><div><b>CAMERA</b><small>sensor</small></div><strong class="node-value">—</strong><p class="node-detail"></p></li>
+        <li class="node" id="node-detector" data-tone="idle"><span class="node-dot"></span><div><b>PATCHCORE</b><small>anomaly model</small></div><strong class="node-value">—</strong><p class="node-detail"></p></li>
+        <li class="node" id="node-decision" data-tone="idle"><span class="node-dot"></span><div><b>DISPOSITION</b><small>score vs threshold</small></div><strong class="node-value">—</strong><p class="node-detail"></p></li>
+        <li class="node" id="node-policy" data-tone="idle"><span class="node-dot"></span><div><b>SMOLVLA POLICY</b><small>task policy</small></div><strong class="node-value">—</strong><p class="node-detail"></p></li>
+        <li class="node" id="node-gate" data-tone="idle"><span class="node-dot"></span><div><b>SAFETY GATE</b><small>run authorization</small></div><strong class="node-value">—</strong><p class="node-detail"></p></li>
+        <li class="node" id="node-arm" data-tone="idle"><span class="node-dot"></span><div><b>SO101 ARM</b><small>controller</small></div><strong class="node-value">—</strong><p class="node-detail"></p></li>
+      </ol>
+      <h3 class="stream-title">THOUGHT STREAM</h3>
+      <ol class="thoughts" id="thoughts" aria-live="polite"></ol>
+    </div>
   </section>
   <section class="panel timeline" aria-labelledby="timeline-title">
     <div class="panel-head"><h2 id="timeline-title">EVIDENCE TIMELINE</h2></div>
