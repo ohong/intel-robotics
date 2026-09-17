@@ -200,6 +200,8 @@ class MissionStaticTests(unittest.TestCase):
         module = urlopen(self.base + "/static/vendor/three/three.module.min.js", timeout=5)
         self.assertEqual(module.headers["Content-Type"], "text/javascript")
         self.assertIn(b"three.core.min.js", module.read())
+        benchmarks = urlopen(self.base + "/static/mission/benchmarks.json", timeout=5)
+        self.assertEqual(benchmarks.headers["Content-Type"], "application/json")
 
     def test_every_element_id_used_by_mission_modules_exists_in_page(self):
         static = Path(__file__).resolve().parents[1] / "secondlook" / "static"
@@ -207,6 +209,22 @@ class MissionStaticTests(unittest.TestCase):
         for module in sorted((static / "mission").glob("*.js")):
             used = set(re.findall(r"(?:\bel|getElementById)\('([^']+)'\)", module.read_text()))
             self.assertFalse(used - page_ids, f"{module.name} references missing ids")
+
+    def test_benchmark_card_numbers_match_their_cited_evidence_section(self):
+        root = Path(__file__).resolve().parents[1]
+        data = json.loads((root / "secondlook" / "static" / "mission" / "benchmarks.json").read_text())
+        for group in data["groups"]:
+            source = (root / group["source"]).read_text()
+            section = source.split(f"### {group['section']}\n", 1)[1].split("\n#", 1)[0]
+            for row in group["rows"]:
+                values = [f"{row['median_ms']} ms"] + ([f"{row['p95_ms']} ms"] if "p95_ms" in row else [])
+                precision = row["runtime"].split()[-1]
+                lines = [line for line in section.splitlines()
+                         if line.startswith("|") and precision in line and all(value in line for value in values)]
+                self.assertEqual(len(lines), 1, f"{group['section']}: {row['runtime']}")
+                if row["parity"].startswith("failed"):
+                    self.assertIn("Failed", lines[0])
+        self.assertEqual(sum(bool(row.get("deployed")) for group in data["groups"] for row in group["rows"]), 1)
 
     def test_static_route_rejects_traversal_and_unknown_types(self):
         for path in ("/static/../web.py", "/static/%2e%2e/web.py", "/static/vendor/README.md",

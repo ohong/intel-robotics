@@ -3,6 +3,8 @@ import { createTwin } from './twin.js';
 import { startReplay } from './replay.js';
 import { renderSee, clearSee } from './see.js';
 import { renderPipeline, streamThought } from './pipeline.js';
+import { startTimeline } from './timeline.js';
+import { startAccel } from './accel.js';
 const el = id => document.getElementById(id);
 let startedAt = null;
 
@@ -54,6 +56,8 @@ async function poll() {
 poll();
 setInterval(poll, 1000);
 setInterval(tickClock, 250);
+startTimeline();
+startAccel();
 
 (async () => {
   let twin;

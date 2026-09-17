@@ -20,7 +20,8 @@ RANGE = re.compile(r"bytes=(\d*)-(\d*)$")
 VIDEO_ROUTE = re.compile(r"/api/replay/video/(\d+)/(\d+)/(\d+)$")
 EPISODE_ROUTE = re.compile(r"/api/replay/episodes/(\d+)$")
 STATIC_TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css",
-                ".urdf": "application/xml", ".stl": "model/stl"}
+                ".urdf": "application/xml", ".stl": "model/stl",
+                ".json": "application/json"}
 
 
 def byte_range(header: str | None, size: int) -> tuple[int, int] | None:

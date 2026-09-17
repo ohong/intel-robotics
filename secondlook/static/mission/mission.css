@@ -32,7 +32,7 @@ h1 { margin: 0; font-size: 19px; letter-spacing: -.02em; font-weight: 650; }
 
 .deck { display: grid; gap: 12px; padding: 12px; min-height: 0;
   grid-template-columns: minmax(280px, 1fr) minmax(420px, 1.6fr) minmax(300px, 1.1fr);
-  grid-template-rows: minmax(0, 1fr) 170px;
+  grid-template-rows: minmax(0, 1fr) 212px;
   grid-template-areas: "see act think" "timeline timeline accel"; }
 .see { grid-area: see; } .act { grid-area: act; } .think { grid-area: think; }
 .timeline { grid-area: timeline; } .accel { grid-area: accel; }
@@ -158,3 +158,40 @@ h2 { margin: 0; font-size: 11px; letter-spacing: .18em; font-weight: 650; color:
 .thought.bad span { color: var(--red); }
 @keyframes thought-in { from { opacity: 0; transform: translateY(-4px); } }
 @media (prefers-reduced-motion: reduce) { .pipeline.pulse .node, .pipeline.pulse .node::after, .thought { animation: none; } }
+
+/* EVIDENCE TIMELINE */
+.timeline-body { display: grid; grid-template-columns: 1fr 300px; gap: 14px; padding-top: 10px; }
+.timeline-strip { position: relative; margin: 4px 6px 14px; border-bottom: 1px solid var(--line-2);
+  background: linear-gradient(0deg, #ffffff06 1px, transparent 1px) 0 0 / 100% 25%; }
+.timeline-strip[data-empty]::after { content: attr(data-empty); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--faint); }
+.tick { position: absolute; bottom: 0; width: var(--tick, 5px); translate: -50% 0; padding: 0; border: 0; border-radius: 2px 2px 0 0; cursor: pointer;
+  background: var(--faint); opacity: .8; transition: opacity .15s, transform .15s; transform-origin: bottom; }
+.tick:hover, .tick:focus-visible { opacity: 1; transform: scaleX(1.8); outline: none; }
+.tick.normal { background: var(--green); } .tick.anomalous { background: var(--red); box-shadow: 0 0 8px #ff6b6b88; }
+.tick.uncertain, .tick.unknown { background: var(--amber); } .tick.invalid { background: #6b7088; }
+.tick.selected { opacity: 1; outline: 2px solid var(--ink); outline-offset: 2px; }
+.timeline-strip .threshold { position: absolute; left: 0; right: 0; border-top: 1px dashed #ff6b6b99; pointer-events: none; }
+.timeline-detail { overflow: auto; border-left: 1px solid #ffffff0f; padding-left: 14px; color: var(--faint); font-size: 11px; }
+.timeline-detail dl { display: grid; grid-template-columns: 76px 1fr; gap: 1px 10px; margin: 0; }
+.timeline-detail dt { color: var(--faint); }
+.timeline-detail dd { margin: 0; color: var(--ink); font-family: var(--mono); font-size: 10.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* INTEL ACCELERATION */
+.accel-body { display: flex; flex-direction: column; gap: 6px; overflow: auto; padding-top: 8px; }
+.accel-lead { margin: 0; display: flex; align-items: baseline; gap: 10px; }
+.accel-lead strong { font: 700 24px/1 var(--mono); color: var(--blue); text-shadow: 0 0 18px #6fa8ff55; white-space: nowrap; }
+.accel-lead span { color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.accel-lead { min-width: 0; }
+.accel-groups { display: grid; gap: 6px; }
+.bench { display: grid; gap: 2px; }
+.bench header { display: flex; gap: 8px; align-items: baseline; min-width: 0; }
+.bench header b { font-size: 11px; white-space: nowrap; }
+.bench header small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bench header small { color: var(--faint); font-size: 9.5px; margin: 0; }
+.bench-row { display: grid; grid-template-columns: 150px 1fr 58px; line-height: 14px; gap: 8px; align-items: center; font-size: 10.5px; color: var(--muted); }
+.bench-row i { height: 7px; border-radius: 4px; background: linear-gradient(90deg, #6fa8ff, #6fa8ff88); width: var(--w); min-width: 3px; }
+.bench-row output { font-family: var(--mono); text-align: right; color: var(--ink); }
+.bench-row.deployed span { color: var(--ink); } .bench-row.deployed span::after { content: " ✓"; color: var(--green); }
+.bench-row.deployed i { background: linear-gradient(90deg, #4ade80, #4ade8088); }
+.bench-row.rejected i { background: repeating-linear-gradient(135deg, #ff6b6b88 0 4px, transparent 4px 7px); }
+.bench-row.rejected output { color: var(--faint); text-decoration: line-through; }

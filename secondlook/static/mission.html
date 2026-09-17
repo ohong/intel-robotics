@@ -96,12 +96,18 @@
     </div>
   </section>
   <section class="panel timeline" aria-labelledby="timeline-title">
-    <div class="panel-head"><h2 id="timeline-title">EVIDENCE TIMELINE</h2></div>
-    <div class="panel-body empty">Evidence timeline arrives in a later build step.</div>
+    <div class="panel-head"><h2 id="timeline-title">EVIDENCE TIMELINE</h2><span class="act-caption" id="timeline-range"></span><span class="badge" id="timeline-badge">—</span></div>
+    <div class="panel-body timeline-body">
+      <div class="timeline-strip" id="timeline-strip" role="group" aria-label="Recent observations; select one to see its record"></div>
+      <aside class="timeline-detail" id="timeline-detail" aria-live="polite">Loading evidence…</aside>
+    </div>
   </section>
   <section class="panel accel" aria-labelledby="accel-title">
-    <div class="panel-head"><h2 id="accel-title">INTEL ACCELERATION</h2><span class="badge">BENCHMARK</span></div>
-    <div class="panel-body empty">Benchmark card arrives in a later build step.</div>
+    <div class="panel-head"><h2 id="accel-title">INTEL ACCELERATION</h2><span class="badge" id="accel-badge">RECORDED BENCHMARK</span></div>
+    <div class="panel-body accel-body">
+      <p class="accel-lead"><strong id="accel-headline">—</strong><span id="accel-sub"></span></p>
+      <div id="accel-groups" class="accel-groups"></div>
+    </div>
   </section>
 </main>
 <footer class="statusline"><span id="connection" role="status" aria-live="polite">Connecting to local runtime…</span><span>Read-only view · this page sends no robot commands</span></footer>
