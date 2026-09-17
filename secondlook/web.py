@@ -77,6 +77,13 @@ def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
                     self.send(200, result[0], "image/jpeg", result[1])
                 else:
                     self.send(503, b'{"error":"No fresh observation available"}', "application/json")
+            elif path == "/api/evidence/recent":
+                try:
+                    limit = int(parse_qs(request.query).get("n", ["200"])[0])
+                except ValueError:
+                    return self.json_error(400, "n must be an integer")
+                records = runtime.evidence.tail(min(max(limit, 1), 1000))
+                self.send(200, json.dumps({"records": records}, allow_nan=False).encode(), "application/json")
             elif path.startswith("/api/replay/"):
                 self.replay_get(path)
             elif path in ("/", "/app.js", "/style.css"):

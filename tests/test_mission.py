@@ -136,6 +136,33 @@ class ReplayTests(unittest.TestCase):
         self.assertTrue(all(len(row) == 6 for row in real.episode(4)["state"]))
 
 
+class EvidenceTailTests(unittest.TestCase):
+    def test_recent_evidence_returns_newest_records_in_order(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runtime = InspectionRuntime(CameraSource(max_age=1),
+                                        evidence_path=Path(tmp) / "e.jsonl", evidence_kind="mock")
+            self.assertEqual(runtime.evidence.tail(5), [])
+            for index in range(30):
+                runtime.evidence.append({"event": "fixture", "evidence_kind": "mock",
+                                         "observation_id": f"obs-{index}", "provenance": {"test": True},
+                                         "outcome": "NOT_TESTED"})
+            self.assertEqual([r["observation_id"] for r in runtime.evidence.tail(3, max_bytes=1000)],
+                             ["obs-27", "obs-28", "obs-29"])
+            server = make_server(runtime, port=0)
+            threading.Thread(target=server.serve_forever, daemon=True).start()
+            base = f"http://127.0.0.1:{server.server_port}/api/evidence/recent"
+            try:
+                records = json.load(urlopen(base + "?n=2", timeout=5))["records"]
+                self.assertEqual([r["observation_id"] for r in records], ["obs-28", "obs-29"])
+                self.assertEqual(records[0]["evidence_kind"], "mock")
+                with self.assertRaises(HTTPError) as caught:
+                    urlopen(base + "?n=x", timeout=5)
+                self.assertEqual(caught.exception.code, 400)
+            finally:
+                server.shutdown()
+                server.server_close()
+
+
 class ReplayDisabledTests(unittest.TestCase):
     def test_replay_routes_404_without_dataset(self):
         with tempfile.TemporaryDirectory() as tmp:

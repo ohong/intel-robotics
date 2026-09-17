@@ -241,6 +241,20 @@ class EvidenceLog:
                 os.fsync(stream.fileno())
             self.count += 1
 
+    def tail(self, limit: int, max_bytes: int = 4 * 1024 * 1024) -> list[dict]:
+        """Return up to `limit` newest records, reading only the end of the file."""
+        with self._lock:
+            if not self.path.exists():
+                return []
+            with self.path.open("rb") as stream:
+                size = stream.seek(0, os.SEEK_END)
+                stream.seek(max(0, size - max_bytes))
+                data = stream.read()
+        lines = data.splitlines()
+        if size > max_bytes:
+            lines = lines[1:]  # first line may be cut mid-record
+        return [json.loads(line) for line in lines[-limit:] if line.strip()]
+
 
 class InspectionRuntime:
     def __init__(self, camera: CameraSource, detector: Any = None,
