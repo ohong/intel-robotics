@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Second Look · Mission control</title>
+<link rel="stylesheet" href="/static/mission/mission.css">
+<script type="importmap">
+{"imports": {
+  "three": "/static/vendor/three/three.module.min.js",
+  "three/addons/": "/static/vendor/three/addons/",
+  "three/examples/jsm/loaders/STLLoader.js": "/static/vendor/three/addons/loaders/STLLoader.js",
+  "three/examples/jsm/loaders/ColladaLoader.js": "/static/vendor/urdf-loader/collada-unsupported.js",
+  "urdf-loader": "/static/vendor/urdf-loader/URDFLoader.js"
+}}
+</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="mark" aria-hidden="true"></span><div><p class="eyebrow">INTEL PHYSICAL AI · MISSION CONTROL</p><h1>Second Look</h1></div></div>
+  <div class="clock"><span id="clock">T+00:00:00</span><span id="revision" class="meta">connecting…</span></div>
+  <ul class="chips" aria-label="System state">
+    <li class="chip" id="chip-camera"><b>CAMERA</b><span>—</span></li>
+    <li class="chip" id="chip-detector"><b>DETECTOR</b><span>—</span></li>
+    <li class="chip" id="chip-policy"><b>POLICY</b><span>—</span></li>
+    <li class="chip" id="chip-controller"><b>CONTROLLER</b><span>—</span></li>
+    <li class="chip" id="chip-evidence"><b>EVIDENCE</b><span>—</span></li>
+  </ul>
+</header>
+<main class="deck">
+  <section class="panel see" aria-labelledby="see-title">
+    <div class="panel-head"><h2 id="see-title">SEE</h2><span class="badge" id="see-badge">NO FEED</span></div>
+    <div class="panel-body empty">Perception panel arrives in the next build step.</div>
+  </section>
+  <section class="panel act" aria-labelledby="act-title">
+    <div class="panel-head"><h2 id="act-title">ACT</h2><span class="badge" id="act-badge">NO FEED</span></div>
+    <div class="panel-body" id="twin"><p class="empty">Digital twin loading…</p></div>
+  </section>
+  <section class="panel think" aria-labelledby="think-title">
+    <div class="panel-head"><h2 id="think-title">THINK</h2><span class="badge" id="think-badge">LIVE</span></div>
+    <div class="panel-body empty">Decision pipeline arrives in a later build step.</div>
+  </section>
+  <section class="panel timeline" aria-labelledby="timeline-title">
+    <div class="panel-head"><h2 id="timeline-title">EVIDENCE TIMELINE</h2></div>
+    <div class="panel-body empty">Evidence timeline arrives in a later build step.</div>
+  </section>
+  <section class="panel accel" aria-labelledby="accel-title">
+    <div class="panel-head"><h2 id="accel-title">INTEL ACCELERATION</h2><span class="badge">BENCHMARK</span></div>
+    <div class="panel-body empty">Benchmark card arrives in a later build step.</div>
+  </section>
+</main>
+<footer class="statusline"><span id="connection" role="status" aria-live="polite">Connecting to local runtime…</span><span>Read-only view · this page sends no robot commands</span></footer>
+<script type="module" src="/static/mission/app.js"></script>
+</body>
+</html>

@@ -177,3 +177,32 @@ class ReplayDisabledTests(unittest.TestCase):
             finally:
                 server.shutdown()
                 server.server_close()
+
+
+class MissionStaticTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        runtime = InspectionRuntime(CameraSource(max_age=1),
+                                    evidence_path=Path(self.tmp.name) / "e.jsonl", evidence_kind="mock")
+        self.server = make_server(runtime, port=0)
+        threading.Thread(target=self.server.serve_forever, daemon=True).start()
+        self.base = f"http://127.0.0.1:{self.server.server_port}"
+
+    def tearDown(self):
+        self.server.shutdown()
+        self.server.server_close()
+        self.tmp.cleanup()
+
+    def test_mission_page_and_vendored_modules_are_served(self):
+        page = urlopen(self.base + "/mission", timeout=5).read().decode()
+        self.assertIn('type="importmap"', page)
+        module = urlopen(self.base + "/static/vendor/three/three.module.min.js", timeout=5)
+        self.assertEqual(module.headers["Content-Type"], "text/javascript")
+        self.assertIn(b"three.core.min.js", module.read())
+
+    def test_static_route_rejects_traversal_and_unknown_types(self):
+        for path in ("/static/../web.py", "/static/%2e%2e/web.py", "/static/vendor/README.md",
+                     "/static/vendor/three/LICENSE", "/static/missing.js"):
+            with self.assertRaises(HTTPError) as caught:
+                urlopen(self.base + path, timeout=5)
+            self.assertEqual(caught.exception.code, 404, path)

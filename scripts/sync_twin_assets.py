@@ -1,0 +1,58 @@
+"""Fetch the SO101 URDF and meshes for the mission control digital twin.
+
+Source: TheRobotStudio/SO-ARM100 (Apache-2.0) at a pinned commit, the same model
+Physical AI Studio renders. Every file is checked against its SHA-256 before it
+is written, so a changed upstream file fails loudly instead of rendering wrong.
+The meshes are about 18 MB, so they stay out of Git; remote staging copies them.
+"""
+from __future__ import annotations
+
+import hashlib
+from pathlib import Path
+from urllib.request import urlopen
+
+COMMIT = "fda892cba81032c46c40976a48c9ceadbf40a9ca"
+BASE = f"https://raw.githubusercontent.com/TheRobotStudio/SO-ARM100/{COMMIT}"
+TARGET = Path(__file__).resolve().parents[1] / "secondlook/static/twin/SO101"
+
+# Published path under TARGET -> (upstream path, SHA-256)
+FILES = {
+    "LICENSE": ("LICENSE", "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"),
+    "so101_new_calib.urdf": ("Simulation/SO101/so101_new_calib.urdf",
+                             "3a65d2d35e68a8d2f0c2cc176d19b884506543c93ba72980145b80abe276022c"),
+    **{f"assets/{name}.stl": (f"Simulation/SO101/assets/{name}.stl", digest) for name, digest in {
+        "base_motor_holder_so101_v1": "8cd2f241037ea377af1191fffe0dd9d9006beea6dcc48543660ed41647072424",
+        "base_so101_v2": "bb12b7026575e1f70ccc7240051f9d943553bf34e5128537de6cd86fae33924d",
+        "motor_holder_so101_base_v1": "31242ae6fb59d8b15c66617b88ad8e9bded62d57c35d11c0c43a70d2f4caa95b",
+        "motor_holder_so101_wrist_v1": "887f92e6013cb64ea3a1ab8675e92da1e0beacfd5e001f972523540545e08011",
+        "moving_jaw_so101_v1": "785a9dded2f474bc1d869e0d3dae398a3dcd9c0c345640040472210d2861fa9d",
+        "rotation_pitch_so101_v1": "9be900cc2a2bf718102841ef82ef8d2873842427648092c8ed2ca1e2ef4ffa34",
+        "sts3215_03a_no_horn_v1": "75ef3781b752e4065891aea855e34dc161a38a549549cd0970cedd07eae6f887",
+        "sts3215_03a_v1": "a37c871fb502483ab96c256baf457d36f2e97afc9205313d9c5ab275ef941cd0",
+        "under_arm_so101_v1": "d01d1f2de365651dcad9d6669e94ff87ff7652b5bb2d10752a66a456a86dbc71",
+        "upper_arm_so101_v1": "475056e03a17e71919b82fd88ab9a0b898ab50164f2a7943652a6b2941bb2d4f",
+        "waveshare_mounting_plate_so101_v2": "e197e24005a07d01bbc06a8c42311664eaeda415bf859f68fa247884d0f1a6e9",
+        "wrist_roll_follower_so101_v1": "4b17b410a12d64ec39554abc3e8054d8a97384b2dc4a8d95a5ecb2a93670f5f4",
+        "wrist_roll_pitch_so101_v2": "6c7ec5525b4d8b9e397a30ab4bb0037156a5d5f38a4adf2c7d943d6c56eda5ae",
+    }.items()},
+}
+
+
+def main() -> None:
+    for published, (upstream, expected) in FILES.items():
+        path = TARGET / published
+        if path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == expected:
+            continue
+        with urlopen(f"{BASE}/{upstream}", timeout=60) as response:
+            data = response.read()
+        actual = hashlib.sha256(data).hexdigest()
+        if actual != expected:
+            raise SystemExit(f"{upstream}: SHA-256 {actual} does not match pinned {expected}")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+        print(f"fetched {published}")
+    print(f"SO101 twin assets ready in {TARGET}")
+
+
+if __name__ == "__main__":
+    main()

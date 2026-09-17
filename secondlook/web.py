@@ -19,6 +19,8 @@ from .voice import AUDIO_TYPES, MAX_AUDIO_BYTES, MAX_SPEECH_CHARS, VoiceError
 RANGE = re.compile(r"bytes=(\d*)-(\d*)$")
 VIDEO_ROUTE = re.compile(r"/api/replay/video/(\d+)/(\d+)/(\d+)$")
 EPISODE_ROUTE = re.compile(r"/api/replay/episodes/(\d+)$")
+STATIC_TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css",
+                ".urdf": "application/xml", ".stl": "model/stl"}
 
 
 def byte_range(header: str | None, size: int) -> tuple[int, int] | None:
@@ -86,6 +88,10 @@ def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
                 self.send(200, json.dumps({"records": records}, allow_nan=False).encode(), "application/json")
             elif path.startswith("/api/replay/"):
                 self.replay_get(path)
+            elif path == "/mission":
+                self.send(200, (static / "mission.html").read_bytes(), STATIC_TYPES[".html"])
+            elif path.startswith("/static/"):
+                self.static_get(path.removeprefix("/static/"))
             elif path in ("/", "/app.js", "/style.css"):
                 name, mime = {"/": ("index.html", "text/html; charset=utf-8"),
                               "/app.js": ("app.js", "text/javascript"),
@@ -93,6 +99,15 @@ def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
                 self.send(200, (static / name).read_bytes(), mime)
             else:
                 self.send(404, b'{"error":"Not found"}', "application/json")
+
+        def static_get(self, relative: str):
+            file = (static / relative).resolve()
+            mime = STATIC_TYPES.get(file.suffix)
+            if not mime or not file.is_relative_to(static.resolve()) or not file.is_file():
+                return self.json_error(404, "Not found")
+            if file.suffix == ".stl":
+                return self.send_file(file, mime)  # large and pinned, so let the browser cache it
+            self.send(200, file.read_bytes(), mime)
 
         def replay_get(self, path: str):
             if replay is None:

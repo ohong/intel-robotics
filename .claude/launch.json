@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mission-replay",
+      "runtimeExecutable": "uv",
+      "runtimeArgs": ["run", "--group", "cv", "scripts/run_app.py", "--camera", "/dev/null-no-camera-on-mac", "--port", "8091",
+                      "--replay-dataset", "artifacts/recording/pilot-five-20260916T004831Z/dataset",
+                      "--evidence", "artifacts/runtime/mission-dev.jsonl", "--lock-file", "/tmp/secondlook-mission-dev.lock"],
+      "port": 8091
+    }
+  ]
+}
