@@ -1,7 +1,8 @@
 """Operator HTTP interface. There are deliberately no motion routes.
 
-The only POST routes are voice: speech sets an allowlisted task instruction,
-and narration text becomes audio. Neither arms or moves the robot.
+The only POST routes are voice: speech or a GPT-Live phrase sets an allowlisted
+task instruction, narration text becomes audio, and a GPT-Live SDP offer is
+exchanged for an answer. None of them arms or moves the robot.
 """
 from __future__ import annotations
 
@@ -12,6 +13,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+from .live import MAX_SDP_BYTES, LiveClient, LiveError
 from .replay import ReplayDataset
 from .runtime import InspectionRuntime
 from .studio_robot import StudioRobotSource
@@ -43,7 +45,7 @@ def byte_range(header: str | None, size: int) -> tuple[int, int] | None:
 
 def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
                 port: int = 8088, replay: ReplayDataset | None = None,
-                robot: StudioRobotSource | None = None) -> ThreadingHTTPServer:
+                robot: StudioRobotSource | None = None, live: LiveClient | None = None) -> ThreadingHTTPServer:
     if host not in ("127.0.0.1", "localhost", "::1"):
         raise ValueError("Operator app must bind to loopback; use an SSH tunnel")
     static = Path(__file__).parent / "static"
@@ -98,6 +100,9 @@ def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
                 if path == "/api/robot/latest":
                     return self.send(200, json.dumps(robot.latest(), allow_nan=False).encode(), "application/json")
                 self.robot_stream()
+            elif path == "/api/live":
+                body = live.status() if live else {"status": "UNAVAILABLE", "error": "OPENAI_API_KEY is not configured"}
+                self.send(200, json.dumps(body).encode(), "application/json")
             elif path == "/mission":
                 self.send(200, (static / "mission.html").read_bytes(), STATIC_TYPES[".html"])
             elif path.startswith("/static/"):
@@ -192,34 +197,60 @@ def make_server(runtime: InspectionRuntime, host: str = "127.0.0.1",
         def json_error(self, code: int, message: str):
             self.send(code, json.dumps({"error": message}).encode(), "application/json")
 
+        def same_origin(self) -> bool:
+            # Browsers send Origin on every POST; a page on another site cannot forge ours.
+            return self.headers.get("Origin") == f"http://{self.headers.get('Host', '')}"
+
         def do_POST(self):
             path = urlparse(self.path).path
-            if path not in ("/api/voice/command", "/api/voice/speak"):
+            limits = {"/api/voice/command": MAX_AUDIO_BYTES, "/api/voice/speak": 4096,
+                      "/api/task/instruction": 1024, "/api/live/session": MAX_SDP_BYTES}
+            if path not in limits:
                 return self.json_error(404, "Not found")
+            if path in ("/api/task/instruction", "/api/live/session") and not self.same_origin():
+                return self.json_error(403, "Cross-origin request refused")
             try:
                 length = int(self.headers.get("Content-Length", ""))
             except ValueError:
                 return self.json_error(411, "Content-Length required")
-            limit = MAX_AUDIO_BYTES if path == "/api/voice/command" else 4096
-            if not 0 < length <= limit:
+            if not 0 < length <= limits[path]:
                 return self.json_error(413, "Request body empty or too large")
             body = self.rfile.read(length)
             mime = self.headers.get("Content-Type", "").split(";")[0].strip().lower()
+            if path == "/api/live/session":
+                return self.live_session(body, mime)
             try:
                 if path == "/api/voice/command":
                     if mime not in AUDIO_TYPES:
                         return self.json_error(415, "Unsupported audio type")
                     result = runtime.voice_command(body, mime)
                     return self.send(200, json.dumps(result).encode(), "application/json")
+                key = "phrase" if path == "/api/task/instruction" else "text"
                 try:
-                    text = json.loads(body).get("text")
+                    text = json.loads(body).get(key)
                 except (ValueError, AttributeError):
                     text = None
+                if path == "/api/task/instruction":
+                    if not isinstance(text, str) or not text.strip() or len(text) > 200:
+                        return self.json_error(400, "phrase must be 1-200 characters")
+                    result = runtime.instruction_command(text.strip(), {"source": "gpt-live"})
+                    return self.send(200, json.dumps(result).encode(), "application/json")
                 if not isinstance(text, str) or not text.strip() or len(text) > MAX_SPEECH_CHARS:
                     return self.json_error(400, "text must be 1-500 characters")
                 audio, audio_mime = runtime.speak(text)
                 self.send(200, audio, audio_mime)
             except VoiceError as error:
                 self.json_error(502 if runtime.voice else 503, str(error))
+
+        def live_session(self, body: bytes, mime: str):
+            if live is None:
+                return self.json_error(503, "GPT-Live unavailable: OPENAI_API_KEY is not configured")
+            if mime != "application/sdp" or not body.startswith(b"v=0"):
+                return self.json_error(400, "SDP offer required")
+            try:
+                answer = live.create_session(body.decode())
+            except (LiveError, UnicodeError) as error:
+                return self.json_error(502, str(error))
+            self.send(200, answer.encode(), "application/sdp")
 
     return ThreadingHTTPServer((host, port), Handler)

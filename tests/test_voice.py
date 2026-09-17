@@ -19,6 +19,7 @@ class MatchTests(unittest.TestCase):
     def test_unrelated_or_empty_speech_does_not_match(self):
         self.assertIsNone(match_command("what's the weather today", COMMANDS))
         self.assertIsNone(match_command("   ", COMMANDS))
+        self.assertIsNone(match_command("sort the lego blocks", []))
 
     def test_ambiguous_speech_is_rejected(self):
         commands = [{"instruction": "A", "phrases": ["move the block left"]},

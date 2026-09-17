@@ -13,6 +13,7 @@ import threading
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from secondlook.runtime import CameraSource, InspectionRuntime
+from secondlook.live import LiveClient
 from secondlook.voice import FalClient, load_commands
 from secondlook.web import make_server
 
@@ -88,7 +89,8 @@ def main() -> None:
     if args.studio_robot_session:
         from secondlook.studio_robot import StudioRobotSource
         robot = StudioRobotSource(args.studio_robot_session, args.studio_python)
-    server = make_server(runtime, port=args.port, replay=replay, robot=robot)
+    server = make_server(runtime, port=args.port, replay=replay, robot=robot,
+                         live=LiveClient.from_env())
 
     def shutdown(*_args):
         threading.Thread(target=server.shutdown, daemon=True).start()

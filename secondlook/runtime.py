@@ -304,6 +304,10 @@ class InspectionRuntime:
         if self.voice is None:
             raise VoiceError("Voice unavailable: FAL_KEY is not configured")
         transcript = self.voice.transcribe(audio, mime)
+        return self.instruction_command(transcript, {"stt_model": self.voice.stt_model})
+
+    def instruction_command(self, transcript: str, provenance: dict) -> dict:
+        """Set the allowlisted instruction that clearly matches the phrase; otherwise change nothing."""
         match = match_command(transcript, self.voice_commands)
         if match:
             self.task_instruction = match["instruction"]
@@ -312,7 +316,7 @@ class InspectionRuntime:
         record = {
             "event": "voice_command", "evidence_kind": self.evidence_kind,
             "observation_id": str(uuid.uuid4()),
-            "provenance": {"revision": self.revision, "stt_model": self.voice.stt_model},
+            "provenance": {"revision": self.revision, **provenance},
             "transcript": transcript, "matched": match, "task_instruction": self.task_instruction or None,
             "controller_result": "DISARMED",
             "outcome": "INSTRUCTION_SET" if match else "REJECTED_UNKNOWN_TASK",

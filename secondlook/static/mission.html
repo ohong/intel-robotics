@@ -25,6 +25,9 @@
     <li class="chip" id="chip-controller"><b>CONTROLLER</b><span>—</span></li>
     <li class="chip" id="chip-evidence"><b>EVIDENCE</b><span>—</span></li>
   </ul>
+  <button type="button" class="orb" id="orb" data-state="idle" aria-pressed="false" aria-describedby="orb-label">
+    <span class="orb-core" aria-hidden="true"></span><span class="orb-label" id="orb-label">Ask the robot</span>
+  </button>
 </header>
 <main class="deck">
   <section class="panel see" aria-labelledby="see-title">
@@ -110,7 +113,7 @@
     </div>
   </section>
 </main>
-<footer class="statusline"><span id="connection" role="status" aria-live="polite">Connecting to local runtime…</span><span>Read-only view · this page sends no robot commands</span></footer>
+<footer class="statusline"><span id="connection" role="status" aria-live="polite">Connecting to local runtime…</span><span>Read-only view · this page sends no robot commands; voice can only select an allowlisted task text</span></footer>
 <script type="module" src="/static/mission/app.js"></script>
 </body>
 </html>

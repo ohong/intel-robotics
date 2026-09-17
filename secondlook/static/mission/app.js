@@ -7,6 +7,7 @@ import { renderSee, clearSee } from './see.js';
 import { renderPipeline, streamThought } from './pipeline.js';
 import { startTimeline } from './timeline.js';
 import { startAccel } from './accel.js';
+import { startLive } from './live.js';
 const el = id => document.getElementById(id);
 let startedAt = null;
 
@@ -61,6 +62,14 @@ setInterval(tickClock, 250);
 startTimeline();
 startAccel();
 
+const JOINTS = ['shoulder_pan', 'shoulder_lift', 'elbow_flex', 'wrist_flex', 'wrist_roll', 'gripper'];
+let pose = null;  // last pose drawn on the twin, reported to GPT-Live with the ACT badge as its source
+startLive({getPose: () => {
+  const source = el('act-badge').textContent;
+  if (!pose || source === 'NO FEED') return {status: 'UNAVAILABLE', source, detail: el('act-caption').textContent};
+  return {status: source, detail: el('act-caption').textContent, units: 'degrees; gripper 0-100', ...pose};
+}}).catch(error => streamThought(`GPT-Live unavailable: ${error.message}`, {source: 'voice', tone: 'warn'}));
+
 (async () => {
   let twin;
   try {
@@ -70,8 +79,12 @@ startAccel();
     document.querySelector('#twin .empty').textContent = `Digital twin unavailable: ${error.message}`;
     return;
   }
-  const JOINTS = ['shoulder_pan', 'shoulder_lift', 'elbow_flex', 'wrist_flex', 'wrist_roll', 'gripper'];
-  const updateJoints = createJointBars(twin, document.getElementById('joints'), JOINTS);
+  const drawJoints = createJointBars(twin, document.getElementById('joints'), JOINTS);
+  const updateJoints = (measured, target) => {
+    const named = values => values ? Object.fromEntries(JOINTS.map((name, i) => [name, Math.round(values[i] * 10) / 10])) : null;
+    pose = {measured: named(measured), target: named(target)};
+    drawJoints(measured, target);
+  };
   let replay = null;
   try {
     replay = await startReplay(twin, updateJoints);

@@ -52,7 +52,7 @@ def match_command(transcript: str, commands: list[dict], threshold: float = .75,
                   margin: float = .08) -> dict | None:
     """Return the one clearly best command, or None when unmatched or ambiguous."""
     heard = normalize(transcript)
-    if not heard:
+    if not heard or not commands:
         return None
     scored = sorted(
         ((max(difflib.SequenceMatcher(None, heard, normalize(p)).ratio()

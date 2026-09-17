@@ -31,6 +31,7 @@ export function streamThought(text, {source = 'runtime', tone = ''} = {}) {
   entry.append(time, tag, body);
   list.prepend(entry);
   while (list.children.length > STREAM_LIMIT) list.lastElementChild.remove();
+  return body;  // callers streaming a transcript extend this text in place
 }
 
 function pulse() {
