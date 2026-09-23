@@ -1,5 +1,14 @@
 # Execution state
 
+## Latest placement wrap — September 23, 2026
+
+- Source: `main` in `/Users/ohong/dev/intel-robotics`. The placement source was reconciled earlier; `docs/PLACEMENT_SMOLVLA_STATUS.md` records the final scope and open gates. The `codex/placement-smolvla` branch and worktree are being retired.
+- Local evidence: ignored `artifacts/placement/` was copied from the branch and compared byte-for-byte. The frozen Intel dataset and H100 transfer archive remain outside Git.
+- Current remote access: `intel-robot` at the last known address timed out. H100 transfer/job state cannot be verified today. Do not infer continued training from the old transfer receipt.
+- Owned training or robot-control processes started by this wrap: none. No placement checkpoint, Intel inference benchmark, or physical placement result is established.
+- Next milestone, if resumed: restore trusted Intel access, verify H100 archive and job/lock state, run H100 SmolVLA smoke and fit, then measure each route offline and verify Intel inference before supervised motion.
+- Original challenge deadline has passed; no active event time budget is known. The older sections below preserve historical evidence and may describe an earlier pause or stale service PIDs.
+
 Updated September 15, 2026. Inspection pilot only; autonomous challenge incomplete.
 
 ## Paused by the user
