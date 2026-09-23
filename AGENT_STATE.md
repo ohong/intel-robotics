@@ -10,9 +10,9 @@ Honest state: inspection pilot only. The detector runs on real camera frames, th
 |---|---|---|
 | Source and docs | GitHub `ohong/intel-robotics`, branch `main` (public) | The only branch. Every earlier branch was merged into `main` or is preserved in the archive bundle. |
 | Bulk artifacts (`artifacts/`) | HF dataset `ohong/intel-robotics-dataset` (public) | This mirrors the ignored `artifacts/` tree, excluding `artifacts/runtime/` scratch logs. Restore: `hf download ohong/intel-robotics-dataset --repo-type dataset --local-dir .` |
-| Full git history | HF dataset `ohong/intel-robotics-archive` (private), `intel-robotics-all.bundle` | This holds every branch and tag, including `codex/placement-smolvla`, `codex/placement-reconcile`, `codex/second-look`, `codex/h100-readiness`, `backup-pre-strip`, and the `backup/*` tags. |
+| Full git history | HF dataset `ohong/intel-robotics-archive` (private), `intel-robotics-all.bundle` | Retired branches are kept as tags `archive/pre-cleanup/{codex/placement-smolvla,codex/placement-reconcile,codex/second-look,codex/h100-readiness,backup-pre-strip,main}`, next to the older `backup/*` tags. `SHA256SUMS` covers every file. |
 | Git LFS objects | Same private archive, `git-lfs-objects.tar` | This includes the pilot deliverable `second-look-pilot-a9ed13af508b6165.tar.gz` (300084158 bytes, LFS oid `87e0aee1…`) and an older 275835296-byte tarball (`03b71d65…`). Older branches reference them as LFS pointers. |
-| `pc-context/` | Same private archive | It holds Intel PC discovery notes. Git ignores it. |
+| `pc-context/` | Same private archive, `pc-context.tar` | It holds Intel PC discovery notes. Git ignores it. |
 | Placement source dataset | Intel PC `/home/ird-demo/.local/share/physicalai/datasets/a65a330b-6de7-4d01-85c5-9882037642b5` (695 MiB) | **Only copy.** Back it up to HF when Intel access returns. |
 | Placement derivative | Intel PC `/home/ird-demo/second-look/placement-v1/{source,dataset,prepared,code}` | 27 episodes, 16,981 frames, 512×288. |
 | Placement H100 bundle | Intel `/home/ird-demo/second-look/h100-readiness/placement-data-v1.tar` (222,894,080 B, SHA-256 `bf5a1919b0aa00eff7607afd00d74cd527fdd3265ae3ce8fef38ff551bbe3a49`) | Intended H100 target: `/workspace/second-look-h100/placement-v1/placement-data-v1.tar`. The H100 copy is **not confirmed**. |
@@ -25,7 +25,10 @@ To restore the full history on a new machine:
 hf download ohong/intel-robotics-archive --repo-type dataset --local-dir intel-robotics-archive
 git clone intel-robotics-archive/intel-robotics-all.bundle intel-robotics
 cd intel-robotics && git remote set-url origin git@github.com:ohong/intel-robotics.git
+git fetch --tags ../intel-robotics-archive/intel-robotics-all.bundle 'refs/tags/*:refs/tags/*'
 tar -xf ../intel-robotics-archive/git-lfs-objects.tar -C .git
+tar -xf ../intel-robotics-archive/pc-context.tar
+hf download ohong/intel-robotics-dataset --repo-type dataset --local-dir .
 ```
 
 ## Placement facts (from the retired `codex/placement-smolvla` worktree)
