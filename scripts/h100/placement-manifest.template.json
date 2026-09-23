@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "DRAFT_NOT_QUALIFIED",
+  "skill": "inspection_to_selected_bin",
+  "evidence_kind": "real",
+  "finalized": false,
+  "task_ready": false,
+  "controller_ready": false,
+  "placement_contract": {
+    "start": "actual_ACT_handoff_pose",
+    "end": "released_block_and_cleared_bin",
+    "handoff_reference": null,
+    "robot_control_owner": null
+  },
+  "robot_contract": {
+    "state_semantics": "measured follower joint positions",
+    "joint_order": []
+  },
+  "joint_names": [],
+  "cameras": [],
+  "features": {},
+  "episodes": [],
+  "train_episodes": [],
+  "validation_episodes": [],
+  "final_eval_episodes": [],
+  "split_scope": "episode_pilot",
+  "generalization_claim_permitted": false,
+  "normalization": {
+    "training_episodes_only": [],
+    "training_rows": 0,
+    "excluded_validation_episodes": [],
+    "excluded_final_episodes": []
+  },
+  "files": {},
+  "train_stats_sha256": null
+}

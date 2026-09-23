@@ -21,6 +21,8 @@ def extract(args):
             and manifest.get('status') == 'OFFLINE_DATA_VALIDATED', 'Require a finalized real recording')
     require(args.episode in manifest['validation_episodes'], 'Extract a held-out validation observation')
     require(len(manifest['joint_names']) == 6, 'Expected six recorded joints')
+    require(manifest.get('robot_contract', {}).get('state_semantics') == 'measured follower joint positions',
+            'Extraction requires measured state provenance, not commanded targets')
     require(snapshot(root) == manifest['files'], 'Frozen recording file inventory changed')
     prepare_owned_environment()
     import numpy as np
@@ -44,20 +46,22 @@ def extract(args):
     try:
         images = {}
         keys = camera_keys(manifest)
-        require(len(keys) == 2, 'Require both actual camera recordings')
+        mapping = manifest.get('camera_identity_mapping', manifest.get('capture_provenance', {}).get('camera_identity_mapping', {}))
+        require(1 <= len(keys) <= 3 and len(set(keys)) == len(keys) and set(keys) == set(mapping),
+                'Require every mapped actual camera recording, within three native slots')
         for index, key in enumerate(keys):
             pixels = item[key]
             require(pixels.ndim == 3 and pixels.shape[0] == 3 and bool(torch.isfinite(pixels).all())
                     and float(pixels.min()) >= 0 and float(pixels.max()) <= 1, 'Invalid native RGB tensor')
             rgb = (pixels.permute(1, 2, 0).numpy() * 255).round().astype('uint8')
-            require(list(rgb.shape) == manifest['camera_identity_mapping'][key]['recorded_rgb_shape_hwc'], 'Recorded camera shape differs')
+            require(list(rgb.shape) == mapping[key]['recorded_rgb_shape_hwc'], 'Recorded camera shape differs')
             filename = f'camera-{index}.png'
             Image.fromarray(rgb).save(temporary / filename, format='PNG')
             images[key.removeprefix('observation.images.')] = {
                 'path': filename, 'sha256': digest(temporary / filename),
                 'raw_rgb_sha256': hashlib.sha256(rgb.tobytes(order='C')).hexdigest(),
                 'shape': list(rgb.shape), 'raw_format': 'uint8_HWC_RGB_contiguous',
-                'camera_identity': manifest['camera_identity_mapping'][key]}
+                'camera_identity': mapping[key]}
         observation = {
             'evidence_kind': 'real', 'observation_id': f'{args.manifest_sha256}:episode-{args.episode}:frame-{args.frame}',
             'episode_index': args.episode, 'frame_index': args.frame, 'index': args.expected_index,

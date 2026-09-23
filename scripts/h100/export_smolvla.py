@@ -111,9 +111,10 @@ def export_plan(hparams, manifest, stats, backbone):
             'Unsupported Aloha conversion or SnapFlow mode')
     mapping = config['image_key_reorder_map']
     cameras = [key.removeprefix('observation.images.') for key in manifest.get('cameras', list(manifest.get('camera_identity_mapping', {})))]
-    require(len(cameras) == 2 and set(mapping) == set(cameras), 'Require the two actual camera keys')
+    require(1 <= len(cameras) <= 3 and len(set(cameras)) == len(cameras)
+            and set(mapping) == set(cameras), 'Require every actual camera key within three native slots')
     require(all(type(v) is int and 0 <= v < 3 for v in mapping.values())
-            and len(set(mapping.values())) == 2, 'Camera slots must be distinct integers 0..2')
+            and len(set(mapping.values())) == len(cameras), 'Camera slots must be distinct integers 0..2')
     features = {'observation.state': {'type': 'STATE', 'shape': list(native_stats['observation.state']['shape'])}}
     for camera in cameras:
         candidate = native_stats.get(f'observation.{camera}')

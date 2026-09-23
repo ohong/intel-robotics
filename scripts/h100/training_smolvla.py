@@ -20,6 +20,7 @@ import time
 from training_act import (OWN_ROOT, STUDIO_REVISION, check_capture, checked_path,
                           check_resume_packages, check_splits, digest, dump, read,
                           require, snapshot)
+from placement_contract import INSTRUCTIONS, check_placement, frozen_capture as placement_capture
 
 BASE_REVISION = 'c83c3163b8ca9b7e67c509fffd9121e66cb96205'
 BASE_SHA256 = '7cd549ac2351fb069c0ddb3c34ad2d09cfc92b56a15dccdfc2e41467aaca01eb'
@@ -126,6 +127,9 @@ def check_annotations(config, manifest, *, for_fit=False):
 
 def check_conditioning(config, manifest, *, for_fit=True):
     conditioning = config.get('conditioning', {})
+    if config.get('training_scope') == 'step_three_placement':
+        check_placement(manifest, conditioning)
+        return conditioning
     require(conditioning.get('mode') in ('recorded_task', 'episode_task', 'anomalib_rows'), 'Choose an explicit supported conditioning mode')
     require(conditioning.get('claim') == 'experimental_imitation', 'This runner supports experimental imitation claims only')
     if conditioning['mode'] == 'episode_task':
@@ -205,14 +209,20 @@ def check(config, *, purpose='fit'):
     require(manifest.get('evidence_kind') == 'real', 'This fine-tuning runner requires real recordings')
     # Pilot splits can share sessions, but never rows. Such results carry no generalization claim.
     check_splits(manifest, 'train' if manifest.get('split_scope') == 'grouped_evaluation' else 'smoke')
-    require(manifest.get('split_scope') in ('grouped_evaluation', 'loader_smoke'), 'Unknown split scope')
+    placement = config.get('training_scope') == 'step_three_placement'
+    require(manifest.get('split_scope') in (('grouped_evaluation', 'episode_pilot') if placement else ('grouped_evaluation', 'loader_smoke')), 'Unknown split scope')
+    if placement:
+        check_placement(manifest, config.get('conditioning', {}))
+        require(digest(manifest_path) == config.get('manifest_sha256'), 'Placement manifest checksum differs')
     probe = config.get('training_scope') == 'real_data_pipeline_probe'
-    frozen_capture = check_pipeline_probe(config, manifest) if probe else None
+    frozen_capture = check_pipeline_probe(config, manifest) if probe else (placement_capture(manifest) if placement else None)
     if probe:
         require(digest(manifest_path) == config.get('manifest_sha256'), 'Probe manifest checksum differs')
     if purpose == 'fit' and not probe:
         for ep in manifest['episodes']:
             accepted_outcomes = {'complete_success'}
+            if placement and manifest['placement_contract'].get('qualification') == 'operator_confirmed_demonstration_scope':
+                accepted_outcomes.add('operator_confirmed_placement_demonstration')
             if config.get('training_scope') == 'developmental_observed_transfer':
                 accepted_outcomes.add('observed_transfer')
             require(ep.get('outcome') in accepted_outcomes and ep.get('outcome_evidence'), 'Need observed demonstration outcome evidence')
@@ -259,14 +269,15 @@ def check(config, *, purpose='fit'):
     require(not output.resolve().is_relative_to(root), 'Output cannot alter the recording snapshot')
     return {'root': root, 'manifest': manifest, 'manifest_path': manifest_path, 'stats': stats,
             'stats_path': stats_path, 'base': base, 'backbone': backbone, 'output': output.resolve(),
-            'capture': frozen_capture if probe else (check_capture(config, manifest) if purpose == 'fit' else None),
+            'capture': frozen_capture if probe or placement else (check_capture(config, manifest) if purpose == 'fit' else None),
             'conditioning': check_conditioning(config, manifest, for_fit=purpose == 'fit')}
 
 
 def identity(config, checked):
     fixed = {key: value for key, value in config.items() if key not in ('max_steps', 'max_seconds', 'output_dir')}
     fixed.update(manifest_sha256=digest(checked['manifest_path']), launcher_sha256=digest(__file__),
-                 shared_helpers_sha256=digest(Path(__file__).with_name('training_act.py')))
+                 shared_helpers_sha256=digest(Path(__file__).with_name('training_act.py')),
+                 placement_contract_sha256=digest(Path(__file__).with_name('placement_contract.py')))
     return hashlib.sha256(json.dumps(fixed, sort_keys=True).encode()).hexdigest()
 
 
@@ -328,7 +339,7 @@ def run(config, checked, mode, resume):
     import fcntl
     require(platform.system() == 'Linux' and OWN_ROOT.is_dir(), 'Use the allocated Linux H100 workspace')
     for key in ('dataset_root', 'manifest', 'capture_manifest', 'capture_runtime', 'base_dir', 'backbone_dir', 'studio_library'):
-        if config.get('training_scope') == 'real_data_pipeline_probe' and key in ('capture_manifest', 'capture_runtime'):
+        if config.get('training_scope') in ('real_data_pipeline_probe', 'step_three_placement') and key in ('capture_manifest', 'capture_runtime'):
             continue
         require(Path(config[key]).resolve().is_relative_to(OWN_ROOT), f'{key} must be staged in owned workspace')
     lock = (OWN_ROOT / '.gpu-job.lock').open('a+')
@@ -380,11 +391,16 @@ def run(config, checked, mode, resume):
     conditioning = checked['conditioning']
     annotations = check_annotations(config, manifest, for_fit=True) if conditioning['mode'] == 'anomalib_rows' else None
     annotated_rows = {row['index']: row for row in annotations['rows']} if annotations else {}
+    destinations = {ep['episode_index']: ep.get('destination') for ep in manifest['episodes']}
 
     class ConditionedDataset(LeRobotDataset):
         def __getitem__(self, index):
             item = super().__getitem__(index)
-            if conditioning['mode'] == 'episode_task':
+            if conditioning['mode'] == 'selected_instruction':
+                text = INSTRUCTIONS[destinations[int(item['episode_index'])]]
+                require(item.get('task') == text, 'Loaded placement caption disagrees with frozen episode destination')
+                item['task'] = text
+            elif conditioning['mode'] == 'episode_task':
                 eid = str(int(item['episode_index']))
                 item['task'] = conditioning['episodes'][eid]['text']
             elif annotations:
@@ -448,7 +464,11 @@ def run(config, checked, mode, resume):
                     continue
                 text = annotation_text(conditioning['instruction'], annotation, annotations['threshold'])
             else:
-                text = conditioning['episodes'][str(eid)]['text'] if conditioning['mode'] == 'episode_task' else task_text[int(row['task_index'])]
+                if conditioning['mode'] == 'selected_instruction':
+                    text = INSTRUCTIONS[destinations[eid]]
+                    require(task_text[int(row['task_index'])] == text, 'Recorded task caption differs from the frozen placement instruction')
+                else:
+                    text = conditioning['episodes'][str(eid)]['text'] if conditioning['mode'] == 'episode_task' else task_text[int(row['task_index'])]
             require(text.strip(), 'Empty task text')
             prompts_by_episode.setdefault(eid, set()).add(text)
     require(set(prompts_by_episode) == used_ids, 'Every training/validation episode needs eligible language-conditioned starts')
@@ -604,6 +624,33 @@ def run(config, checked, mode, resume):
         alternate_action = predict_fixed(selected, alternate_batch)
         sensitivity = float((selected_action - alternate_action).abs().max())
         require(math.isfinite(sensitivity) and sensitivity > 0, 'No measured task-language effect for fixed real inputs')
+        route_evaluation = {}
+        if config.get('training_scope') == 'step_three_placement' and mode == 'train':
+            # Select once on validation loss, then score each destination and final holdout.
+            # Final results must not be used to tune or select another checkpoint.
+            for split in ('validation_episodes', 'final_eval_episodes'):
+                route_evaluation[split] = {}
+                for destination in INSTRUCTIONS:
+                    ids = [eid for eid in manifest[split] if destinations[eid] == destination]
+                    evaluation_dm = LeRobotDataModule(dataset=train_data, train_batch_size=config['batch_size'],
+                                                      val_batch_size=config['batch_size'], num_workers=config['num_workers'])
+                    evaluation_dm.val_eval_dataset = _LeRobotDatasetAdapter.from_lerobot(load(ids))
+                    # Studio installs future-action windows only in on_fit_start.
+                    # Standalone validate needs the same explicit dataset adaptation.
+                    from physicalai.train.utils import reformat_dataset_to_match_policy
+                    reformat_dataset_to_match_policy(selected, evaluation_dm)
+                    evaluation_trainer = Trainer(accelerator='gpu', devices=1, precision=config['precision'],
+                                                 logger=False, enable_checkpointing=False, enable_progress_bar=False,
+                                                 enable_model_summary=False, default_root_dir=str(output))
+                    with torch.random.fork_rng(devices=[0]):
+                        torch.manual_seed(config['seed'] + 3)
+                        torch.cuda.manual_seed_all(config['seed'] + 3)
+                        metrics = evaluation_trainer.validate(selected, datamodule=evaluation_dm, verbose=False)
+                    require(metrics and metrics[0] and all(math.isfinite(float(value)) for value in metrics[0].values()),
+                            f'Invalid {destination}/{split} offline metrics')
+                    route_evaluation[split][destination] = {'episode_ids': ids, 'metrics': metrics[0],
+                                                           'physical_placement_success': 'NOT TESTED'}
+            dump(output / 'placement-route-evaluation.json', route_evaluation)
         result = {'status': 'EXPERIMENTAL_SMOLVLA_SMOKE_PASSED' if mode == 'smoke' else 'EXPERIMENTAL_SMOLVLA_VALIDATION_SELECTED',
                   'run_identity': run_id, 'mode': mode, 'evidence_kind': 'real', 'global_step': trainer.global_step,
                   'elapsed_seconds': time.monotonic() - start, 'gradient_check': evidence.gradient,
@@ -624,6 +671,10 @@ def run(config, checked, mode, resume):
                              'No deployment adapter or Intel parity is established by this native checkpoint.',
                              'Fit wall-clock budget is cooperative; checkpoint verification adds bounded work.',
                              'Shared specimens/sessions cannot support generalization claims.']}
+        if config.get('training_scope') == 'step_three_placement':
+            result.update(training_scope='step_three_placement', conditioning_source='selected exact destination instruction',
+                          route_evaluation=route_evaluation,
+                          final_eval_status='OFFLINE_EVALUATED_AFTER_SELECTION' if route_evaluation else 'UNTOUCHED')
         if config.get('training_scope') == 'real_data_pipeline_probe':
             result.update(status='REAL_DATA_PIPELINE_PROBE_NOT_DEPLOYABLE',
                           training_scope='real_data_pipeline_probe', conditioning_source='original recorded captions',
