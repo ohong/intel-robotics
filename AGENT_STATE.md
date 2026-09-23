@@ -1,54 +1,56 @@
 # Execution state
 
-## Latest placement wrap — September 23, 2026
+**Paused ("on ice") September 23, 2026 by the user.** No event clock applies. The original challenge judging (September 16) has passed. Nothing is running that this project owns: no training job, no robot-control process, no app service started by the wrap-up session.
 
-- Source: `main` in `/Users/ohong/dev/intel-robotics`. The placement source was reconciled earlier; `docs/PLACEMENT_SMOLVLA_STATUS.md` records the final scope and open gates. The `codex/placement-smolvla` branch and worktree are being retired.
-- Local evidence: ignored `artifacts/placement/` was copied from the branch and compared byte-for-byte. The frozen Intel dataset and H100 transfer archive remain outside Git.
-- Current remote access: `intel-robot` at the last known address timed out. H100 transfer/job state cannot be verified today. Do not infer continued training from the old transfer receipt.
-- Owned training or robot-control processes started by this wrap: none. No placement checkpoint, Intel inference benchmark, or physical placement result is established.
-- Next milestone, if resumed: restore trusted Intel access, verify H100 archive and job/lock state, run H100 SmolVLA smoke and fit, then measure each route offline and verify Intel inference before supervised motion.
-- Original challenge deadline has passed; no active event time budget is known. The older sections below preserve historical evidence and may describe an earlier pause or stale service PIDs.
+Honest state: inspection pilot only. The detector runs on real camera frames, the placement policy is untrained, the controller is DISARMED, and there are zero autonomous physical trials. Do not relabel this.
 
-Updated September 15, 2026. Inspection pilot only; autonomous challenge incomplete.
+## Where everything lives
 
-## Paused by the user
+| What | Where | Notes |
+|---|---|---|
+| Source and docs | GitHub `ohong/intel-robotics`, branch `main` (public) | The only branch. Every earlier branch was merged into `main` or is preserved in the archive bundle. |
+| Bulk artifacts (`artifacts/`) | HF dataset `ohong/intel-robotics-dataset` (public) | This mirrors the ignored `artifacts/` tree, excluding `artifacts/runtime/` scratch logs. Restore: `hf download ohong/intel-robotics-dataset --repo-type dataset --local-dir .` |
+| Full git history | HF dataset `ohong/intel-robotics-archive` (private), `intel-robotics-all.bundle` | This holds every branch and tag, including `codex/placement-smolvla`, `codex/placement-reconcile`, `codex/second-look`, `codex/h100-readiness`, `backup-pre-strip`, and the `backup/*` tags. |
+| Git LFS objects | Same private archive, `git-lfs-objects.tar` | This includes the pilot deliverable `second-look-pilot-a9ed13af508b6165.tar.gz` (300084158 bytes, LFS oid `87e0aee1…`) and an older 275835296-byte tarball (`03b71d65…`). Older branches reference them as LFS pointers. |
+| `pc-context/` | Same private archive | It holds Intel PC discovery notes. Git ignores it. |
+| Placement source dataset | Intel PC `/home/ird-demo/.local/share/physicalai/datasets/a65a330b-6de7-4d01-85c5-9882037642b5` (695 MiB) | **Only copy.** Back it up to HF when Intel access returns. |
+| Placement derivative | Intel PC `/home/ird-demo/second-look/placement-v1/{source,dataset,prepared,code}` | 27 episodes, 16,981 frames, 512×288. |
+| Placement H100 bundle | Intel `/home/ird-demo/second-look/h100-readiness/placement-data-v1.tar` (222,894,080 B, SHA-256 `bf5a1919b0aa00eff7607afd00d74cd527fdd3265ae3ce8fef38ff551bbe3a49`) | Intended H100 target: `/workspace/second-look-h100/placement-v1/placement-data-v1.tar`. The H100 copy is **not confirmed**. |
+| Frozen detector on Intel | `/home/ird-demo/second-look/artifacts/models/lego-h100-v3-82fdd2d1` | A copy is also on HF under `artifacts/models/h100-patchcore-v3/`. |
+| Other Intel snapshots | `/home/ird-demo/second-look/recording-snapshots/{pilot-five-20260916T004831Z,good-blue-ten-20260916T015528Z,inspection-six-20260916T015529Z}` | The pilot-five snapshot is also on HF. The other two are on Intel only, and their QC is incomplete. |
 
-The user requested a pause until more episodes are collected and training is authorized again. Stop requests were sent to the training and offline-QC owners. Preserve checkpoints, reports, and snapshots. Do not start more training, analysis, or deployment. Leave the user’s recording and hardware services unchanged.
+To restore the full history on a new machine:
 
-New verified snapshots on Intel, under `second-look/recording-snapshots/`: `good-blue-ten-20260916T015528Z` (10 episodes, 6774 frames) and `inspection-six-20260916T015529Z` (6 episodes, 4930 frames). Both have three cameras; QC is incomplete. Keep these separate from the older five episodes. Camera placement changed, and the newer good-to-blue caption conflicts with the older observed good-to-coral route. Defect/bin rules remain unconfirmed.
+```bash
+hf download ohong/intel-robotics-archive --repo-type dataset --local-dir intel-robotics-archive
+git clone intel-robotics-archive/intel-robotics-all.bundle intel-robotics
+cd intel-robotics && git remote set-url origin git@github.com:ohong/intel-robotics.git
+tar -xf ../intel-robotics-archive/git-lfs-objects.tar -C .git
+```
 
-The original-five SmolVLA probe completed one CUDA update and saved checkpoints. Native reload comparison failed; the training owner identified a CPU/CUDA noise mismatch as the suspected cause. No passing corrected comparison or deployable policy is established. Preserve the failed receipt; no further updates are authorized during this pause.
+## Placement facts (from the retired `codex/placement-smolvla` worktree)
 
-## Clock and source
+- The dataset has 27 operator-confirmed inspection-to-bin demonstrations. Episodes 0–14 are BLUE (GOOD) and episodes 15–26 are PINK (BAD). UNKNOWN makes no placement request.
+- The split is whole-episode: 17 train, 5 validation, and 5 final evaluation. Normalization uses only the training episodes. Manifest SHA-256: `943b996460a5d836410a5809abeb1ffe02835b8a43570c53101bf81a7bc3583c`.
+- Local receipts are in `artifacts/placement/`, which is on HF. The full record is in [docs/PLACEMENT_SMOLVLA_STATUS.md](docs/PLACEMENT_SMOLVLA_STATUS.md).
+- There is no fine-tune, no checkpoint, no Intel parity or latency result, and no physical placement result.
 
-- Original six-hour start, cutoff, and remaining time: UNKNOWN; no reset. Public judging: September 16.
-- Active source: `main` in `/Users/ohong/dev/intel-robotics`, consolidated September 15 from `codex/second-look` (application, docs, tests) and `codex/h100-readiness` (`scripts/h100/`, `docs/H100_READINESS.md`). Runtime source `2aa5149c57507428b28341312c1c9fd3aaaeecf2` produced release `a9ed13af508b6165`; later docs do not change deployment.
-- `artifacts/` and `pc-context/` are no longer tracked in Git; they are ignored and curated separately. Documents below still cite paths inside them, and those files remain on the machines named, not in this repository. `codex/placement-smolvla` is NOT merged; it holds uncommitted placement work in its own worktree.
-- Original checkout `/Users/ohong/dev/intel-robotics` remains user `main` at `0e3a1c8`; artifacts remain there. Intel: `intel-robot`, `ird-demo@NUC16GDKX76`, root `/home/ird-demo/second-look`.
+## Detector facts
 
-## Last verified services
+- PatchCore was fitted on the H100 and runs on OpenVINO GPU.0 FP32 on the Intel PC. The median model call is 14.68 ms, against 106.14 ms on Torch CPU. Torch vs OpenVINO parity passed 28/28. Release `a9ed13af508b6165` was built from source `2aa5149c57507428b28341312c1c9fd3aaaeecf2`, and 121/121 Intel tests passed at that release.
+- Validation: 14 repeated views of three specimens, all from one session. One defect was missed and four views were UNKNOWN. There is no unseen final test.
+- The original five episodes are **unusable for detector-conditioned training**. Of 3249 frames, 2614 are INVALID, and the other 635 are all ANOMALOUS with no link to the target block. The older SmolVLA probe on them failed native reload and is tagged `REAL_DATA_PIPELINE_PROBE_NOT_DEPLOYABLE`.
 
-- App: <http://127.0.0.1:8088>, `second-look-app.service`, PID 219757 verified 17:41 PDT; Mac tunnel PID 16010. At 17:59:59 API check: camera LIVE, detector INVALID/no inference/null score, policy BLOCKED, controller DISARMED/backend UNAVAILABLE, autonomous physical trials 0. Last real overlay browser check 17:43.
-- Attach-only low camera 1: `physicalai/camera/UVCCamera/4/frame`, 1920×1080 RGB. Last camera owners: 81425/video4, 91174/video10.
-- Studio ports 3000/7860 tunnel PID 11092. CV shutter 8091: `secondlook-cv-shutter-live.service`, Mac mirror PID 33929/tunnel PID 32892.
-- After camera 3 disconnection/stop request, Demonstrations verified recording already STOPPED 17:56:16: no runtime/robot or serial owners. Automatic hold/finalize 17:52:27; owners exited 17:53:04. No agent stop/reconnect/motion command. Physical pose/torque UNKNOWN.
+## Blockers when resuming
 
-## Model and evidence
+1. On September 23, SSH to `intel-robot` (`ird-demo@10.36.254.246`, `NUC16GDKX76`) timed out. The H100 is reachable only through Intel (`scripts/h100/transport.py`), so its state is unknown. Do not infer that training continued.
+2. Physical pose and torque of the SO-101 are unknown. Motion needs a fresh bounded authorization that states the workspace, limits, and stop procedure (see `AGENTS.md`).
+3. Defect criteria are not authoritative yet, and unseen specimens are needed.
 
-- Frozen Intel model: `/home/ird-demo/second-look/artifacts/models/lego-h100-v3-82fdd2d1`; genuine H100 PatchCore fit, OpenVINO GPU.0 FP32. Single colored block required in ROI `[900,620,1400,1060]`; physical presence/occlusion/visibility remain UNVERIFIED.
-- Validation: one defect miss and four UNKNOWN among 14 repeated views from one session; no unseen final test. Exact-release Intel tests 121/121, zero skips; conversion comparisons 28/28 passed. Model-only GPU median 14.68 ms; method/limits in [BUILD_EVIDENCE.md](docs/BUILD_EVIDENCE.md).
-- Original-checkout evidence: `artifacts/verification/{intel-checks-a9ed13af508b6165.txt,final-pilot-verification.json,post-recording-stop-app.json,pilot-benchmark.json}`. Complete model: `artifacts/models/h100-patchcore-v3`.
-- Verified detector archive: `artifacts/deliverables/second-look-pilot-a9ed13af508b6165.tar.gz`, 300084158 bytes, 3815 members; adjacent `pilot-bundle.json` supplies SHA/source. Excludes five real episodes/VLA weights; frozen docs predate later updates. Launch: [RUNBOOK.md](docs/RUNBOOK.md).
+## Next milestone
 
-## Data and active software probe
+Restore Intel access. Then verify the placement bundle hash on the H100, check the GPU lock, and run a SmolVLA placement smoke fit and then a full fit ([H100_TRAINING_GUIDE](docs/H100_TRAINING_GUIDE.md)). After that, verify the policy on Intel and wire the closed loop. The ordered plan is in the README "Next steps" section and in [docs/DEMO_READY_TASKS.md](docs/DEMO_READY_TASKS.md) (T3–T9).
 
-- Five episodes/3249 frames: structural/video, train-only statistics, manifest, and real native ACT small-profile loader/update/reload checks complete. Transfers observed; defect/bin correctness, synchronization, specimen/session independence unverified. Details: [DATASET_STATUS.md](docs/DATASET_STATUS.md).
-- Immutable Intel snapshot: `/home/ird-demo/second-look/recording-snapshots/pilot-five-20260916T004831Z/dataset`. Verified Mac backup: `/Users/ohong/dev/intel-robotics/artifacts/recording/pilot-five-20260916T004831Z/dataset`; seven files, 99132116 bytes, all source SHA values match. Adjacent `mac-snapshot-verification.json` is the receipt.
-- **Detector-conditioned sorting training BLOCKED:** 3249 annotations contain 2614 INVALID/no-inference rows and 635 predictions, all ANOMALOUS across both captions. Zero target-associated starts; all `target_association=UNKNOWN`, `conditioning_verified=false`. Crop often sees another block/pile. Finite scores do not authorize training. Full evidence: original `artifacts/cv/recording-annotations82/{annotations,coverage}.json`.
-- H100 owns only an original-caption genuine SmolVLA software/export probe: one-update job launched 18:10 PDT; no CUDA update verified yet; maximum 20 updates. Tag `REAL_DATA_PIPELINE_PROBE_NOT_DEPLOYABLE`, task/controller false. Captions condition this separate probe. Train 0/1/3; validation 2/4; no final test. This is not integrated Anomalib–VLA success. Prior recorded-image SmolVLA replay and synthetic ACT remain separately scoped evidence.
+## Test status at pause
 
-## Owner, blockers, next milestone
-
-- **Demonstrations** task `01a0a734-59c0-7961-917f-203c9392eb18` is sole robot-control owner. No automatic recording, reconnect, or motion.
-- Next: finish the bounded software probe; independently establish approved safe pause, camera 3 facts, defect/bin rules, workspace/stop limits, and bounded supervision authorization through Demonstrations. Present one identified block in the ROI, all others outside; capture target-associated data and unseen evaluation within that scope.
-- No task-ready policy/controller or autonomous result. Guard fixtures do not establish global command exclusivity or physical safety. Tools stopping does not promise continued execution.
+On the Mac, `uv run pytest` gives 160 passed and 1 failed. The failure is `tests/test_voice.py::LiveFalRoundTrip`, which calls the live fal.ai API: it needs network access and `FAL_KEY`, and in the sandbox it timed out. Tests in `scripts/recording/` need Intel's `physicalai` package and are excluded through `testpaths`.
