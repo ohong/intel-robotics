@@ -8,7 +8,7 @@ Source `2aa5149c57507428b28341312c1c9fd3aaaeecf2` produced release `a9ed13af508b
 
 See [build evidence](docs/BUILD_EVIDENCE.md), [exact pilot launch](docs/RUNBOOK.md), [demonstration](docs/DEMO.md), and [execution state](AGENT_STATE.md). The [H100 record](docs/H100_READINESS.md) includes fit and conversion receipts. Earlier smoke-model performance numbers apply only to their recorded models.
 
-Five closed episodes pass structural/video and native ACT loader checks. Detector-conditioned sorting training is **BLOCKED**: all 635 predictions are ANOMALOUS, and none is linked to the picked object. H100 is limited to an original-caption SmolVLA software/export probe, tagged `REAL_DATA_PIPELINE_PROBE_NOT_DEPLOYABLE`. No task-ready policy or autonomous result is claimed.
+The original five episodes pass structural/video and native ACT loader checks. Their detector-conditioned training remains **BLOCKED**: all 635 predictions are ANOMALOUS, and none is linked to the picked object. A separate, later placement dataset has 27 inspection-to-bin episodes. Its frozen split, canonical instructions, and SmolVLA training path are prepared, but no step-three fine-tune or autonomous placement result is established. See the [placement status](docs/PLACEMENT_SMOLVLA_STATUS.md). The older original-caption H100 probe remains `REAL_DATA_PIPELINE_PROBE_NOT_DEPLOYABLE`.
 
 The detector checkpoint archive is complete and verified. See [RUNBOOK.md](docs/RUNBOOK.md) for its receipt; the five episodes and VLA weights are excluded.
 
